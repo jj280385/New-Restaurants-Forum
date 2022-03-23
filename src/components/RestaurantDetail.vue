@@ -1,5 +1,6 @@
+// ./src/views/RestaurantDetail.vue
 <template>
-  <div class="row" :key="restaurant.id">
+  <div class="row">
     <div class="col-md-12 mb-3">
       <h1>{{ restaurant.name }}</h1>
       <p class="badge badge-secondary mt-1 mb-3">
@@ -8,10 +9,10 @@
     </div>
     <div class="col-lg-4">
       <img
-        class="img-responsive center-block"
-        :src="restaurant.image"
-        style="width: 250px; margin-bottom: 25px"
-      />
+        class="img-responsive center-block" 
+        :src="restaurant.image | emptyImage"
+        style="width: 250px;margin-bottom: 25px;"
+      >
       <div class="contact-info-wrap">
         <ul class="list-unstyled">
           <li>
@@ -32,40 +33,39 @@
     <div class="col-lg-8">
       <p>{{ restaurant.description }}</p>
       <router-link
-        :to="{ name: 'restaurant-dashboard', params: { id: restaurant.id } }"
         class="btn btn-primary btn-border mr-2"
-        >Dashboard</router-link
-      >
+        :to="{ name: 'restaurant-dashboard', params: { id: restaurant.id } }"
+      >Dashboard</router-link>
 
       <button
         v-if="restaurant.isFavorited"
-        @click.stop.prevent="removeFromFavorite"
         type="button"
         class="btn btn-danger btn-border mr-2"
+        @click.stop.prevent="deleteFavorite"
       >
         移除最愛
       </button>
       <button
-        v-else
-        @click.stop.prevent="addToFavorite"
+      v-else
         type="button"
         class="btn btn-primary btn-border mr-2"
+        @click.stop.prevent="addFavorite"
       >
         加到最愛
       </button>
       <button
-        v-if="restaurant.isLiked"
-        @click.stop.prevent="deleteLike"
+      v-if="restaurant.isLiked"
         type="button"
         class="btn btn-danger like mr-2"
+        @click.stop.prevent="deleteLike"
       >
         Unlike
       </button>
       <button
-        v-else
-        @click.stop.prevent="addLike"
+      v-else
         type="button"
         class="btn btn-primary like mr-2"
+        @click.stop.prevent="addLike"
       >
         Like
       </button>
@@ -73,7 +73,7 @@
   </div>
 </template>
 
-// <script>
+<script>
 export default {
   props: {
     initialRestaurant: {
@@ -81,21 +81,21 @@ export default {
       required: true,
     },
   },
-  data() {
+  data () {
     return {
       restaurant: this.initialRestaurant,
     };
   },
   methods: {
-    addToFavorite() {
+    addFavorite() {
       this.restaurant = {
-        ...this.restaurant,
+        ...this.restaurant, // 保留餐廳內原有資料
         isFavorited: true,
       };
     },
-    removeFromFavorite() {
+    deleteFavorite() {
       this.restaurant = {
-        ...this.restaurant,
+        ...this.restaurant, // 保留餐廳內原有資料
         isFavorited: false,
       };
     },
@@ -112,5 +112,5 @@ export default {
       };
     },
   },
-};
+}
 </script>

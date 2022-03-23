@@ -1,123 +1,122 @@
+// ./src/views/Restaurant.vue
 <template>
   <div class="container py-5">
     <h1>餐廳描述頁</h1>
     <!-- 餐廳資訊頁 RestaurantDetail -->
-    <RestaurantDetail :initial-restaurant="restaurant" />
-    <hr />
+    <RestaurantDetail
+    :initial-restaurant="restaurant"/>
+    <hr>
     <!-- 餐廳評論 RestaurantComments -->
     <RestaurantComments
-      :restaurant-comments="restaurantComments"
-      @after-delete-comment="afterDeleteComment"
-    />
+    :restaurant-comments="restaurantComments"
+    @after-delete-comment="afterDeleteComment"/>
+
     <!-- 新增評論 CreateComment -->
-    <CreateComment
-      :restaurant-id="restaurant.id"
-      @after-create-comment="afterCreateComment"
-    />
+    <CreateComment 
+    :restaurant-id="restaurant.id"
+    @after-create-comment="afterCreateComment"/>
   </div>
 </template>
 
 <script>
-import RestaurantDetail from "./../components/RestaurantDetail.vue";
-import RestaurantComments from "./../components/RestaurantComments.vue";
-import CreateComment from "./../components/CreateComment.vue";
+import RestaurantDetail from "../components/RestaurantDetail.vue"
+import RestaurantComments from "./../components/RestaurantComments"
+import CreateComment from "./../components/CreateComment"
 
-const dummyData = {
-  restaurant: {
-    id: 1,
-    name: "Albert Gottlieb DVM",
-    tel: "747-225-7090",
-    address: "76818 Jerde Course",
-    opening_hours: "08:00",
-    description:
-      "Officiis repellat repellendus reiciendis dolore esse.\nIpsa culpa ducimus voluptatum tenetur.",
-    image:
-      "https://loremflickr.com/320/240/restaurant,food/?random=52.83383915249684",
-    viewCounts: 1,
-    createdAt: "2021-12-29T15:47:04.000Z",
-    updatedAt: "2022-01-02T04:51:51.184Z",
-    CategoryId: 4,
-    Category: {
-      id: 4,
-      name: "墨西哥料理",
-      createdAt: "2021-12-29T15:47:04.000Z",
-      updatedAt: "2021-12-29T15:47:04.000Z",
+const dummyData = 
+{
+    "restaurant": {
+        "id": 1,
+        "name": "Sylvester Hauck",
+        "tel": "(813) 367-7905",
+        "address": "1690 Turner Well",
+        "opening_hours": "08:00",
+        "description": "Quam autem accusamus eos laboriosam.\nCorporis rerum voluptatibus dolores facere nihil.\nEveniet ut debitis fuga praesentium.\nConsequuntur voluptate non hic similique vero dolor quia saepe.",
+        "image": "https://loremflickr.com/320/240/restaurant,food/?random=57.31300539537876",
+        "viewCounts": 2,
+        "createdAt": "2022-02-15T03:53:45.000Z",
+        "updatedAt": "2022-03-22T13:42:42.103Z",
+        "CategoryId": 1,
+        "Category": {
+            "id": 1,
+            "name": "中式料理",
+            "createdAt": "2022-02-15T03:53:45.000Z",
+            "updatedAt": "2022-02-15T03:53:45.000Z"
+        },
+        "FavoritedUsers": [],
+        "LikedUsers": [],
+        "Comments": [
+            {
+                "id": 51,
+                "text": "Temporibus unde a voluptatem nostrum et qui.",
+                "UserId": 1,
+                "RestaurantId": 1,
+                "createdAt": "2022-02-15T03:53:45.000Z",
+                "updatedAt": "2022-02-15T03:53:45.000Z",
+                "User": {
+                    "id": 1,
+                    "name": "root",
+                    "email": "root@example.com",
+                    "password": "$2a$10$Yxrxlf8.uVNrnfxgfflfCe1KWFgxZOOZxc9E2X6806ZEuW4LH5WbW",
+                    "isAdmin": true,
+                    "image": null,
+                    "createdAt": "2022-02-15T03:53:45.000Z",
+                    "updatedAt": "2022-02-15T03:53:45.000Z"
+                }
+            },
+            {
+                "id": 101,
+                "text": "Neque est aliquid modi.",
+                "UserId": 1,
+                "RestaurantId": 1,
+                "createdAt": "2022-02-15T03:53:45.000Z",
+                "updatedAt": "2022-02-15T03:53:45.000Z",
+                "User": {
+                    "id": 1,
+                    "name": "root",
+                    "email": "root@example.com",
+                    "password": "$2a$10$Yxrxlf8.uVNrnfxgfflfCe1KWFgxZOOZxc9E2X6806ZEuW4LH5WbW",
+                    "isAdmin": true,
+                    "image": null,
+                    "createdAt": "2022-02-15T03:53:45.000Z",
+                    "updatedAt": "2022-02-15T03:53:45.000Z"
+                }
+            },
+            {
+                "id": 1,
+                "text": "Minima a nihil nam sed similique adipisci fugiat necessitatibus eum.",
+                "UserId": 2,
+                "RestaurantId": 1,
+                "createdAt": "2022-02-15T03:53:45.000Z",
+                "updatedAt": "2022-02-15T03:53:45.000Z",
+                "User": {
+                    "id": 2,
+                    "name": "user1",
+                    "email": "user1@example.com",
+                    "password": "$2a$10$Qm5VdQxvP1RW.FwtkSx3Je1dThQIrZmMld2Hr2YwetRIXvESBr70q",
+                    "isAdmin": false,
+                    "image": null,
+                    "createdAt": "2022-02-15T03:53:45.000Z",
+                    "updatedAt": "2022-02-15T03:53:45.000Z"
+                }
+            }
+        ]
     },
-    FavoritedUsers: [],
-    LikedUsers: [],
-    Comments: [
-      {
-        id: 101,
-        text: "Adipisci et ipsam eos et numquam suscipit qui repellendus.",
-        UserId: 2,
-        RestaurantId: 1,
-        createdAt: "2021-12-29T15:47:04.000Z",
-        updatedAt: "2021-12-29T15:47:04.000Z",
-        User: {
-          id: 2,
-          name: "user1",
-          email: "user1@example.com",
-          password:
-            "$2a$10$gjUFXuaSmM3c/LGWVXPfFOXWbVdyvvQOOBPOd7BxRTlBc9pYXJvPy",
-          isAdmin: false,
-          image: null,
-          createdAt: "2021-12-29T15:47:04.000Z",
-          updatedAt: "2021-12-29T15:47:04.000Z",
-        },
-      },
-      {
-        id: 51,
-        text: "Et non ipsa et officia quidem recusandae nobis nihil voluptatibus.",
-        UserId: 1,
-        RestaurantId: 1,
-        createdAt: "2021-12-29T15:47:04.000Z",
-        updatedAt: "2021-12-29T15:47:04.000Z",
-        User: {
-          id: 1,
-          name: "root",
-          email: "root@example.com",
-          password:
-            "$2a$10$wXsyGVxev3nf2zq2/40lM./bLZM2oXS6A7XCs5e40W/bRA1V4.58.",
-          isAdmin: true,
-          image: null,
-          createdAt: "2021-12-29T15:47:04.000Z",
-          updatedAt: "2021-12-29T15:47:04.000Z",
-        },
-      },
-      {
-        id: 1,
-        text: "Ipsa rerum voluptatibus voluptatem sit.",
-        UserId: 3,
-        RestaurantId: 1,
-        createdAt: "2021-12-29T15:47:04.000Z",
-        updatedAt: "2021-12-29T15:47:04.000Z",
-        User: {
-          id: 3,
-          name: "user2",
-          email: "user2@example.com",
-          password:
-            "$2a$10$ht637wTD5MbNfDCBaUhX7e4OGv9SsBaXT7Y51l8eZ9dcFDgqe2/xu",
-          isAdmin: false,
-          image: null,
-          createdAt: "2021-12-29T15:47:04.000Z",
-          updatedAt: "2021-12-29T15:47:04.000Z",
-        },
-      },
-    ],
-  },
-  isFavorited: false,
-  isLiked: false,
-};
+    "isFavorited": false,
+    "isLiked": false
+}
+
 const dummyUser = {
   currentUser: {
     id: 1,
-    name: "管理者",
-    email: "root@example.com",
-    image: "https://i.pravatar.cc/300",
-    isAdmin: true,
+    name: '管理者',
+    email: 'root@example.com',
+    image: 'https://i.pravatar.cc/300',
+    isAdmin: true
   },
-  isAuthenticated: true,
-};
+  isAuthenticated: true
+}
+
 export default {
   components: {
     RestaurantDetail,
@@ -128,28 +127,28 @@ export default {
     return {
       restaurant: {
         id: -1,
-        name: "",
-        categoryName: "",
-        image: "",
-        openingHours: "",
-        tel: "",
-        address: "",
-        description: "",
+        name: '',
+        categoryName: '',
+        image: '',
+        openingHours: '',
+        tel: '',
+        address: '',
+        description: '',
         isFavorited: false,
-        isLiked: false,
-        // restaurantComments: [],
+        isLiked: false
       },
       currentUser: dummyUser.currentUser,
-      restaurantComments: [],
-    };
+      restaurantComments: []
+    }
   },
-  created() {
-    const { id: restaurantId } = this.$route.params;
-    this.fetchRestaurant(restaurantId);
+  created () {
+    const { id: restaurantId } = this.$route.params
+    this.fetchRestaurant(restaurantId)
   },
   methods: {
     fetchRestaurant(restaurantId) {
-      console.log("fetchRestaurant id:", restaurantId);
+      console.log('fetchRestaurant id',restaurantId)
+
       this.restaurant = {
         id: dummyData.restaurant.id,
         name: dummyData.restaurant.name,
@@ -161,33 +160,26 @@ export default {
         description: dummyData.restaurant.description,
         isFavorited: dummyData.isFavorited,
         isLiked: dummyData.isLiked,
-        restaurantComments: dummyData.restaurant.Comments,
-      };
-      const {
-        restaurant: { Comments },
-      } = dummyData;
-      this.restaurantComments = Comments;
+      }
+      this.restaurantComments = dummyData.restaurant.Comments
     },
-    afterDeleteComment(commentId) {
-      this.restaurantComments = this.restaurantComments.filter(
-        (comment) => comment.id != commentId
-      );
-      // console.log('r',this.restaurantComments)
+    afterDeleteComment (commentId) {
+      // 以filter保留未被選擇的comment.id
+      this.restaurantComments = this.restaurantComments.filter(comment => comment.id !== commentId)
     },
     afterCreateComment(payload) {
-      const { commentId, restaurantId, text } = payload;
+      const { commentId, restaurantId, text } = payload
       this.restaurantComments.push({
         id: commentId,
         RestaurantId: restaurantId,
         User: {
           id: this.currentUser.id,
-          name: this.currentUser.name,
+          name: this.currentUser.name
         },
-        text,
-        createdAt: new Date(),
-      });
-      console.log("r", this.restaurantComments);
-    },
-  },
-};
+        text, //text: text 的縮寫
+        createdAt: new Date() //直接抓當下的時間
+      })
+    }
+  }
+}
 </script>

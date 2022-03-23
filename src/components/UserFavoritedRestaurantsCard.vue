@@ -1,27 +1,49 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <strong>{{ favoritedComments.length }}</strong> 收藏的餐廳
+      <strong>{{ favoritedRestaurants.length }}</strong> 收藏的餐廳
     </div>
     <div class="card-body">
-      <a
-        v-for="comment in favoritedComments"
-        :key="comment.id"
-        href="/restaurants/2"
+      <router-link
+        v-for="favoritedRestaurant in favoritedRestaurants"
+        :key="favoritedRestaurant.id"
+        :to="{ name: 'restaurant', params: { id: favoritedRestaurant.id } }"
       >
-        <img :src="comment.image" width="60" height="60" class="avatar" />
-      </a>
+        <img
+          :src="favoritedRestaurant.image | emptyImage"
+          width="60"
+          height="60"
+          class="mr-1 mb-1"
+        >
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import { emptyImageFilter } from './../utils/mixins'
+
 export default {
+  mixins: [emptyImageFilter],
   props: {
-    favoritedComments: {
-      type: Array,
+    initialUser: {
+      type: Object,
       required: true,
-    },
+    }
   },
-};
+  data() {
+    return {
+      user : this.initialUser,
+      favoritedRestaurants:[],
+    }
+  },
+    created(){
+    this.fetchFavoritedRestaurants()
+  },
+  methods: {
+    fetchFavoritedRestaurants() {
+      this.favoritedRestaurants.push(...this.user.profile.FavoritedRestaurants)
+    }
+  }
+}
 </script>

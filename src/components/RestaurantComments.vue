@@ -1,8 +1,13 @@
 <template>
   <div>
-    <h2 class="my-4">所有評論：</h2>
+    <h2 class="my-4">
+      所有評論：
+    </h2>
 
-    <div v-for="comment in restaurantComments" :key="comment.id">
+    <div
+      v-for="comment in restaurantComments"
+      :key="comment.id"
+    >
       <blockquote class="blockquote mb-0">
         <button
           v-if="currentUser.isAdmin"
@@ -13,62 +18,56 @@
           Delete
         </button>
         <h3>
-          <router-link
-            :to="{
-              name: 'user',
-              params: {
-                id: comment.User.id,
-              },
-            }"
-          >
+          <a href="#">
             {{ comment.User.name }}
-          </router-link>
+          </a>
         </h3>
         <p>{{ comment.text }}</p>
         <footer class="blockquote-footer">
           {{ comment.createdAt | fromNow }}
         </footer>
       </blockquote>
-      <hr />
+      <hr>
     </div>
   </div>
 </template>
 
 <script>
+// 載入撰寫好的 mixin
+import { fromNowFilter } from './../utils/mixins'
+
 const dummyUser = {
   currentUser: {
     id: 1,
-    name: "管理者",
-    email: "root@example.com",
-    image: "https://i.pravatar.cc/300",
-    isAdmin: true,
+    name: '管理者',
+    email: 'root@example.com',
+    image: 'https://i.pravatar.cc/300',
+    isAdmin: true
   },
-  isAuthenticated: true,
-};
-
-import { fromNowFilter } from "../utils/mixins";
+  isAuthenticated: true
+}
 
 export default {
+  // 透過 mixins 屬性將撰寫好的 mixin 放入
+  mixins: [fromNowFilter],
   props: {
     restaurantComments: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
-  data() {
+  data () {
     return {
-      currentUser: dummyUser.currentUser,
-    };
+      currentUser: dummyUser.currentUser
+    }
   },
-  mixins: [fromNowFilter],
   methods: {
-    handleDeleteButtonClick(commentId) {
-      console.log("handleDeleteButtonClick", commentId);
-      console.log("rComments", this.restaurantComment);
-      // 在這裡要向伺服器請求刪除id為commentId的資料
-      // 用emit觸發父層事件
-      this.$emit("after-delete-comment", commentId);
-    },
-  },
-};
+    handleDeleteButtonClick (commentId) {
+      console.log ('handleDeleteButtonClick',commentId);
+      //TODO: 請求API伺服器刪除id為commentId的評論
+      // 觸發父層事件 -$emit('事件名稱',傳遞的資料)
+      this.$emit("after-delete-comment",commentId)
+    }
+  }
+}
 </script>

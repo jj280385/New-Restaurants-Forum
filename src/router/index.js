@@ -11,98 +11,58 @@ const routes = [
   {
     path: '/',
     name: 'root',
-    redirect: '/signin',
+    component: Restaurants
   },
   {
     path: '/signin',
     name: 'sign-in',
-    component: SignIn,
+    component: SignIn
   },
   {
     path: '/signup',
     name: 'sign-up',
-    component: SignUp,
+    component: SignUp
   },
   {
     path: '/restaurants',
     name: 'restaurants',
-    component: Restaurants,
-  },
-  {
-    path: '/restaurants/:id/dashboard',
-    name: 'restaurant-dashboard',
-    component: () => import('../views/RestaurantDashboard.vue'),
+    component: Restaurants
   },
   {
     path: '/restaurants/feeds',
     name: 'restaurants-feeds',
-    component: () => import('../views/RestaurantsFeeds.vue'),
+    component: () => import('../views/RestaurantsFeeds.vue')
   },
   {
     path: '/restaurants/top',
-    name: 'restaurants-top',
-    component: () => import('../views/RestaurantsTop.vue'),
+    name: 'restaurants-tops',
+    component: () => import('../views/RestaurantsTop.vue')
   },
+  {
+    path: '/restaurants/:id/dashboard',
+    name: 'restaurant-dashboard',
+    component: () => import('../components/RestaurantDashboard.vue')
+  }, 
   {
     path: '/restaurants/:id',
     name: 'restaurant',
-    component: () => import('../views/Restaurant.vue'),
-  },
-  {
-    path: '/user/:id',
-    name: 'user',
-    component: () => import('../views/User.vue'),
-  },
+    component: () => import('../views/Restaurant.vue')
+  },  
   {
     path: '/users/top',
     name: 'users-top',
-    component: () => import('../views/UsersTop.vue'),
+    component: () => import('../views/UsersTop.vue')
   },
   {
-    path: '/admin',
-    exact: true,
-    redirect: '/admin/restaurants',
-  },
-  {
-    path: '/admin/restaurants',
-    name: 'admin-restaurants',
-    component: () => import('../views/AdminRestaurants.vue'),
-  },
-  {
-    path: '/admin/restaurants/new',
-    name: 'admin-restaurant-new',
-    component: () => import('../views/AdminRestaurantNew.vue'),
-  },
-  {
-    path: '/admin/categories',
-    name: 'admin-categories',
-    component: () => import('../views/AdminCategories.vue')
-  },
-  {
-    path: '/admin/users',
-    name: 'admin-users',
-    component: () => import('../views/AdminUsers.vue')
-  },
-  {
-    path: '/admin/user/:id/edit',
-    name: 'admin-user-edit',
-    component: () => import('../components/UserEdit.vue'),
-  },
-  {
-    path: '/admin/restaurants/:id/edit',
-    name: 'admin-restaurant-edit',
-    component: () => import('../views/AdminRestaurantEdit.vue')
-  },
-  {
-    path: '/admin/restaurants/:id',
-    name: 'admin-restaurant',
-    component: () => import('../components/AdminRestaurant.vue'),
+    path: '/users/:id',
+    name: 'users',
+    component: () => import('../views/User.vue')
   },
   {
     path: '*',
     name: 'not-found',
     component: NotFound,
-  },
+  }
 ]
 
 const router = new VueRouter({

@@ -10,12 +10,12 @@
             {{ comment.Restaurant.name }}
           </router-link>
         </h4>
-        <p>{{ comment.Restaurant.description }}</p>
+        <p>{{ comment.text }}</p>
         by
         <a href="#">
           {{ comment.User.name }}
         </a>
-        {{ comment.createdAt | fromNow }}
+        at {{ comment.createdAt | fromNow }}
         <hr />
       </div>
     </div>
@@ -23,10 +23,11 @@
 </template>
 
 <script>
-// import filter from mixins
-import { fromNowFilter } from "../utils/mixins";
+// 載入撰寫好的 mixin
+import { fromNowFilter } from "./../utils/mixins";
+
 export default {
-  // 載入fromNowFilter
+  // 透過 mixins 屬性將撰寫好的 mixin 放入
   mixins: [fromNowFilter],
   props: {
     comments: {
@@ -36,3 +37,10 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+small {
+  font-size: 10px;
+}
+</style>

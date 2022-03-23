@@ -1,3 +1,4 @@
+// ./src/components/NewestRestaurants.vue
 <template>
   <div class="card">
     <div class="card-header">最新餐廳</div>
@@ -6,9 +7,8 @@
         <h4>
           <router-link
             :to="{ name: 'restaurant', params: { id: restaurant.id } }"
-          >
-            {{ restaurant.name }}</router-link
-          >
+            >{{ restaurant.name }}
+          </router-link>
           &nbsp;
           <small>{{
             restaurant.Category ? restaurant.Category.name : "未分類"
@@ -22,17 +22,12 @@
   </div>
 </template>
 
-<style scoped>
-small {
-  font-size: 10px;
-}
-</style>
-
 <script>
-// import moment from 'moment'
-import { fromNowFilter } from "../utils/mixins";
+// 載入撰寫好的 mixin
+import { fromNowFilter } from "./../utils/mixins";
 
 export default {
+  // 透過 mixins 屬性將撰寫好的 mixin 放入
   mixins: [fromNowFilter],
   props: {
     restaurants: {
@@ -42,3 +37,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+small {
+  font-size: 10px;
+}
+</style>

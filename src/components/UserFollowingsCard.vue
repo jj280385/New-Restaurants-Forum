@@ -1,39 +1,48 @@
 <template>
-  <div class="card">
-    <div class="card-header">
-      <strong>{{ userFollowings.length }}</strong> followings (追蹤者)
+  <div class="card mb-3">
+      <div class="card-header">
+        <strong>{{followings.length}}</strong> followings (追蹤者)
+      </div>
+      <div class="card-body">
+        <router-link 
+            v-for="following in followings"
+            :key="following.id"
+            :to="{name: 'user', params: {id: following.id}}"
+          >
+            <img 
+            :src="following.image | emptyImage"
+            width="60" height="60" 
+            class="mr-1"
+            >
+          </router-link>
+      </div>
     </div>
-    <div class="card-body">
-      <a
-        v-for="following in userFollowings"
-        :key="following.id"
-        href="/users/2"
-      >
-        <img
-          :src="following.image"
-          width="60"
-          height="60"
-          class="avatar mr-1"
-        />
-      </a>
-    </div>
-  </div>
 </template>
-<style scoped>
-/* .card-body {
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-    padding: 0;
-  } */
-</style>
+
 <script>
+import { emptyImageFilter } from './../utils/mixins'
+
 export default {
+  mixins: [emptyImageFilter],
   props: {
-    userFollowings: {
-      type: Array,
+    initialUser: {
+      type: Object,
       required: true,
-    },
+    }
   },
-};
+  data() {
+    return {
+      user : this.initialUser,
+      followings: []
+    }
+  },
+  created(){
+    this.fetchFollowings()
+  },
+  methods: {
+    fetchFollowings() {
+      this.followings.push(...this.user.profile.Followings)
+    }
+  }
+}
 </script>

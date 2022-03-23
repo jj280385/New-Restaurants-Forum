@@ -2,48 +2,49 @@
   <div class="card mb-3">
     <div class="row no-gutters">
       <div class="col-md-4">
-        <img :src="userProfile.image" width="300px" height="300px" />
+        <img :src="user.profile.image | emptyImage" height="300px" />
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">{{ userProfile.name }}</h5>
+          <h5 class="card-title">{{ user.profile.name }}</h5>
           <p class="card-text">
-            {{ userProfile.email }}
+            {{ user.profile.email }}
           </p>
           <ul class="list-unstyled list-inline">
             <li>
-              <strong>{{ userProfile.commentsLength }}</strong> 已評論餐廳
+              <strong>{{ user.profile.Comments.length }}</strong> 已評論餐廳
             </li>
             <li>
-              <strong>{{ userProfile.favoritedRestaurantsLength }}</strong>
+              <strong>{{ user.profile.FavoritedRestaurants.length }}</strong>
               收藏的餐廳
             </li>
             <li>
-              <strong>{{ userProfile.followingsLength }}</strong> followings
+              <strong>{{ user.profile.Followings.length }}</strong> followings
               (追蹤者)
             </li>
             <li>
-              <strong>{{ userProfile.followersLength }}</strong> followers
+              <strong>{{ user.profile.Followers.length }}</strong> followers
               (追隨者)
             </li>
           </ul>
           <p></p>
-          <form
-            action="/following/3?_method=DELETE"
-            method="POST"
-            style="display: contents"
-          >
-            <button type="submit" class="btn btn-danger">取消追蹤</button
-            ><router-link
-              :to="{
-                name: 'admin-user-edit',
-                params: {
-                  id: userProfile.id,
-                },
-              }"
-              class="edit"
-              >修改個人資料</router-link
+          <form action="/following/3" method="POST" style="display: contents">
+            <button
+              v-if="user.isFollowed"
+              @click.stop.prevent="deleteFollowing "
+              type="button"
+              class="btn btn-danger"
             >
+              取消追蹤
+            </button>
+            <button
+              v-else
+              @click.stop.prevent="addFollowing"
+              type="submit"
+              class="btn btn-primary"
+            >
+              追蹤
+            </button>
           </form>
           <p></p>
         </div>
@@ -51,36 +52,29 @@
     </div>
   </div>
 </template>
-<style scoped>
-.edit {
-  text-decoration: none;
-  color: #ffffff;
-  padding: 9px;
-  margin-left: 5px;
-  border: 1px solid blue;
-  border-radius: 5px;
-  background-color: blue;
-}
-.edit:focus {
-  background-color: dodgerblue;
-  border-color: dodgerblue;
-}
-</style>
+
 <script>
+import { emptyImageFilter } from './../utils/mixins'
+
 export default {
+  mixins: [emptyImageFilter],
   props: {
-    userProfile: {
+    initialUser: {
       type: Object,
       required: true,
     },
   },
-  created() {
-    const { id } = this.$route.params;
-    this.fetchUser(id);
+  data() {
+    return {
+      user: this.initialUser,
+    };
   },
   methods: {
-    fetchUser(userId) {
-      console.log(userId);
+    addFollowing () {
+      this.user.isFollowed = true;
+    },
+    deleteFollowing () {
+      this.user.isFollowed = false;
     },
   },
 };

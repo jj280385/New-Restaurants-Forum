@@ -1,7 +1,9 @@
 // ./src/views/SignIn.vue
 <template>
   <div class="container py-5">
-    <form class="w-100" @submit.prevent.stop="handleSubmit">
+    <form 
+    class="w-100" 
+    @submit.prevent.stop="handleSubmit">
       <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">
           Sign In
@@ -11,8 +13,8 @@
       <div class="form-label-group mb-2">
         <label for="email">email</label>
         <input
-          id="email"
           v-model="email"
+          id="email"
           name="email"
           type="email"
           class="form-control"
@@ -26,8 +28,8 @@
       <div class="form-label-group mb-3">
         <label for="password">Password</label>
         <input
-          id="password"
           v-model="password"
+          id="password"
           name="password"
           type="password"
           class="form-control"
@@ -46,9 +48,7 @@
 
       <div class="text-center mb-3">
         <p>
-          <router-link to="/signup">
-          Sign Up
-          </router-link>
+          <router-link to="/signup">Sign Up</router-link>
         </p>
       </div>
 
@@ -60,9 +60,8 @@
 </template>
 
 <script>
-/* eslint-disable */
 export default {
-  data (){
+  data () {
     return {
       email: '',
       password: ''
@@ -72,9 +71,9 @@ export default {
     handleSubmit (){
       const data = JSON.stringify({
         email: this.email,
-        password: this.password,
+        password: this.password
       })
-
+      // TODO: 向後端驗證使用者登入資訊是否合法
       console.log('data',data)
     }
   }

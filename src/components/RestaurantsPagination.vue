@@ -1,7 +1,8 @@
+// ./src/components/RestaurantsPagination.vue
 <template>
   <nav aria-label="Page navigation example">
     <ul class="pagination">
-      <!-- 前一頁 previousPage -->
+      <!-- 回到上一頁 previousPage -->
       <li
         v-show="previousPage"
         :class="['page-item', { disabled: currentPage === 1 }]"
@@ -11,7 +12,7 @@
           aria-label="Previous"
           :to="{
             name: 'restaurants',
-            query: { categoryId, page: previousPage },
+            query: { categoryId, page: previousPage }
           }"
         >
           <span aria-hidden="true">&laquo;</span>
@@ -26,13 +27,13 @@
       >
         <router-link
           class="page-link"
-          :to="{ name: 'restaurants', query: { categoryId, page } }"
+          :to="{name: 'restaurants', query: { categoryId, page }}"
         >
           {{ page }}
         </router-link>
       </li>
 
-      <!-- 後一頁 nextPage -->
+      <!-- 前往下一頁 nextPage -->
       <li
         v-show="nextPage"
         :class="['page-item', { disabled: currentPage === totalPage.length }]"
@@ -49,30 +50,30 @@
   </nav>
 </template>
 
-
 <script>
 export default {
+  name: 'RestaurantsPagination',
   props: {
     categoryId: {
       type: [String, Number],
-      default: "",
+      default: ''
     },
     currentPage: {
       type: Number,
-      default: 1,
+      default: 1
     },
     totalPage: {
       type: Array,
-      required: true,
+      required: true
     },
     previousPage: {
       type: Number,
-      required: true,
+      required: true
     },
     nextPage: {
       type: Number,
-      required: true,
-    },
-  },
-};
+      required: true
+    }
+  }
+}
 </script>

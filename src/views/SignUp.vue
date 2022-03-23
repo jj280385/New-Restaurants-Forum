@@ -1,7 +1,8 @@
-// ./src/views/SignUp.vue
 <template>
   <div class="container py-5">
-    <form class="w-100" @submit.prevent.stop="handleSubmit">
+    <form 
+    class="w-100"
+    @submit.stop.prevent="handleSubmit">
       <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">
           Sign Up
@@ -9,12 +10,12 @@
       </div>
 
       <div class="form-label-group mb-2">
-        <label for="name">name</label>
+        <label for="name">Name</label>
         <input
-          id="name"
           v-model="name"
+          id="name"
           name="name"
-          type="name"
+          type="text"
           class="form-control"
           placeholder="name"
           autocomplete="username"
@@ -24,39 +25,38 @@
       </div>
 
       <div class="form-label-group mb-2">
-        <label for="email">email</label>
+        <label for="email">Email</label>
         <input
-          id="email"
           v-model="email"
+          id="email"
           name="email"
           type="email"
           class="form-control"
           placeholder="email"
-          autocomplete="username"
+          autocomplete="email"
           required
-          autofocus
         >
       </div>
 
       <div class="form-label-group mb-3">
         <label for="password">Password</label>
         <input
-          id="password"
           v-model="password"
+          id="password"
           name="password"
           type="password"
           class="form-control"
           placeholder="Password"
-          autocomplete="current-password"
+          autocomplete="new-password"
           required
         >
       </div>
 
       <div class="form-label-group mb-3">
-        <label for="passwordCheck">Password Check</label>
+        <label for="password-check">Password Check</label>
         <input
-          id="password-check"
           v-model="passwordCheck"
+          id="password-check"
           name="passwordCheck"
           type="password"
           class="form-control"
@@ -76,7 +76,7 @@
       <div class="text-center mb-3">
         <p>
           <router-link to="/signin">
-          Sign In
+            Sign In
           </router-link>
         </p>
       </div>
@@ -92,21 +92,21 @@
 export default {
   data (){
     return {
-      name:'',
-      email: '',
-      password: '',
-      passwordCheck:''
+      name: "",
+      email: "",
+      password: "",
+      passwordCheck: "",
     }
   },
   methods: {
-    handleSubmit (){
+    handleSubmit() {
       const data = JSON.stringify({
         name: this.name,
         email: this.email,
         password: this.password,
-        passwordCheck: this.passwordCheck
+        passwordCheck: this.passwordCheck,
       })
-
+      // TODO: 向後端驗證使用者登入資訊是否合法
       console.log('data',data)
     }
   }
