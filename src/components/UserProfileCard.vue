@@ -27,8 +27,15 @@
               (追隨者)
             </li>
           </ul>
-          <p></p>
-          <form action="/following/3" method="POST" style="display: contents">
+          <template>
+            <router-link
+              :to="{ name: 'user-edit', params: { id: user.id } }"
+              class="btn btn-primary"
+            >
+              Edit
+            </router-link>
+          </template>
+          <template>
             <button
               v-if="user.isFollowed"
               @click.stop.prevent="deleteFollowing "
@@ -45,8 +52,7 @@
             >
               追蹤
             </button>
-          </form>
-          <p></p>
+          </template>
         </div>
       </div>
     </div>
