@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/',
     name: 'root',
-    component: Restaurants
+    redirect: '/signin',
   },
   {
     path: '/signin',
