@@ -38,7 +38,7 @@
               v-if="restaurant.isFavorited"
               type="button"
               class="btn btn-danger mr-2"
-              @click.stop.prevent="deleteFavorite(restaurant)"
+              @click.stop.prevent="deleteFavorite(restaurant.id)"
             >
               移除最愛
             </button>
@@ -46,7 +46,7 @@
               v-else
               type="button"
               class="btn btn-primary"
-              @click.stop.prevent="addFavorite(restaurant)"
+              @click.stop.prevent="addFavorite(restaurant.id)"
             >
               加到最愛
             </button>
@@ -59,183 +59,13 @@
 
 <script>
 import NavTabs from "./../components/NavTabs.vue";
-
-const dummyData = {
-  restaurants: [
-    {
-      id: 50,
-      name: "Ryleigh Ullrich MD",
-      tel: "1-172-530-1073",
-      address: "60005 Ebert Extensions",
-      opening_hours: "08:00",
-      description: "Rerum modi labore at.",
-      image:
-        "https://loremflickr.com/320/240/restaurant,food/?random=41.01274672500628",
-      viewCounts: 0,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-      CategoryId: 4,
-      FavoritedUsers: [],
-      isFavorited: false,
-      FavoriteCount: 0,
-    },
-    {
-      id: 49,
-      name: "Ashlynn Hodkiewicz",
-      tel: "727-171-4018 x310",
-      address: "846 Bechtelar Crossroad",
-      opening_hours: "08:00",
-      description: "Debitis odit aut eligendi.",
-      image:
-        "https://loremflickr.com/320/240/restaurant,food/?random=45.80733720908625",
-      viewCounts: 0,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-      CategoryId: 3,
-      FavoritedUsers: [],
-      isFavorited: false,
-      FavoriteCount: 0,
-    },
-    {
-      id: 48,
-      name: "Avery Weissnat",
-      tel: "692-031-1856 x56866",
-      address: "03535 Ruby Port",
-      opening_hours: "08:00",
-      description: "Corrupti et dolores ratione. Fuga accusantium et. ",
-      image:
-        "https://loremflickr.com/320/240/restaurant,food/?random=63.73601442766341",
-      viewCounts: 0,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-      CategoryId: 1,
-      FavoritedUsers: [],
-      isFavorited: false,
-      FavoriteCount: 0,
-    },
-    {
-      id: 47,
-      name: "Shanelle Yundt",
-      tel: "1-805-142-2650",
-      address: "9610 Leffler Stream",
-      opening_hours: "08:00",
-      description: "Et voluptatem neque atque minima. Ex voluptatibus ",
-      image:
-        "https://loremflickr.com/320/240/restaurant,food/?random=27.52558173529014",
-      viewCounts: 0,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-      CategoryId: 3,
-      FavoritedUsers: [],
-      isFavorited: false,
-      FavoriteCount: 0,
-    },
-    {
-      id: 46,
-      name: "Ryann Rippin",
-      tel: "1-020-874-8995 x0712",
-      address: "0938 Pagac Corner",
-      opening_hours: "08:00",
-      description: "velit perspiciatis est",
-      image:
-        "https://loremflickr.com/320/240/restaurant,food/?random=68.43301504377366",
-      viewCounts: 0,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-      CategoryId: 5,
-      FavoritedUsers: [],
-      isFavorited: false,
-      FavoriteCount: 0,
-    },
-    {
-      id: 45,
-      name: "Mr. Chance Klocko",
-      tel: "(010) 175-3384 x81049",
-      address: "38925 Renner Field",
-      opening_hours: "08:00",
-      description: "qui",
-      image:
-        "https://loremflickr.com/320/240/restaurant,food/?random=98.83661810195544",
-      viewCounts: 0,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-      CategoryId: 1,
-      FavoritedUsers: [],
-      isFavorited: false,
-      FavoriteCount: 0,
-    },
-    {
-      id: 44,
-      name: "Kip Bruen",
-      tel: "618.278.3658",
-      address: "2245 Goodwin Harbor",
-      opening_hours: "08:00",
-      description: "Et vero perspiciatis eaque qui dolore nihil harum ",
-      image:
-        "https://loremflickr.com/320/240/restaurant,food/?random=4.9144905653760285",
-      viewCounts: 0,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-      CategoryId: 3,
-      FavoritedUsers: [],
-      isFavorited: false,
-      FavoriteCount: 0,
-    },
-    {
-      id: 43,
-      name: "Piper Keeling",
-      tel: "877.309.6491 x326",
-      address: "3406 Geovanni Isle",
-      opening_hours: "08:00",
-      description: "Officiis delectus quia incidunt explicabo vel et e",
-      image:
-        "https://loremflickr.com/320/240/restaurant,food/?random=59.80624987824663",
-      viewCounts: 0,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-      CategoryId: 4,
-      FavoritedUsers: [],
-      isFavorited: false,
-      FavoriteCount: 0,
-    },
-    {
-      id: 42,
-      name: "Eugene Morissette",
-      tel: "697.131.6468 x4940",
-      address: "413 Parker Place",
-      opening_hours: "08:00",
-      description: "Omnis reiciendis asperiores in quia. Perferendis n",
-      image:
-        "https://loremflickr.com/320/240/restaurant,food/?random=12.162598113324519",
-      viewCounts: 0,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-      CategoryId: 2,
-      FavoritedUsers: [],
-      isFavorited: false,
-      FavoriteCount: 0,
-    },
-    {
-      id: 41,
-      name: "Quinten Carroll DVM",
-      tel: "1-880-877-7492 x6234",
-      address: "736 Victor Way",
-      opening_hours: "08:00",
-      description: "fugiat",
-      image:
-        "https://loremflickr.com/320/240/restaurant,food/?random=19.42024888772249",
-      viewCounts: 0,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-      CategoryId: 3,
-      FavoritedUsers: [],
-      isFavorited: false,
-      FavoriteCount: 0,
-    },
-  ],
-};
+import restaurantsAPI from "./../apis/restaurants";
+import usersAPI from "./../apis/users";
+import { Toast } from "./../utils/helpers";
+import { emptyImageFilter } from './../utils/mixins'
 
 export default {
+  mixins: [emptyImageFilter],
   components: {
     NavTabs,
   },
@@ -248,14 +78,71 @@ export default {
     this.fetchRestaurants();
   },
   methods: {
-    fetchRestaurants() {
-      this.restaurants = dummyData.restaurants;
+    async fetchRestaurants() {
+      try {
+        const { data } = await restaurantsAPI.getTopRestaurants();
+        console.log(data);
+        if (data.status === "error") {
+          throw new Error(data.message);
+        }
+        this.restaurants = data.restaurants;
+      } catch (error) {
+        console.log("error", error);
+        this.isLoading = false;
+        Toast.fire({
+          icon: "error",
+          title: "無法取得熱門餐廳資料，請稍後再試",
+        });
+      }
     },
-    addFavorite(restaurant) {
-      restaurant.isFavorited = true
+    async addFavorite(restaurantId) {
+      try {
+        const { data } = await usersAPI.addFavorite({ restaurantId });
+
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.restaurants = this.restaurants.map((restaurant) => {
+          if (restaurant.id !== restaurantId) {
+            return restaurant;
+          }
+          return {
+            ...restaurant, // 保留餐廳內原有資料
+            isFavorited: true,
+            FavoriteCount: restaurant.FavoriteCount + 1,
+          };
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法將餐廳加入最愛，請稍後再試",
+        });
+        console.log("error", error);
+      }
     },
-    deleteFavorite(restaurant) {
-      restaurant.isFavorited = false
+    async deleteFavorite(restaurantId) {
+      try {
+        const { data } = await usersAPI.deleteFavorite({ restaurantId });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.restaurants = this.restaurants.map((restaurant) => {
+          if (restaurant.id !== restaurantId) {
+            return restaurant;
+          }
+          return {
+            ...restaurant, // 保留餐廳內原有資料
+            isFavorited: false,
+            FavoriteCount: restaurant.FavoriteCount - 1,
+          };
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法將餐廳移除最愛，請稍後再試",
+        });
+        console.log("error", error);
+      }
     },
   },
 };
