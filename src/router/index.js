@@ -4,6 +4,7 @@ import NotFound from '../views/NotFound.vue'
 import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import Restaurants from '../views/Restaurants.vue'
+import store from './../store'
 
 Vue.use(VueRouter)
 
@@ -109,5 +110,13 @@ const router = new VueRouter({
   linkExactActiveClass: "active",
   routes
 })
+
+// beforeEach 作用於整個專案，只需要在 Vue Router 內定義一次，而不需要在每個元件內分別定義。
+router.beforeEach((to, from, next) => {
+  // 使用 dispatch 呼叫 Vuex 內的 actions
+  store.dispatch('fetchCurrentUser')
+  next()
+})
+// 呼叫 actions 方法的關鍵字是 dispatch，表示分發、指派的意思。
 
 export default router

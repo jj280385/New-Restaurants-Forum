@@ -2,32 +2,36 @@
   <div class="card mb-3">
     <div class="row no-gutters">
       <div class="col-md-4">
-        <img :src="user.profile.image | emptyImage" height="300px" />
+        <img :src="user.image | emptyImage" height="300px" />
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">{{ user.profile.name }}</h5>
+          <h5 class="card-title">
+            {{ user.name }}
+          </h5>
           <p class="card-text">
-            {{ user.profile.email }}
+            {{ user.email }}
           </p>
           <ul class="list-unstyled list-inline">
             <li>
-              <strong>{{ user.profile.Comments.length }}</strong> 已評論餐廳
+              <strong>{{ user.Comments.length }}</strong> 已評論餐廳
             </li>
             <li>
-              <strong>{{ user.profile.FavoritedRestaurants.length }}</strong>
+              <strong>{{ user.FavoritedRestaurants.length }}</strong>
               收藏的餐廳
             </li>
             <li>
-              <strong>{{ user.profile.Followings.length }}</strong> followings
+              <strong>{{ user.Followings.length }}</strong> followings
               (追蹤者)
             </li>
             <li>
-              <strong>{{ user.profile.Followers.length }}</strong> followers
+              <strong>{{ user.Followers.length }}</strong> followers
               (追隨者)
             </li>
           </ul>
-          <template>
+          <template
+            v-if="isCurrentUser"
+          >
             <router-link
               :to="{ name: 'user-edit', params: { id: user.id } }"
               class="btn btn-primary"
@@ -35,10 +39,12 @@
               Edit
             </router-link>
           </template>
-          <template>
+          <template
+            v-else
+          >
             <button
-              v-if="user.isFollowed"
-              @click.stop.prevent="deleteFollowing "
+              v-if="isFollowed"
+              @click.stop.prevent="deleteFollowing(user.id)"
               type="button"
               class="btn btn-danger"
             >
@@ -46,7 +52,7 @@
             </button>
             <button
               v-else
-              @click.stop.prevent="addFollowing"
+              @click.stop.prevent="addFollowing(user.id)"
               type="submit"
               class="btn btn-primary"
             >
@@ -61,27 +67,66 @@
 
 <script>
 import { emptyImageFilter } from './../utils/mixins'
+import usersAPI from "./../apis/users"
+import { Toast } from "./../utils/helpers"
 
 export default {
   mixins: [emptyImageFilter],
   props: {
-    initialUser: {
+    user: {
       type: Object,
-      required: true,
+      required: true
     },
+    isCurrentUser: {
+      type: Boolean,
+      required: true
+    },
+    initialIsFollowed: {
+      type: Boolean,
+      required: true
+    }
   },
-  data() {
+  data () {
     return {
-      user: this.initialUser,
-    };
+      isFollowed: this.initialIsFollowed
+    }
+  },
+  watch: {
+    initialIsFollowed (isFollowed) {
+      this.isFollowed = isFollowed
+    }
   },
   methods: {
-    addFollowing () {
-      this.user.isFollowed = true;
+    async addFollowing (userId) {
+      try {
+        const { data } = await usersAPI.addFollowing({ userId })
+        if (data.status === 'error') {
+          throw new Error(data.message)
+        }
+        this.isFollowed = true
+      } catch (error) {
+        console.error(error.message)
+        Toast.fire({
+          icon: 'error',
+          title: '無法加入追蹤，請稍後再試'
+        })
+      }
     },
-    deleteFollowing () {
-      this.user.isFollowed = false;
-    },
-  },
-};
+    async deleteFollowing (userId) {
+      try {
+        const { data } = await usersAPI.deleteFollowing({ userId })
+        if (data.status === 'error') {
+          throw new Error(data.message)
+        }
+        this.isFollowed = false
+      } catch (error) {
+        console.error(error.message)
+        Toast.fire({
+          icon: 'error',
+          title: '無法取消追蹤，請稍後再試'
+        })
+      }
+    }
+  }
+}
 </script>

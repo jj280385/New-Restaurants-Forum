@@ -1,5 +1,5 @@
 // ./src/views/Restaurants.vue
-// ./src/views/Restaurants.vue
+// 首頁 全部餐廳列表
 <template>
   <div class="container py-5">
     <NavTabs />

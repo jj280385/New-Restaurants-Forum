@@ -1,13 +1,8 @@
 <template>
   <div>
-    <h2 class="my-4">
-      所有評論：
-    </h2>
+    <h2 class="my-4">所有評論：</h2>
 
-    <div
-      v-for="comment in restaurantComments"
-      :key="comment.id"
-    >
+    <div v-for="comment in restaurantComments" :key="comment.id">
       <blockquote class="blockquote mb-0">
         <button
           v-if="currentUser.isAdmin"
@@ -27,47 +22,57 @@
           {{ comment.createdAt | fromNow }}
         </footer>
       </blockquote>
-      <hr>
+      <hr />
     </div>
   </div>
 </template>
 
 <script>
 // 載入撰寫好的 mixin
-import { fromNowFilter } from './../utils/mixins'
-
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: '管理者',
-    email: 'root@example.com',
-    image: 'https://i.pravatar.cc/300',
-    isAdmin: true
-  },
-  isAuthenticated: true
-}
+import { fromNowFilter } from "./../utils/mixins";
+import commentsAPI from "./../apis/comments";
+import { Toast } from "./../utils/helpers";
+import { mapState } from "vuex"
 
 export default {
+  name: 'RestaurantComments',
   // 透過 mixins 屬性將撰寫好的 mixin 放入
   mixins: [fromNowFilter],
   props: {
     restaurantComments: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
-    return {
-      currentUser: dummyUser.currentUser
-    }
+  computed: {
+    ...mapState(['currentUser'])
   },
   methods: {
-    handleDeleteButtonClick (commentId) {
-      console.log ('handleDeleteButtonClick',commentId);
-      //TODO: 請求API伺服器刪除id為commentId的評論
-      // 觸發父層事件 -$emit('事件名稱',傳遞的資料)
-      this.$emit("after-delete-comment",commentId)
-    }
-  }
-}
+    async handleDeleteButtonClick(commentId) {
+      try {
+        const { data } = await commentsAPI.delete({
+          commentId,
+        });
+
+        if (data.status === "error") {
+          throw new Error(data.message);
+        }
+
+        //TODO: 請求API伺服器刪除id為commentId的評論
+        // 觸發父層事件 -$emit('事件名稱',傳遞的資料)
+        this.$emit("after-delete-comment", commentId);
+
+        Toast.fire({
+          icon: "success",
+          title: "已刪除評論",
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法刪除評論，請稍後再試",
+        });
+      }
+    },
+  },
+};
 </script>
