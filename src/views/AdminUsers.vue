@@ -39,52 +39,9 @@
 
 <script>
 import AdminNav from './../components/AdminNav'
-
-const dummyData = {
-  users: [
-    {
-      id: 1,
-      name: "root",
-      email: "root@example.com",
-      password: "$2a$10$Yxrxlf8.uVNrnfxgfflfCe1KWFgxZOOZxc9E2X6806ZEuW4LH5WbW",
-      isAdmin: true,
-      image: null,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-    },
-    {
-      id: 2,
-      name: "user1",
-      email: "user1@example.com",
-      password: "$2a$10$Qm5VdQxvP1RW.FwtkSx3Je1dThQIrZmMld2Hr2YwetRIXvESBr70q",
-      isAdmin: false,
-      image: null,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-    },
-    {
-      id: 3,
-      name: "user2",
-      email: "user2@example.com",
-      password: "$2a$10$QIcNKwkTqsNHSE8n2FRLpuW3tFf/uaNxSgkqXGcx6THXnoRLAfmCa",
-      isAdmin: false,
-      image: null,
-      createdAt: "2022-02-15T03:53:45.000Z",
-      updatedAt: "2022-02-15T03:53:45.000Z",
-    },
-  ],
-};
-
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: "管理者",
-    email: "root@example.com",
-    image: "https://i.pravatar.cc/300",
-    isAdmin: true,
-  },
-  isAuthenticated: true,
-};
+import { mapState } from 'vuex'
+import adminAPI from './../apis/admin'
+import { Toast } from './../utils/helpers'
 
 export default {
   components: {
@@ -93,19 +50,43 @@ export default {
   data() {
     return {
       users: [],
-      currentUser: {},
     }
+  },
+  computed: {
+    ...mapState(['currentUser'])
   },
   created() {
     this.fetchUser()
   },
   methods: {
-    fetchUser () {
-      this.users = dummyData.users
-      this.currentUser = dummyUser.currentUser
+    async fetchUser () {
+      try {
+        const { data } = await adminAPI.users.get()
+
+        if (data.status === 'error') {
+          throw new Error(data.message)
+        }
+
+        this.users = data.users
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得該會員資料，請稍後再試",
+        });
+      }
     },
-    toggleUserRole ({ userId, isAdmin }) {
-      this.users = this.users.map(user => {
+    async toggleUserRole ({ userId, isAdmin }) {
+      try { 
+        const { data } = await adminAPI.users.update({ 
+          userId, 
+          isAdmin: (!isAdmin).toString() 
+        })
+        
+        if (data.status === 'error') {
+          throw new Error(data.message)
+        }
+        
+        this.users = this.users.map(user => {
           if (user.id === userId) {
             return {
               ...user,
@@ -114,6 +95,13 @@ export default {
           }
           return user
         })
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法更新會員角色，請稍後再試",
+        });
+      }
+      
     }
   }
 };

@@ -22,100 +22,9 @@
 import RestaurantDetail from "../components/RestaurantDetail.vue"
 import RestaurantComments from "./../components/RestaurantComments"
 import CreateComment from "./../components/CreateComment"
-
-const dummyData = 
-{
-    "restaurant": {
-        "id": 1,
-        "name": "Sylvester Hauck",
-        "tel": "(813) 367-7905",
-        "address": "1690 Turner Well",
-        "opening_hours": "08:00",
-        "description": "Quam autem accusamus eos laboriosam.\nCorporis rerum voluptatibus dolores facere nihil.\nEveniet ut debitis fuga praesentium.\nConsequuntur voluptate non hic similique vero dolor quia saepe.",
-        "image": "https://loremflickr.com/320/240/restaurant,food/?random=57.31300539537876",
-        "viewCounts": 2,
-        "createdAt": "2022-02-15T03:53:45.000Z",
-        "updatedAt": "2022-03-22T13:42:42.103Z",
-        "CategoryId": 1,
-        "Category": {
-            "id": 1,
-            "name": "中式料理",
-            "createdAt": "2022-02-15T03:53:45.000Z",
-            "updatedAt": "2022-02-15T03:53:45.000Z"
-        },
-        "FavoritedUsers": [],
-        "LikedUsers": [],
-        "Comments": [
-            {
-                "id": 51,
-                "text": "Temporibus unde a voluptatem nostrum et qui.",
-                "UserId": 1,
-                "RestaurantId": 1,
-                "createdAt": "2022-02-15T03:53:45.000Z",
-                "updatedAt": "2022-02-15T03:53:45.000Z",
-                "User": {
-                    "id": 1,
-                    "name": "root",
-                    "email": "root@example.com",
-                    "password": "$2a$10$Yxrxlf8.uVNrnfxgfflfCe1KWFgxZOOZxc9E2X6806ZEuW4LH5WbW",
-                    "isAdmin": true,
-                    "image": null,
-                    "createdAt": "2022-02-15T03:53:45.000Z",
-                    "updatedAt": "2022-02-15T03:53:45.000Z"
-                }
-            },
-            {
-                "id": 101,
-                "text": "Neque est aliquid modi.",
-                "UserId": 1,
-                "RestaurantId": 1,
-                "createdAt": "2022-02-15T03:53:45.000Z",
-                "updatedAt": "2022-02-15T03:53:45.000Z",
-                "User": {
-                    "id": 1,
-                    "name": "root",
-                    "email": "root@example.com",
-                    "password": "$2a$10$Yxrxlf8.uVNrnfxgfflfCe1KWFgxZOOZxc9E2X6806ZEuW4LH5WbW",
-                    "isAdmin": true,
-                    "image": null,
-                    "createdAt": "2022-02-15T03:53:45.000Z",
-                    "updatedAt": "2022-02-15T03:53:45.000Z"
-                }
-            },
-            {
-                "id": 1,
-                "text": "Minima a nihil nam sed similique adipisci fugiat necessitatibus eum.",
-                "UserId": 2,
-                "RestaurantId": 1,
-                "createdAt": "2022-02-15T03:53:45.000Z",
-                "updatedAt": "2022-02-15T03:53:45.000Z",
-                "User": {
-                    "id": 2,
-                    "name": "user1",
-                    "email": "user1@example.com",
-                    "password": "$2a$10$Qm5VdQxvP1RW.FwtkSx3Je1dThQIrZmMld2Hr2YwetRIXvESBr70q",
-                    "isAdmin": false,
-                    "image": null,
-                    "createdAt": "2022-02-15T03:53:45.000Z",
-                    "updatedAt": "2022-02-15T03:53:45.000Z"
-                }
-            }
-        ]
-    },
-    "isFavorited": false,
-    "isLiked": false
-}
-
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: '管理者',
-    email: 'root@example.com',
-    image: 'https://i.pravatar.cc/300',
-    isAdmin: true
-  },
-  isAuthenticated: true
-}
+import restaurantsAPI from "./../apis/restaurants"
+import { Toast } from "./../utils/helpers"
+import { mapState } from "vuex"
 
 export default {
   components: {
@@ -137,7 +46,6 @@ export default {
         isFavorited: false,
         isLiked: false
       },
-      currentUser: dummyUser.currentUser,
       restaurantComments: []
     }
   },
@@ -145,23 +53,43 @@ export default {
     const { id: restaurantId } = this.$route.params
     this.fetchRestaurant(restaurantId)
   },
+  beforeRouteUpdate(to, from, next) {
+    const { id: restaurantId } = to.params
+    this.fetchRestaurant(restaurantId)
+    next()
+  },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   methods: {
-    fetchRestaurant(restaurantId) {
-      console.log('fetchRestaurant id',restaurantId)
+    async fetchRestaurant(restaurantId) {
+      try {
+        const { data } = await restaurantsAPI.getRestaurant({ restaurantId })
 
-      this.restaurant = {
-        id: dummyData.restaurant.id,
-        name: dummyData.restaurant.name,
-        categoryName: dummyData.restaurant.Category.name,
-        image: dummyData.restaurant.image,
-        openingHours: dummyData.restaurant.opening_hours,
-        tel: dummyData.restaurant.tel,
-        address: dummyData.restaurant.address,
-        description: dummyData.restaurant.description,
-        isFavorited: dummyData.isFavorited,
-        isLiked: dummyData.isLiked,
+        const { restaurant, isFavorited, isLiked } = data
+
+        const { id, name, Category, image, opening_hours, tel, address, description, Comments } = restaurant
+
+        this.restaurant = {
+          id, 
+          name, 
+          categoryName: Category ? Category.name : '未分類', 
+          image, 
+          opening_hours, 
+          tel, 
+          address, 
+          description, 
+          isFavorited, 
+          isLiked
+        }
+          this.restaurantComments = Comments
+
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得餐廳資料，請稍後再試'
+        })
       }
-      this.restaurantComments = dummyData.restaurant.Comments
     },
     afterDeleteComment (commentId) {
       // 以filter保留未被選擇的comment.id
