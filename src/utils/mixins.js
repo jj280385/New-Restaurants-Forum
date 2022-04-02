@@ -14,12 +14,7 @@ export const fromNowFilter = {
 export const emptyImageFilter = {
   filters: {
     emptyImage (src) {
-      const avatar = [
-        require('../assets/avatar/user1.jpg'),
-        require('../assets/avatar/user2.jpg'),
-        require('../assets/avatar/user3.png')
-      ]
-      return src || avatar[Math.floor(Math.random()*avatar.length)]
+      return src || 'https://via.placeholder.com/350x220/DFDFDF?text=No+Image'
     }
   }
 }

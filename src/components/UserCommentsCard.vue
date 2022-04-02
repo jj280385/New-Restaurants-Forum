@@ -1,16 +1,16 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <strong>{{ commentedRestaurants.length }}</strong> 已評論餐廳
+      <strong>{{ comments.length }}</strong> 已評論餐廳
     </div>
     <div class="card-body">
       <router-link
-        v-for="restaurant in commentedRestaurants"
-        :key="restaurant.id"
-        :to="{name: 'restaurant', params: { id: restaurant.id }}"
+        v-for="comment in comments"
+        :key="comment.id"
+        :to="{name: 'restaurant', params: { id: comment.Restaurant.id }}"
       >
         <img
-          :src="restaurant.Restaurant.image | emptyImage"
+          :src="comment.Restaurant.image | emptyImage"
           width="60"
           height="60"
           class="mr-1 mb-1"
@@ -24,25 +24,12 @@
 import { emptyImageFilter } from './../utils/mixins'
 
 export default {
+  name: "userCommentsCard",
   mixins: [emptyImageFilter],
   props: {
-    initialUser: {
-      type: Object,
+    comments: {
+      type: Array ,
       required: true,
-    }
-  },
-  data() {
-    return {
-      user : this.initialUser,
-      commentedRestaurants:[],
-    }
-  },
-    created(){
-    this.fetchCommentedRestaurants()
-  },
-  methods: {
-    fetchCommentedRestaurants() {
-      this.commentedRestaurants.push(...this.user.profile.Comments)
     }
   }
 }

@@ -2,7 +2,6 @@
 <template>
   <div class="container py-5">
     <AdminNav />
-
     <form class="my-4">
       <div class="form-row">
         <div class="col-auto">
@@ -25,7 +24,8 @@
         </div>
       </div>
     </form>
-    <table class="table">
+    <Spinner v-if="isLoading" />
+    <table v-else class="table">
       <thead class="thead-dark">
         <tr>
           <th scope="col" width="60">#</th>
@@ -93,11 +93,13 @@
 import AdminNav from "@/components/AdminNav";
 import adminAPI from "./../apis/admin";
 import { Toast } from "./../utils/helpers";
+import Spinner from "./../components/Spinner";
 
 export default {
   name: "AdminCategories",
   components: {
     AdminNav,
+    Spinner,
   },
   data() {
     return {
@@ -185,7 +187,7 @@ export default {
         // TODO: 透過API告知伺服器欲刪除的餐廳類別
         // 將該餐廳類別從陣列中刪除
         this.categories = this.categories.filter(
-          category => category.id !== categoryId
+          (category) => category.id !== categoryId
         );
 
         Toast.fire({
@@ -193,7 +195,7 @@ export default {
           title: "成功刪除餐廳類別",
         });
       } catch (error) {
-        console.error(error.message)
+        console.error(error.message);
         Toast.fire({
           icon: "error",
           title: "無法刪除餐廳類別，請稍後再試",
@@ -205,8 +207,8 @@ export default {
     async updateCategory({ categoryId, name }) {
       try {
         const { data } = await adminAPI.categories.update({
-          categoryId, 
-          name
+          categoryId,
+          name,
         });
 
         if (data.status === "error") {
@@ -215,15 +217,13 @@ export default {
 
         // TODO: 透過 API 去向伺服器更新餐廳類別名稱
         this.toggleIsEditing(categoryId);
-
       } catch (error) {
-        console.error(error.message)
+        console.error(error.message);
         Toast.fire({
           icon: "error",
           title: "無法更新餐廳類別，請稍後再試",
         });
       }
-      
     },
 
     // 切換樣板

@@ -122,7 +122,7 @@ export default {
         if (data.status === 'error') {
           throw new Error(data.message)
         }
-        this.$router.push({ name: 'user', params: { id: this.id } })
+        this.$router.push({ name: 'users', params: { id: this.id } })
 			} catch (error) {
         Toast.fire({
           icon: 'error',

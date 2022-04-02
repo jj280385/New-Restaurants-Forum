@@ -2,8 +2,8 @@
   <div class="container py-5">
     <!-- AdminNav Component -->
     <AdminNav />
-
-    <table class="table">
+    <Spinner v-if="isLoading" />
+    <table v-else class="table">
       <thead class="thead-dark">
         <tr>
           <th scope="col">#</th>
@@ -13,22 +13,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-        v-for="user in users"
-        :key="user.id">
+        <tr v-for="user in users" :key="user.id">
           <th scope="row">{{ user.id }}</th>
           <td>{{ user.email }}</td>
-          <td>{{ user.isAdmin ? 'admin' : 'user' }}</td>
+          <td>{{ user.isAdmin ? "admin" : "user" }}</td>
           <td>
-            <button 
-            v-if="currentUser.id !== user.id"
-            type="button" 
-            class="btn btn-link"
-            @click="
+            <button
+              v-if="currentUser.id !== user.id"
+              type="button"
+              class="btn btn-link"
+              @click="
                 toggleUserRole({ userId: user.id, isAdmin: user.isAdmin })
               "
             >
-            {{ user.isAdmin ? 'set as user' : 'set as admin' }}
+              {{ user.isAdmin ? "set as user" : "set as admin" }}
             </button>
           </td>
         </tr>
@@ -38,71 +36,75 @@
 </template>
 
 <script>
-import AdminNav from './../components/AdminNav'
-import { mapState } from 'vuex'
-import adminAPI from './../apis/admin'
-import { Toast } from './../utils/helpers'
+import AdminNav from "./../components/AdminNav";
+import { mapState } from "vuex";
+import adminAPI from "./../apis/admin";
+import { Toast } from "./../utils/helpers";
+import Spinner from "./../components/Spinner";
 
 export default {
   components: {
     AdminNav,
+    Spinner,
   },
   data() {
     return {
       users: [],
-    }
+      isLoading: true,
+    };
   },
   computed: {
-    ...mapState(['currentUser'])
+    ...mapState(["currentUser"]),
   },
   created() {
-    this.fetchUser()
+    this.fetchUser();
   },
   methods: {
-    async fetchUser () {
+    async fetchUser() {
       try {
-        const { data } = await adminAPI.users.get()
+        const { data } = await adminAPI.users.get();
 
-        if (data.status === 'error') {
-          throw new Error(data.message)
+        if (data.status === "error") {
+          throw new Error(data.message);
         }
 
-        this.users = data.users
+        this.users = data.users;
+        this.isLoading = false;
       } catch (error) {
+        this.isLoading = false;
         Toast.fire({
           icon: "error",
           title: "無法取得該會員資料，請稍後再試",
         });
       }
     },
-    async toggleUserRole ({ userId, isAdmin }) {
-      try { 
-        const { data } = await adminAPI.users.update({ 
-          userId, 
-          isAdmin: (!isAdmin).toString() 
-        })
-        
-        if (data.status === 'error') {
-          throw new Error(data.message)
+    async toggleUserRole({ userId, isAdmin }) {
+      try {
+        const { data } = await adminAPI.users.update({
+          userId,
+          isAdmin: (!isAdmin).toString(),
+        });
+
+        if (data.status === "error") {
+          throw new Error(data.message);
         }
-        
-        this.users = this.users.map(user => {
+
+        this.users = this.users.map((user) => {
           if (user.id === userId) {
             return {
               ...user,
-              isAdmin: !isAdmin
-            }
+              isAdmin: !isAdmin,
+            };
           }
-          return user
-        })
+          return user;
+        });
       } catch (error) {
         Toast.fire({
           icon: "error",
           title: "無法更新會員角色，請稍後再試",
         });
       }
-      
-    }
-  }
+    },
+  },
 };
 </script>

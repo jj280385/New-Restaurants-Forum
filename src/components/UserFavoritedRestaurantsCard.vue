@@ -26,23 +26,9 @@ import { emptyImageFilter } from './../utils/mixins'
 export default {
   mixins: [emptyImageFilter],
   props: {
-    initialUser: {
-      type: Object,
+    favoritedRestaurants: {
+      type: Array,
       required: true,
-    }
-  },
-  data() {
-    return {
-      user : this.initialUser,
-      favoritedRestaurants:[],
-    }
-  },
-    created(){
-    this.fetchFavoritedRestaurants()
-  },
-  methods: {
-    fetchFavoritedRestaurants() {
-      this.favoritedRestaurants.push(...this.user.profile.FavoritedRestaurants)
     }
   }
 }
