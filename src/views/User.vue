@@ -1,23 +1,27 @@
 <template>
   <div class="py-5">
-    <div class="container">
-      <UserProfileCard 
-      :user="user"
-      :is-current-user="currentUser.id === user.id"
-      :initial-is-followed="isFollowed"
-      />
-      <div class="row">
-        <div class="col-md-4">
-          <UserFollowingsCard :followings="user.Followings" />
-          <UserFollowersCard :followers="user.Followers"  />
-        </div>
-        <div class="col-md-8">
-          <UserCommentsCard :comments="user.Comments" />
-          <UserFavoritedRestaurantsCard 
-          :favoritedRestaurants="user.FavoritedRestaurants" />
+    <Spinner v-if="isLoading" />
+    <template v-else>
+      <div class="container">
+        <UserProfileCard
+          :user="user"
+          :is-current-user="currentUser.id === user.id"
+          :initial-is-followed="isFollowed"
+        />
+        <div class="row">
+          <div class="col-md-4">
+            <UserFollowingsCard :followings="user.Followings" />
+            <UserFollowersCard :followers="user.Followers" />
+          </div>
+          <div class="col-md-8">
+            <UserCommentsCard :comments="user.Comments" />
+            <UserFavoritedRestaurantsCard
+              :favoritedRestaurants="user.FavoritedRestaurants"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -27,18 +31,20 @@ import UserFollowingsCard from "../components/UserFollowingsCard.vue";
 import UserFollowersCard from "../components/UserFollowersCard.vue";
 import UserCommentsCard from "../components/UserCommentsCard.vue";
 import UserFavoritedRestaurantsCard from "../components/UserFavoritedRestaurantsCard.vue";
-import usersAPI from "./../apis/users"
-import { Toast } from "./../utils/helpers"
+import usersAPI from "./../apis/users";
+import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
+import Spinner from "./../components/Spinner";
 
 export default {
-  name: 'User',
+  name: "User",
   components: {
     UserProfileCard,
     UserFollowingsCard,
     UserFollowersCard,
     UserCommentsCard,
     UserFavoritedRestaurantsCard,
+    Spinner,
   },
   created() {
     const { id: userId } = this.$route.params;
@@ -65,11 +71,14 @@ export default {
         Followings: [],
       },
       isFollowed: false,
+      isLoading: true,
     };
   },
   methods: {
     async fetchUser(userId) {
       try {
+        this.isLoading = true;
+
         const { data } = await usersAPI.get({ userId });
         const { profile } = data;
         this.user = {
@@ -83,7 +92,10 @@ export default {
           Followings: profile.Followings,
         };
         this.isFollowed = data.isFollowed;
+        this.isLoading = false;
       } catch (error) {
+        this.isLoading = false;
+
         console.log("error", error);
         Toast.fire({
           icon: "error",
@@ -91,6 +103,6 @@ export default {
         });
       }
     },
-  }
+  },
 };
 </script>

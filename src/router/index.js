@@ -8,6 +8,16 @@ import store from './../store'
 
 Vue.use(VueRouter)
 
+const authorizeIsAdmin = (to, from, next) => {
+  const currentUser = store.state.currentUser
+  if (currentUser && !currentUser.isAdmin) {
+    next('/404')
+    return
+  }
+
+  next()
+}
+
 const routes = [
   {
     path: '/',
@@ -42,7 +52,7 @@ const routes = [
   {
     path: '/restaurants/:id/dashboard',
     name: 'restaurant-dashboard',
-    component: () => import('../components/RestaurantDashboard.vue')
+    component: () => import('../views/RestaurantDashboard.vue')
   }, 
   {
     path: '/restaurants/:id',
@@ -72,7 +82,8 @@ const routes = [
   {
     path: '/admin/restaurants',
     name: 'admin-restaurants',
-    component: () => import('../views/AdminRestaurants.vue')
+    component: () => import('../views/AdminRestaurants.vue'), 
+    beforeEnter: authorizeIsAdmin
   },
   {
     path: '/admin/restaurants/new',
@@ -111,10 +122,35 @@ const router = new VueRouter({
   routes
 })
 
-// beforeEach 作用於整個專案，只需要在 Vue Router 內定義一次，而不需要在每個元件內分別定義。
-router.beforeEach((to, from, next) => {
-  // 使用 dispatch 呼叫 Vuex 內的 actions
-  store.dispatch('fetchCurrentUser')
+// beforeEach 作用於整個專案
+router.beforeEach(async (to, from, next) => {
+  // 從 localStorage 取出 token
+  const token = localStorage.getItem('token')
+  const tokenInStore = store.state.token
+
+  let isAuthenticated = store.state.isAuthenticated
+  
+  // 比較 localStorage 和 store 中的 token 是否一樣
+  if (token && token !== tokenInStore) {
+    isAuthenticated = await store.dispatch('fetchCurrentUser')
+  }
+
+  // 對於不需要驗證 token 的頁面
+  const pathsWithoutAuthentication = ['sign-up', 'sign-in']
+
+  
+  // 如果 token 無效則轉址到登入頁
+  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
+    next('/signin')
+    return
+  }
+
+  // 如果 token 有效則轉址到餐廳首頁
+  if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
+    next('/restaurants')
+    return
+  }
+
   next()
 })
 // 呼叫 actions 方法的關鍵字是 dispatch，表示分發、指派的意思。
