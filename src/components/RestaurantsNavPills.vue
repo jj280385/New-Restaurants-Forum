@@ -1,12 +1,12 @@
 // ./src/components/RestaurantsNavPills.vue
 <template>
-  <ul class="nav nav-pills mb-4">
+  <ul class="nav nav-pills nav-tabs mb-4">
     <li class="nav-item">
       <router-link
         class="nav-link"
         :to="{ name: 'restaurants' }"
       >
-        全部
+        ALL
       </router-link>
     </li>
 
@@ -38,24 +38,37 @@ export default {
 
 <style scoped>
 .nav-pills {
+  margin: 60px 0 50px 0;
   display: flex;
   align-items: center;
-  margin-bottom: 1rem !important;
+  animation: fadeInUp; 
+  animation-duration: 3s;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid #F28705;
+  animation-duration: 3s;
 }
 
 .nav-pills .nav-link {
-  margin-right: 7px;
-  margin-bottom: 7px;
-  padding: 5px 10px 3px;
-  color: #4d4d4d;
-  border: 1px solid #a1a1a1;
+  padding: 10px 15px 5px 15px;
+  color: #595959;
   transition: none;
+  font-size: 18px;
+  border-radius: 3px 3px 0 0;
+  border: 2px solid transparent;
 }
 
-.nav-pills .nav-link.active,
+.nav-pills .nav-link.active,.nav-link:hover,
 .nav-pills .show > .nav-link {
   border-width: 2px;
-  border-color: #bd2333;
-  background-color: transparent;
+  color: white;
+  background-color: #F28705;
+  border: 2px solid #F28705;
 }
+
+.nav-item {
+  font-size: 22px;
+}
+
 </style>

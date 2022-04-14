@@ -1,9 +1,9 @@
 <template>
-  <div class="card mb-3">
-      <div class="card-header">
-        <strong>{{followings.length}}</strong> followings (追蹤者)
+  <div class="user-card mb-3 ml-4">
+      <div class="user-header px-3 py-3">
+        {{followings.length}}&nbsp;Followings
       </div>
-      <div class="card-body">
+      <div class="user-body px-3 py-3">
         <router-link 
             v-for="following in followings"
             :key="following.id"
@@ -12,7 +12,7 @@
             <img 
             :src="following.image | emptyImage"
             width="60" height="60" 
-            class="mr-1"
+            class="mr-1 mb-1 restaurant-avatar"
             >
           </router-link>
       </div>

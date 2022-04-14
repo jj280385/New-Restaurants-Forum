@@ -1,26 +1,20 @@
 // ./src/components/CreateComment.vue
 <template>
   <!-- 當使用者提交表單時，不要做瀏覽器的預設動作，取而代之的，要去觸發一個叫 handleSubmit 的函式。 -->
-  <form @submit.stop.prevent="handleSubmit">
+  <form @submit.stop.prevent="handleSubmit" class="create-comment mx-5">
     <div class="form-group mb-4">
-      <label for="text">留下評論：</label>
-      <textarea v-model="text" class="form-control" rows="3" name="text" />
-    </div>
-    <div class="d-flex align-items-center justify-content-between">
-      <button 
-      type="button" 
-      class="btn btn-link" 
-      @click="$router.back()"
-      >
-        回上一頁
-      </button>
-      <button
+      <label for="text" class="title">Leave a comment :</label>
+      <textarea v-model="text" class="form-control" rows="8" name="text" />
+      <div class="btn-area">
+        <button
         type="submit"
-        class="btn btn-primary mr-0"
+        class="btn btn-outline-info submit mt-3"
         :disabled="isProcessing"
       >
         Submit
-      </button>
+        </button>        
+      </div>
+
     </div>
   </form>
 </template>
@@ -89,7 +83,32 @@ export default {
 </script>
 
 <style scoped>
+.create-comment:hover .title {
+  color: black;
+}
+
+.form-control:hover,
+.form-control:focus {
+  border: 1px solid #8C0303;
+}
+
 .form-group {
   margin: 21px 0 8px;
 }
+
+.title {
+  font-size: 30px;
+  font-family: serif;
+}
+
+.btn-area {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit {
+  font-size: 18px;
+  width: 10%;
+}
+
 </style>

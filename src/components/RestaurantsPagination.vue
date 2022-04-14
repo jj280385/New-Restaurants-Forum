@@ -82,31 +82,33 @@ export default {
 .pagination {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 120px;
 }
 
 .page-link {
   height: 37px;
-  padding: 7px 20px;
-  color: #bd2333;
+  padding: 5px 20px;
+  color: #8c0303;
+  font-size: 18px;
 }
 
 .page-item.active .page-link,
 .page-item.active span {
   color: white;
-  background-color: #bd2333;
-  border-color: #bd2333;
+  background-color: #8c0303;
+  border-color: #8c0303;
   z-index: 1;
 }
 
 .page-item span {
-  color: #bd2333;
+  color: #8c0303;
+  font-size: 16px;
 }
 
 a.page-link:hover,
 a.page-link:hover span {
   color: white;
-  background-color: #bd2333;
-  border-color: #bd2333;
+  background-color: #8c0303;
+  border-color: #8c0303;
 }
 </style>

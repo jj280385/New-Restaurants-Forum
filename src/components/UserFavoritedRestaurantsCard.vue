@@ -1,9 +1,9 @@
 <template>
-  <div class="card">
-    <div class="card-header">
-      <strong>{{ favoritedRestaurants.length }}</strong> 收藏的餐廳
+  <div class="user-card mr-4 mt-4">
+    <div class="user-header px-3 py-3">
+      Collection&nbsp;{{ favoritedRestaurants.length }}&nbsp;restaurants
     </div>
-    <div class="card-body">
+    <div class="user-body px-3 py-3">
       <router-link
         v-for="favoritedRestaurant in favoritedRestaurants"
         :key="favoritedRestaurant.id"
@@ -13,7 +13,7 @@
           :src="favoritedRestaurant.image | emptyImage"
           width="60"
           height="60"
-          class="mr-1 mb-1"
+          class="mr-1 mb-1 restaurant-avatar"
         >
       </router-link>
     </div>
@@ -33,3 +33,4 @@ export default {
   }
 }
 </script>
+

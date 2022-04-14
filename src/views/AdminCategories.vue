@@ -1,91 +1,102 @@
 // ./src/views/AdminCategories.vue
 <template>
-  <div class="container py-5">
-    <AdminNav />
-    <form class="my-4">
-      <div class="form-row">
-        <div class="col-auto">
-          <input
-            type="text"
-            v-model="newCategoryName"
-            class="form-control"
-            placeholder="新增餐廳類別..."
-          />
-        </div>
-        <div class="col-auto">
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click.stop.prevent="createCategory"
-            :disabled="isProcessing"
-          >
-            新增
-          </button>
-        </div>
-      </div>
-    </form>
-    <Spinner v-if="isLoading" />
-    <table v-else class="table">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col" width="60">#</th>
-          <th scope="col">Category Name</th>
-          <th scope="col" width="210">Action</th>
-        </tr>
-      </thead>
-      <tbody v-show="!isLoading">
-        <tr v-for="category in categories" :key="category.id">
-          <th scope="row">
-            {{ category.id }}
-          </th>
-          <td class="position-relative">
-            <div v-show="!category.isEditing" class="category-name">
-              {{ category.name }}
+  <div>
+    <div class="admin-container py-3 px-5">
+      <AdminNav />
+      <div>
+        <form class="my-4">
+          <div class="form-row">
+            <div class="col-auto">
+              <input
+                type="text"
+                v-model="newCategoryName"
+                class="form-control"
+                placeholder="Add category ..."
+              />
             </div>
-            <input
-              v-show="category.isEditing"
-              v-model="category.name"
-              type="text"
-              class="form-control"
-            />
-            <span
-              v-show="category.isEditing"
-              @click="handleCancel(category.id)"
-              class="cancel"
-            >
-              ✕
-            </span>
-          </td>
-          <td class="d-flex justify-content-between">
-            <button
-              v-show="!category.isEditing"
-              type="button"
-              class="btn btn-link mr-2"
-              @click.stop.prevent="toggleIsEditing(category.id)"
-            >
-              Edit
-            </button>
-            <button
-              v-show="category.isEditing"
-              type="button"
-              class="btn btn-link mr-2"
-              @click.stop.prevent="
-                updateCategory({ categoryId: category.id, name: category.name })
-              "
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              class="btn btn-link mr-2"
-              @click.stop.prevent="deleteCategory(category.id)"
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <div class="col-auto">
+              <button
+                type="button"
+                class="btn btn-outline-info"
+                @click.stop.prevent="createCategory"
+                :disabled="isProcessing"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <Spinner v-if="isLoading" class="admin-spinner" />
+      <table v-else class="table my-4">
+        <thead class="thead">
+          <tr class="tr-header">
+            <th scope="col" class="column pl-3" width="100">No.</th>
+            <th scope="col" class="column">Category Name</th>
+            <th scope="col" width="250" class="column">Action</th>
+          </tr>
+        </thead>
+        <tbody v-show="!isLoading">
+          <tr v-for="category in categories" :key="category.id" class="tr-item">
+            <th scope="row" class="id pl-4">
+              {{ category.id }}
+            </th>
+            <td class="position-relative">
+              <div v-show="!category.isEditing" class="category">
+                {{ category.name }}
+              </div>
+              <input
+                v-show="category.isEditing"
+                v-model="category.name"
+                type="text"
+                class="form-control"
+              />
+              <span
+                v-show="category.isEditing"
+                @click="handleCancel(category.id)"
+                class="cancel"
+              >
+                ✕
+              </span>
+            </td>
+            <td class="d-flex justify-content-between">
+              <button
+                v-show="!category.isEditing"
+                type="button"
+                class="btn btn-link mr-2"
+                @click.stop.prevent="toggleIsEditing(category.id)"
+              >
+                Edit
+              </button>
+              <button
+                v-show="category.isEditing"
+                type="button"
+                class="btn btn-link mr-2"
+                @click.stop.prevent="
+                  updateCategory({
+                    categoryId: category.id,
+                    name: category.name,
+                  })
+                "
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                class="btn delete mr-2"
+                @click.stop.prevent="deleteCategory(category.id)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button type="button" class="btn btn-link back" @click="$router.back()">
+      &lt; GO BACK
+    </button>
   </div>
 </template>
 
@@ -259,16 +270,36 @@ export default {
 </script>
 
 <style scoped>
-/* scoped 屬性，用來確保這組 CSS 只會作用到當下的這一個 component。 */
-.category-name {
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  animation: fadeInUp;
+  animation-duration: 3s;
+}
+
+.form-control {
+  font-size: 18px;
+}
+
+.category {
   padding: 0.375rem 0.75rem;
   border: 1px solid transparent;
   outline: 0;
   cursor: auto;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .btn-link {
-  width: 62px;
+  font-size: 16px;
+  font-weight: 400;
+  border: 2px solid transparent;
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  border-bottom: 2px solid #f28705;
 }
 
 .cancel {
@@ -286,5 +317,26 @@ export default {
   user-select: none;
   cursor: pointer;
   font-size: 12px;
+}
+
+.back {
+  position: fixed;
+  bottom: 0;
+  left: 5%;
+  border-radius: 5px 5px 0 0;
+  border: 1px solid #f28705;
+  border-bottom: none;
+  color: #595959;
+  font-size: 20px;
+  font-weight: 500;
+  animation: fadeInUp;
+  animation-duration: 5s;
+}
+
+.back:hover {
+  color: white;
+  background-color: #f28705;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
 }
 </style>

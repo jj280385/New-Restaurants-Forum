@@ -1,26 +1,24 @@
 <template>
-  <div class="container py-5">
-    <Spinner v-if="isLoading" />
-
-    <template v-else>
-      <div>
-        <h1>{{ restaurant.name }}</h1>
-        <span class="badge badge-secondary mt-1 mb-3">
-          {{ restaurant.categoryName }}
-        </span>
-      </div>
-
-      <hr />
-
-      <ul>
-        <li>評論數： {{ restaurant.commentsLength }}</li>
-        <li>瀏覽次數： {{ restaurant.viewCounts }}</li>
-      </ul>
-
-      <button type="button" class="btn btn-link" @click="$router.back()">
-        回上一頁
-      </button>
-    </template>
+  <div class="main">
+    <Spinner v-if="isLoading" class="spinner" />
+    <div v-else class="main-container py-5 px-5">
+      <template>
+        <div class="header">
+          <span class="name">{{ restaurant.name }}</span>
+          <span class="badge ml-4">
+            {{ restaurant.categoryName }}
+          </span>
+        </div>
+        <hr />
+        <ul class="count mt-5">
+          <li>Comments count ： {{ restaurant.commentsLength }}</li>
+          <li>View count ： {{ restaurant.viewCounts }}</li>
+        </ul>
+      </template>
+    </div>
+    <button type="button" class="btn btn-link back" @click="$router.back()">
+      &lt; GO BACK
+    </button>
   </div>
 </template>
 
@@ -90,3 +88,54 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.main-container {
+  border: 1px solid #d5cec0;
+  border-radius: 3px;
+  margin: 10%;
+  animation: zoomIn;
+  animation-duration: 3s;
+}
+
+.main-container:hover {
+  border: 1px solid #8c0303;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  transition-duration: 2s;
+}
+
+.main-container:hover .name {
+  color: black;
+}
+
+.main-container:hover .badge {
+  color: #f28705;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+}
+
+.name {
+  font-size: 40px;
+  font-weight: 600;
+  color: #595959;
+}
+
+.badge {
+  font-size: 16px;
+  padding-bottom: 11px;
+  font-family: serif;
+}
+
+.back {
+  text-decoration: none;
+}
+
+li {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+</style>

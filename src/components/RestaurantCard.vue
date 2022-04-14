@@ -1,66 +1,66 @@
 // ./src/components/RestaurantCard.vue
 <template>
-  <div class="col-md-6 col-lg-4">
-    <div v-show="!isLoading" class="card mb-4">
+  <div 
+  class="col-md-6 col-lg-4">
+    <div v-show="!isLoading" class="card my-3">
       <img
         class="card-img-top"
         :src="restaurant.image"
         alt="Card image cap"
-        width="286px"
-        height="180px"
         @load="changeLoading"
       />
       <div class="card-body">
-        <p class="card-text title-wrap">
+        <p class="title my-1">
           <router-link
+            class="title"
             :to="{ name: 'restaurant', params: { id: restaurant.id } }"
           >
             {{ restaurant.name }}
           </router-link>
         </p>
-        <span class="badge badge-secondary">{{
-          restaurant.Category ? restaurant.Category.name : "未分類"
-        }}</span>
+        <span class="badge badge-secondary card-text">
+          {{ restaurant.Category ? restaurant.Category.name : "未分類" }}
+        </span>
         <p class="card-text text-truncate">
           {{ restaurant.description }}
         </p>
       </div>
-      <div class="card-footer">
+      <div class="card-footer mt-3">
         <button
           v-if="restaurant.isFavorited"
           type="button"
-          class="btn btn-danger btn-border favorite mr-2"
+          class="card-btn btn btn-outline-info favorite mr-3"
           :disabled="isProcessing"
           @click.stop.prevent="deleteFavorite(restaurant.id)"
         >
-          移除最愛
+          Remove collection
         </button>
         <button
           v-else
           type="button"
-          class="btn btn-primary btn-border favorite mr-2"
+          class="card-btn btn btn-info favorite mr-3"
           :disabled="isProcessing"
           @click.stop.prevent="addFavorite(restaurant.id)"
         >
-          加到最愛
+          Add to collection
         </button>
         <button
           v-if="restaurant.isLiked"
           type="button"
-          class="btn btn-danger like mr-2"
+          class="card-btn btn btn-danger like mr-3"
           :disabled="isProcessing"
           @click.stop.prevent="deleteLike(restaurant.id)"
         >
-          Unlike
+          UNLIKE
         </button>
         <button
           v-else
           type="button"
-          class="btn btn-primary like mr-2"
+          class="card-btn btn btn-outline-danger like mr-2"
           :disabled="isProcessing"
           @click.stop.prevent="addLike(restaurant.id)"
         >
-          Like
+          LIKE
         </button>
       </div>
     </div>
@@ -180,11 +180,60 @@ export default {
 </script>
 
 <style scoped>
-.badge.badge-secondary {
+.col-md-6 {
+  animation: zoomIn; 
+  animation-duration: 3s;
+}
+
+.card {
+  width: 100%;
+  height: 520px;
+  padding: 30px 30px 10px 30px;
+  border: 1px solid #D5CEC0;
+}
+
+.card-body {
   padding: 0;
-  margin: 8px 0;
-  color: #bd2333;
+  justify-content: space-around;
+}
+
+.title {
+  display: inline-block;
+  font-size: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #595959;
+}
+
+.title ::after {
+  height: 2px;
+}
+
+.badge.badge-secondary {
+  color: #8C0303;
   background-color: transparent;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 0;
+  letter-spacing: 0.2px;
+}
+
+.card-text {
+  color: #595959;
+}
+
+.card:hover {
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border: 1px solid #8c0303;
+}
+
+.card:hover .text-truncate {
+  color: black;
+}
+
+.card-btn {
+  font-size: 16px;
 }
 
 .btn,
@@ -192,20 +241,5 @@ export default {
   margin: 7px 14px 7px 0;
 }
 
-.card {
-  margin-bottom: 2rem !important;
-}
-.card-img-top {
-  background-color: #efefef;
-}
 
-.card-body {
-  padding: 17.5px;
-}
-
-.card-footer {
-  padding: 9px 17.5px;
-  border-color: rgb(232, 232, 232);
-  background: white;
-}
 </style>

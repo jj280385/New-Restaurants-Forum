@@ -1,42 +1,68 @@
 // ./src/views/UsersTop.vue
 <template>
-  <div class="container py-5">
-    <NavTabs />
-    <Spinner v-if="isLoading" />
+  <div class="main-container">
+    <JumbotronForGourmets />
+    <div class="card-container">
+      <NavTabs />
+      <Spinner v-if="isLoading" />
 
-    <template v-else>
-      <h1 class="mt-5">美食達人</h1>
-      <hr />
-      <div class="row text-center">
-        <div v-for="user in users" :key="user.id" class="col-3">
-          <a href="#">
-            <img :src="user.image | emptyImage" width="140px" height="140px" />
-          </a>
-          <h2>{{ user.name }}</h2>
-          <span class="badge badge-secondary"
-            >追蹤人數：{{ user.followerCount }}</span
+      <template v-else>
+        <div class="users row text-center">
+          <div
+            v-for="user in users"
+            :key="user.id"
+            class="col-md-4 col-lg-3 user-card my-3"
           >
-          <p class="mt-3">
-            <button
-              v-if="user.isFollowed"
-              type="button"
-              class="btn btn-danger"
-              @click.stop.prevent="deleteFollowing(user.id)"
-            >
-              取消追蹤
-            </button>
-            <button
-              v-else
-              type="button"
-              class="btn btn-primary"
-              @click.stop.prevent="addFollowing(user.id)"
-            >
-              追蹤
-            </button>
-          </p>
+            <div class="content-border">
+              <router-link
+                :to="{ name: 'users', params: { id: user.id } }"
+                class="link"
+              >
+                <!-- <div class="card-body"> -->
+                  <img
+                    :src="user.image | emptyImage"
+                    width="140px"
+                    height="140px"
+                    class="card-img-top"
+                  />
+                  <p class="title my-3">
+                    <router-link 
+                    class="title"
+                    :to="{ name: 'users', params: { id: user.id } }"
+                    >
+                      {{ user.name }}
+                    </router-link>
+                  </p>
+                <!-- </div> -->
+              </router-link>
+              <div class="card-footer">
+                <span class="badge badge-secondary"
+                  >{{ user.followerCount }} persons Following</span
+                >
+                <p class="mt-3">
+                  <button
+                    v-if="user.isFollowed"
+                    type="button"
+                    class="btn btn-danger"
+                    @click.stop.prevent="deleteFollowing(user.id)"
+                  >
+                    Unfollow
+                  </button>
+                  <button
+                    v-else
+                    type="button"
+                    class="btn btn-info"
+                    @click.stop.prevent="addFollowing(user.id)"
+                  >
+                    Follow
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </template>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -46,11 +72,13 @@ import { emptyImageFilter } from "./../utils/mixins";
 import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import Spinner from "./../components/Spinner";
+import JumbotronForGourmets from "./../components/JumbotronForGourmets";
 
 export default {
   components: {
     NavTabs,
     Spinner,
+    JumbotronForGourmets,
   },
   mixins: [emptyImageFilter],
   data() {
@@ -144,3 +172,68 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.users {
+  animation: zoomIn;
+  animation-duration: 3s;
+}
+
+.title ::after {
+  height: 2px;
+}
+
+.content-border:hover {
+  border: 1px solid #8c0303;
+  border-radius: 10px;
+  box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.content-border:hover .card-img-top {
+  opacity: 1;
+  border-radius: 10px;
+}
+
+.content-border:hover .badge {
+  color: #f28705;
+}
+
+.content-border:hover .title {
+  color: black;
+}
+
+.user-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-border {
+  border: 1px solid #d5cec0;
+  border-radius: 3px;
+  padding: 20px 30px 0 30px;
+  margin: 10px 0;
+}
+
+.title {
+  display: inline-block;
+  font-size: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #595959;
+}
+
+.badge.badge-secondary {
+  color: #8c0303;
+  background-color: transparent;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 0;
+  letter-spacing: 0.2px;
+}
+
+.btn {
+  font-size: 18px;
+}
+
+</style>

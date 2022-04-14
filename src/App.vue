@@ -1,6 +1,6 @@
 <template>
   <div id="restaurant-forum">
-    <main role="main" class="mt-5 bg-white">
+    <main role="main">
       <Navbar />
       <router-view />
     </main>
@@ -11,6 +11,7 @@
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
+import 'animate.css';
 
 export default {
   components: {
@@ -19,8 +20,6 @@ export default {
 };
 </script>
 
-<style scoped>
-  main {
-    margin-top: 65px !important;
-  }
+<style>
+
 </style>

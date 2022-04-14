@@ -1,36 +1,35 @@
 // ./src/views/Restaurants.vue
 // 首頁 全部餐廳列表
 <template>
-  <div class="container py-5">
+  <div class="main-container">
+    <JumbotronHome />
     <NavTabs />
-    <!-- 餐廳類別標籤 RestaurantsNavPills -->
-    <RestaurantsNavPills :categories="categories" />
-    
-    <Spinner v-if="isLoading" />
+    <div class="card-container">
+      <Spinner  v-if="isLoading"/>
+      <template v-else>
+        <!-- 餐廳類別標籤 RestaurantsNavPills -->
+      <RestaurantsNavPills :categories="categories" />
+        <div class="row cards">
+          <!-- 餐廳卡片 RestaurantCard-->
+          <RestaurantCard
+            v-for="restaurant in restaurants"
+            :key="restaurant.id"
+            :initial-restaurant="restaurant"
+          />
+        </div>
 
-    <template v-else>
-      <div class="row">
-        <!-- 餐廳卡片 RestaurantCard-->
-        <RestaurantCard
-          v-for="restaurant in restaurants"
-          :key="restaurant.id"
-          :initial-restaurant="restaurant"
+        <!-- 分頁標籤 RestaurantPagination -->
+        <RestaurantsPagination
+          v-if="totalPage.length > 1"
+          :current-page="currentPage"
+          :total-page="totalPage"
+          :category-id="categoryId"
+          :previous-page="previousPage"
+          :next-page="nextPage"
         />
-      </div>
-
-      <!-- 分頁標籤 RestaurantPagination -->
-      <RestaurantsPagination
-        v-if="totalPage.length > 1"
-        :current-page="currentPage"
-        :total-page="totalPage"
-        :category-id="categoryId"
-        :previous-page="previousPage"
-        :next-page="nextPage"
-      />
-      <div v-if="restaurants.length < 1">
-        此類別目前無餐廳資料
-      </div>
-    </template>
+        <div v-if="restaurants.length < 1" class="no-restaurant">此類別目前無餐廳資料</div>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -42,6 +41,7 @@ import RestaurantsPagination from "./../components/RestaurantsPagination";
 import restaurantsAPI from "./../apis/restaurants";
 import { Toast } from "./../utils/helpers";
 import Spinner from "./../components/Spinner";
+import JumbotronHome from "./../components/JumbotronHome";
 
 export default {
   components: {
@@ -50,6 +50,7 @@ export default {
     RestaurantsNavPills,
     RestaurantsPagination,
     Spinner,
+    JumbotronHome,
   },
   data() {
     return {
@@ -110,6 +111,3 @@ export default {
   },
 };
 </script>
-
-
-      

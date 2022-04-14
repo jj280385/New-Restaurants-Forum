@@ -1,24 +1,32 @@
 // ./src/views/Restaurant.vue
 <template>
-  <div class="container py-5">
-    <Spinner v-if="isLoading" />
+  <div class="main">
+    <Spinner v-if="isLoading" class="spinner"/>
+    <div v-else class="main-container">
+      <template>
+        <!-- 餐廳資訊頁 RestaurantDetail -->
+        <RestaurantDetail :initial-restaurant="restaurant" />
 
-    <template v-else>
-      <!-- 餐廳資訊頁 RestaurantDetail -->
-      <RestaurantDetail :initial-restaurant="restaurant" />
-      <hr />
-      <!-- 餐廳評論 RestaurantComments -->
-      <RestaurantComments
-        :restaurant-comments="restaurantComments"
-        @after-delete-comment="afterDeleteComment"
-      />
+        <!-- 餐廳評論 RestaurantComments -->
+        <RestaurantComments
+          :restaurant-comments="restaurantComments"
+          @after-delete-comment="afterDeleteComment"
+        />
 
-      <!-- 新增評論 CreateComment -->
-      <CreateComment
-        :restaurant-id="restaurant.id"
-        @after-create-comment="afterCreateComment"
-      />
-    </template>
+        <!-- 新增評論 CreateComment -->
+        <CreateComment
+          :restaurant-id="restaurant.id"
+          @after-create-comment="afterCreateComment"
+        />
+      </template>
+    </div>
+    <button 
+      type="button" 
+      class="btn btn-link back" 
+      @click="$router.back()"
+      >
+        &lt; GO BACK
+    </button>
   </div>
 </template>
 
@@ -134,3 +142,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.back {
+  text-decoration: none;
+}
+
+.main-container {
+  border: 1px solid #d5cec0;
+  width: 75%;
+  animation: zoomIn; 
+  animation-duration: 3s;
+}
+
+.main-container:hover {
+  box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid #8c0303;
+  border-radius: 10px;
+  transition-duration: 2s;
+}
+</style>
+

@@ -1,8 +1,16 @@
 <template>
-  <div class="py-5">
-    <Spinner v-if="isLoading" />
-    <template v-else>
-      <div class="container">
+  <div class="main">
+      <button 
+      type="button" 
+      class="btn btn-link back" 
+      @click="$router.back()"
+      >
+        &lt; GO BACK
+      </button>
+    <Spinner v-if="isLoading" class="spinner"/>
+    <div v-else class="main-container">
+    <template >
+      <div class="user mb-5">
         <UserProfileCard
           :user="user"
           :is-current-user="currentUser.id === user.id"
@@ -22,6 +30,8 @@
         </div>
       </div>
     </template>
+    </div>
+
   </div>
 </template>
 
@@ -106,3 +116,33 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* .main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 8%;
+  animation: zoomIn; 
+  animation-duration: 3s;
+} */
+
+.back {
+  text-decoration: none;
+}
+
+.main-container {
+  border: 1px solid #D5CEC0;
+  width: 75%;
+  animation: zoomIn; 
+  animation-duration: 3s;
+}
+
+.main-container:hover {
+  box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid #8c0303;
+  border-radius: 10px;
+  transition-duration: 2s;
+}
+
+</style>

@@ -1,49 +1,102 @@
 // ./src/components/Spinner.vue
 <template>
-  <div class="spinner">
-    <div class="bouncing-loader">
-      <div />
-      <div />
-      <div />
-    </div>
+  <div class="lds-roller">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
 </template>
 
 <style scoped>
-.spinner {
-  padding-top: 100px;
+.lds-roller {
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  transition: transform(-50%);
+  width: 80px;
+  height: 80px;
 }
-
-.bouncing-loader {
-  display: flex;
-  justify-content: center;
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
 }
-
-.bouncing-loader > div {
-  width: 1rem;
-  height: 1rem;
-  margin: 3rem 0.2rem;
-  background: #bd2333;
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  animation: bouncing-loader 0.6s infinite alternate;
+  background: #8c0303;
+  margin: -4px 0 0 -4px;
 }
-
-.bouncing-loader > div:nth-child(2) {
-  animation-delay: 0.2s;
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
 }
-
-.bouncing-loader > div:nth-child(3) {
-  animation-delay: 0.4s;
+.lds-roller div:nth-child(1):after {
+  top: 63px;
+  left: 63px;
 }
-
-@keyframes bouncing-loader {
-  from {
-    opacity: 1;
-    transform: translateY(0);
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 68px;
+  left: 56px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 71px;
+  left: 48px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 71px;
+  left: 32px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 68px;
+  left: 24px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 63px;
+  left: 17px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
   }
-  to {
-    opacity: 0.1;
-    transform: translateY(-1rem);
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div class="card">
-    <div class="card-header">
-      <strong>{{ comments.length }}</strong> 已評論餐廳
+  <div class="user-card mr-4">
+    <div class="user-header px-3 py-3">
+      Comments&nbsp;{{ comments.length }}&nbsp;restaurants
     </div>
-    <div class="card-body">
+    <div class="user-body px-3 py-3">
       <router-link
         v-for="comment in comments"
         :key="comment.id"
@@ -13,7 +13,7 @@
           :src="comment.Restaurant.image | emptyImage"
           width="60"
           height="60"
-          class="mr-1 mb-1"
+          class="mr-1 mb-1 restaurant-avatar"
         >
       </router-link>
     </div>

@@ -1,22 +1,30 @@
 // ./src/components/AdminRestaurantsTable.vue
 <template>
-  <Spinner v-if="isLoading" />
-  <table class="table" v-else>
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Category</th>
-        <th scope="col">Name</th>
-        <th scope="col" width="300">操作</th>
+  <Spinner v-if="isLoading" class="admin-spinner"/>
+  <table class="table my-4" v-else>
+    <thead class="thead">
+      <tr class="tr-header">
+        <th scope="col" class="column pl-3" width="100">No.</th>
+        <th scope="col" class="column">Category</th>
+        <th scope="col" class="column">Name</th>
+        <th scope="col" class="column">Action</th>
       </tr>
     </thead>
     <tbody v-show="!isLoading">
-      <tr v-for="restaurant in restaurants" :key="restaurant.id">
-        <th scope="row">
+      <tr 
+      v-for="restaurant in restaurants" 
+      :key="restaurant.id"
+      class="tr-item"
+      >
+        <th scope="row" class="id pl-4">
           {{ restaurant.id }}
         </th>
-        <td>{{ restaurant.Category ? restaurant.Category.name : "未分類" }}</td>
-        <td>{{ restaurant.name }}</td>
+        <td class="category">{{ restaurant.Category ? restaurant.Category.name : "未分類" }}</td>
+        <td class="restaurant-name">
+          <router-link class="title" :to="{ name: 'restaurant', params: { id: restaurant.id } }">
+          {{ restaurant.name }}
+          </router-link>
+        </td>
         <td class="d-flex justify-content-between">
           <router-link
             :to="{ name: 'admin-restaurant', params: { id: restaurant.id } }"
@@ -38,7 +46,7 @@
 
           <button
             type="button"
-            class="btn btn-link"
+            class="btn delete"
             @click.stop.prevent="deleteRestaurant(restaurant.id)"
           >
             Delete
@@ -119,3 +127,45 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.title, .btn-link {
+  text-decoration: none;
+} 
+
+.title {
+  font-weight: 500;
+  display: inline-block;
+}
+
+.btn-link {
+  font-size: 15px;
+  font-weight: 400;
+  border: 2px solid transparent;
+}
+
+.title:hover {
+  color: black;
+}
+
+.title::after {
+  content: "";
+  display: block;
+  width: 0;
+  background: #f28705;
+  transition: width 0.5s;
+}
+
+.title:hover::after {
+  width: 100%;
+}
+
+.title::after {
+  height: 2.5px;
+}
+
+.btn-link:hover {
+  border-bottom: 2px solid #f28705;
+}
+
+</style>

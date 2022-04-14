@@ -1,43 +1,44 @@
 <template>
-  <div class="card mb-3">
+  <div class="card mx-4 mb-4 mt-3 pb-3">
     <div class="row no-gutters">
-      <div class="col-md-4">
-        <img :src="user.image | emptyImage" height="300px" />
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">
+      <div class="col-md-12 header">
+        <img :src="user.image | emptyImage" class="user-avatar"/>
+        <div class="card-body mx-5">
+          <h5 class="user-name">
             {{ user.name }}
           </h5>
-          <p class="card-text">
+          <p class="user-mail">
             {{ user.email }}
           </p>
           <ul class="list-unstyled list-inline">
             <li>
-              <strong>{{ user.Comments.length }}</strong> 已評論餐廳
+              <strong>Comments :</strong> 
+              {{ user.Comments.length }}
             </li>
             <li>
-              <strong>{{ user.FavoritedRestaurants.length }}</strong>
-              收藏的餐廳
+              <strong>Collection :</strong> 
+              {{ user.FavoritedRestaurants.length }}
             </li>
             <li>
-              <strong>{{ user.Followings.length }}</strong> followings
-              (追蹤者)
+              <strong>Following :</strong> 
+              {{ user.Followings.length }}
             </li>
             <li>
-              <strong>{{ user.Followers.length }}</strong> followers
-              (追隨者)
+              <strong>Followers :</strong> 
+              {{ user.Followers.length }}
             </li>
           </ul>
           <template
             v-if="isCurrentUser"
           >
-            <router-link
-              :to="{ name: 'user-edit', params: { id: user.id } }"
-              class="btn btn-primary"
-            >
+            <div class="user-edit">
+              <router-link
+              :to="{ name: 'users-edit', params: { id: user.id } }"
+              class="btn btn-outline-info py-2 px-4">
               Edit
-            </router-link>
+              </router-link>              
+            </div>
+
           </template>
           <template
             v-else
@@ -130,3 +131,46 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.card {
+  border-radius: 0;
+  border-bottom: 1px solid transparent;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.user-avatar {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.user-name {
+  font-size: 50px;
+}
+
+.user-mail {
+  font-size: 20px;
+  font-family: serif;
+}
+
+li { 
+  font-size: 18px;
+}
+
+.user-edit {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.btn{
+  font-size: 18px;
+}
+</style>

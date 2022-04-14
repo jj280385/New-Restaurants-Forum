@@ -71,7 +71,7 @@ const routes = [
   },
   {
     path: '/users/:id/edit',
-    name: 'user-edit',
+    name: 'users-edit',
     component: () => import('../views/UserEdit.vue')
   },
   {
@@ -118,7 +118,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  linkExactActiveClass: "active",
+  linkExactActiveClass: 'active',
   routes
 })
 

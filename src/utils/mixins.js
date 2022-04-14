@@ -14,7 +14,17 @@ export const fromNowFilter = {
 export const emptyImageFilter = {
   filters: {
     emptyImage (src) {
-      return src || 'https://via.placeholder.com/350x220/DFDFDF?text=No+Image'
+      const randomImg = [
+        require('../assets/avatar/avatar-1.jpg'),
+        require('../assets/avatar/avatar-2.jpg'),
+        require('../assets/avatar/avatar-3.jpg'),
+        require('../assets/avatar/avatar-4.jpg'),
+        require('../assets/avatar/avatar-5.jpg'),
+        require('../assets/avatar/avatar-6.jpg'),
+        require('../assets/avatar/avatar-7.jpg'),
+        require('../assets/avatar/avatar-8.jpg'),
+      ]
+      return src || randomImg[Math.floor(Math.random() * randomImg.length)]
     }
   }
 }

@@ -1,29 +1,42 @@
 <template>
-  <div>
-    <h2 class="my-4">所有評論：</h2>
+  <div class="comments my-3 px-5 py-3">
+    <span class="my-5 title">
+      <strong>All Comments :</strong>
+    </span>
 
-    <div v-for="comment in restaurantComments" :key="comment.id">
-      <blockquote class="blockquote mb-0">
+    <div
+      class="comments-list mt-3 px-3 pb-3"
+      v-for="comment in restaurantComments"
+      :key="comment.id"
+    >
+
+      <div class="name">
+        <router-link
+          class="name"
+          :to="{ name: 'users', params: { id: comment.User.id } }"
+        >
+          {{ comment.User.name }} :
+        </router-link>
+      </div>
+
+      <p class="comment my-3">{{ comment.text }}</p>
+
+      <div class="footer">
+        <div class="time pr-3">
+          {{ comment.createdAt | fromNow }}
+        </div>        
         <button
           v-if="currentUser.isAdmin"
           type="button"
-          class="btn btn-danger float-right"
+          class="btn btn-outline-danger"
           @click.stop.prevent="handleDeleteButtonClick(comment.id)"
         >
           Delete
         </button>
-        <h3>
-          <a href="#">
-            {{ comment.User.name }}
-          </a>
-        </h3>
-        <p>{{ comment.text }}</p>
-        <footer class="blockquote-footer">
-          {{ comment.createdAt | fromNow }}
-        </footer>
-      </blockquote>
-      <hr />
+      </div>
+
     </div>
+
   </div>
 </template>
 
@@ -32,10 +45,10 @@
 import { fromNowFilter } from "./../utils/mixins";
 import commentsAPI from "./../apis/comments";
 import { Toast } from "./../utils/helpers";
-import { mapState } from "vuex"
+import { mapState } from "vuex";
 
 export default {
-  name: 'RestaurantComments',
+  name: "RestaurantComments",
   // 透過 mixins 屬性將撰寫好的 mixin 放入
   mixins: [fromNowFilter],
   props: {
@@ -45,7 +58,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['currentUser'])
+    ...mapState(["currentUser"]),
   },
   methods: {
     async handleDeleteButtonClick(commentId) {
@@ -78,6 +91,57 @@ export default {
 </script>
 
 <style scoped>
+.comments {
+  border-top: 1px solid #595959;
+}
+
+.title,
+strong {
+  font-size: 30px;
+  font-family: serif;
+}
+
+.comments-list {
+  border-bottom: 1px solid #595959;
+}
+
+.name {
+  height: 40px;
+  text-decoration: none;
+  color: #595959;
+  font-size: 25px;
+}
+
+.comment {
+  font-size: 18px;
+}
+
+.comments-list:hover .name,
+.comments-list:hover .comment {
+  color: black;
+}
+
+.comments-list:hover .name {
+  border-bottom: 2px solid #f28705;
+  transition-duration: 2s;
+}
+
+.comments-list:hover .time {
+  color: #f28705;
+  transition-duration: 2s;
+}
+
+.btn {
+  font-size: 16px;
+  font-style: italic;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 h2.my-4 {
   margin-bottom: 1rem !important;
   font-size: 18px;
