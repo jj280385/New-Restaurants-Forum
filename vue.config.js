@@ -1,6 +1,6 @@
 // ./vue.config.js
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/Restaurant-forum-by-vue/'
+    ? '/New-Restaurants-Forum/'
     : '/'
 }

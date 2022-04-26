@@ -102,6 +102,18 @@ a.page-link:hover span {
   color: #8c0303;
 }
 
+@media (max-width: 575px) {
+  .pagination {
+    margin: 5% 0 25% 0;
+  }
+
+  .page-link {
+    height: 35px;
+    padding: 5px 12px;
+    font-size: 15px;
+  }
+}
+
 @media (min-width: 576px) and (max-width: 767px) {
   .pagination {
     margin: 50px 0 20px 0;

@@ -77,8 +77,9 @@ export default {
 </script>
 
 <style scoped>
-.active {
+.active, .dropdown-toggle {
   background-color: #f28705;
+  color: white;
 }
 
 .active, .nav-link.active {  
@@ -142,7 +143,6 @@ span {
   color: #595959;
 }
 
-.btn,
 .nav-link:hover .nav-link {
   color: #f28705;
 }

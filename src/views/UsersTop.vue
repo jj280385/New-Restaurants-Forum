@@ -241,6 +241,7 @@ export default {
   font-weight: 400;
   padding: 0;
   letter-spacing: 0.2px;
+  font-style: italic;
 }
 
 .user-avatar {

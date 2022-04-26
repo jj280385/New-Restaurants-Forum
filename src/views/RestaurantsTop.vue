@@ -225,6 +225,7 @@ export default {
   font-weight: 600;
   text-decoration: none;
   color: #595959;
+  font-style: normal;
 }
 
 .badge.badge-secondary {
@@ -240,11 +241,7 @@ span {
   font-size: 40px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 500;
-}
-
-p {
   font-style: italic;
-  width: 85%;
 }
 
 @media (max-width: 575px) {
