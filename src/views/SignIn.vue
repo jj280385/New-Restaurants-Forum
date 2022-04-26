@@ -1,10 +1,7 @@
 // ./src/views/SignIn.vue
 <template>
   <div class="main-container">
-    <form 
-    class="w-50 h-75" 
-    @submit.prevent.stop="handleSubmit"
-    >
+    <form class="form" @submit.prevent.stop="handleSubmit">
       <div class="text-center mb-4">
         <h1 class="font-weight-normal">Sign In</h1>
       </div>
@@ -44,7 +41,7 @@
         <router-link to="/signup" class="signup"> Sign Up </router-link>
       </div>
 
-      <p class="mt-5 text-muted text-center">&copy; 2022 UI from Zora Chen</p>
+      <p class="copy text-center">&copy; 2022 UI from Zora Chen</p>
     </form>
   </div>
 </template>
@@ -62,9 +59,9 @@ export default {
     };
   },
   methods: {
-    async handleSubmit(e) {
+    async handleSubmit(event) {
       try {
-        console.log("event", e);
+        console.log("event", event);
         // 如果email或password為空，則使用Toast提示
         // 然後return不繼續往後執行
         if (!this.email || !this.password) {
@@ -109,7 +106,6 @@ export default {
             icon: "warning",
             title: "email 或 password 輸入錯誤，請重新填寫",
           });
-        console.log("error", error);
       }
     },
   },
@@ -128,15 +124,20 @@ export default {
 }
 
 form {
+  width: 50%;
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -40%);
   background-color: rgba(232, 232, 234, 0.4);
   border-radius: 8px;
   padding: 25px 40px;
-  animation: fadeIn; 
+  animation: fadeIn;
   animation-duration: 3s;
+}
+
+.form-label-group {
+  width: 100%;
 }
 
 h1 {
@@ -144,23 +145,8 @@ h1 {
   font-family: "Helvetica Neue";
 }
 
-label {
-  color: white;
-  font-size: 24px;
-}
-
-input {
-  height: 50px;
-  font-size: 20px;
-}
-
 input:hover {
   border: 1px solid #8c0303;
-}
-
-.btn {
-  font-size: 20px;
-  margin: 40px 0 25px 0;
 }
 
 .btn:active {
@@ -169,24 +155,20 @@ input:hover {
 
 .btn,
 .btn.btn-border:hover {
-  min-width: 85px;
-  padding: 7px 14px;
-  font-size: 20px;
   color: white;
-  background-color: #A6450D;
-  border: 2px solid #A6450D;
+  background-color: #a6450d;
+  border: 2px solid #a6450d;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-  border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-
 
 .btn-border,
 .btn:hover,
 .btn-primary:hover {
-  background: #8C0303;
+  background: #8c0303;
   color: white;
   text-decoration: none;
-  border: 2px solid #8C0303;
+  border: 2px solid #8c0303;
   opacity: 0.8;
 }
 
@@ -197,15 +179,16 @@ input:hover {
 .btn:not(:disabled):not(.disabled).active,
 .btn:not(:disabled):not(.disabled):active,
 .show > .btn.dropdown-toggle {
-  border: 2px solid #8C0303;
+  border: 2px solid #8c0303;
   color: white;
-  background: #8C0303;
+  background: #8c0303;
 }
 
-.btn-primary.disabled, .btn-primary:disabled {
+.btn-primary.disabled,
+.btn-primary:disabled {
   color: #fff;
-  background-color: #8C0303;
-  border-color: #8C0303;
+  background-color: #8c0303;
+  border-color: #8c0303;
 }
 
 .btn-outline-success {
@@ -219,12 +202,119 @@ input:hover {
   border-width: 1px;
 }
 
-.signup {
-  font-size: 18px;
+.signup:hover {
+  color: #6f001c;
 }
 
-.signup:hover {
-  font-size: 18px;
-  color: #6f001c;
+@media (max-width: 575px) {
+  form {
+    width: 85%;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    padding: 10px;
+  }
+
+  label {
+    color: white;
+    font-size: 18px;
+  }
+
+  input {
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 16px;
+    margin: 15px 0;
+  }
+
+  .signup {
+    font-size: 16px;
+  }
+
+  .copy {
+    margin-top: 60px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  form {
+    padding: 20px 15px;
+  }
+
+  label {
+    color: white;
+    font-size: 18px;
+  }
+
+  input {
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 16px;
+    margin: 15px 0;
+  }
+
+  .signup {
+    font-size: 16px;
+  }
+
+  .copy {
+    margin-top: 60px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  label {
+    color: white;
+    font-size: 18px;
+  }
+
+  input {
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 18px;
+    margin: 15px 0;
+  }
+
+  .signup {
+    font-size: 18px;
+  }
+
+  .copy {
+    margin-top: 50px;
+  }
+}
+
+@media (min-width: 992px) {
+  label {
+    color: white;
+    font-size: 24px;
+  }
+
+  input {
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .btn {
+    font-size: 20px;
+    margin: 40px 0 25px 0;
+  }
+
+  .signup {
+    font-size: 18px;
+  }
+
+  .copy {
+    margin-top: 20px;
+  }
 }
 </style>

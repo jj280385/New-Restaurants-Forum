@@ -2,16 +2,22 @@
 <template>
   <div class="main-container">
     <JumbotronForGourmets />
+    <!-- BottomNavTabs for RWD <576px -->
+    <BottomNavTabs class="bottom-nav" />
     <div class="card-container">
+      <!-- NavTabs for RWD >576px -->
       <NavTabs />
       <Spinner v-if="isLoading" />
-
       <template v-else>
-        <div class="users row text-center">
+        <div class="page-title mt-5 pt-4 ml-4">
+          <span> POPULAR FOODIES </span>
+          <p class="hint">● Click the Follow button to follow other user.</p>
+        </div>
+        <div class="users row text-center cards">
           <div
             v-for="user in users"
             :key="user.id"
-            class="col-md-4 col-lg-3 user-card my-3"
+            class="col-sm-4 col-md-4 col-lg-3 user-card my-3"
           >
             <div class="content-border">
               <router-link
@@ -19,44 +25,38 @@
                 class="link"
               >
                 <!-- <div class="card-body"> -->
-                  <img
-                    :src="user.image | emptyImage"
-                    width="140px"
-                    height="140px"
-                    class="card-img-top"
-                  />
-                  <p class="title my-3">
-                    <router-link 
-                    class="title"
-                    :to="{ name: 'users', params: { id: user.id } }"
-                    >
-                      {{ user.name }}
-                    </router-link>
-                  </p>
-                <!-- </div> -->
+                <img :src="user.image | emptyImage" class="user-avatar" />
               </router-link>
-              <div class="card-footer">
-                <span class="badge badge-secondary"
-                  >{{ user.followerCount }} persons Following</span
+              <div class="user-info">
+                <p class="title my-3">
+                <router-link
+                  class="title"
+                  :to="{ name: 'users', params: { id: user.id } }"
                 >
-                <p class="mt-3">
-                  <button
-                    v-if="user.isFollowed"
-                    type="button"
-                    class="btn btn-danger"
-                    @click.stop.prevent="deleteFollowing(user.id)"
-                  >
-                    Unfollow
-                  </button>
-                  <button
-                    v-else
-                    type="button"
-                    class="btn btn-info"
-                    @click.stop.prevent="addFollowing(user.id)"
-                  >
-                    Follow
-                  </button>
-                </p>
+                  {{ user.name }}
+                </router-link>
+              </p>
+              <span class="badge badge-secondary"
+                >{{ user.followerCount }} persons Following
+              </span>
+              <p class="mt-3 btns">
+                <button
+                  v-if="user.isFollowed"
+                  type="button"
+                  class="btn btn-danger"
+                  @click.stop.prevent="deleteFollowing(user.id)"
+                >
+                  Unfollow
+                </button>
+                <button
+                  v-else
+                  type="button"
+                  class="btn btn-info"
+                  @click.stop.prevent="addFollowing(user.id)"
+                >
+                  Follow
+                </button>
+              </p>
               </div>
             </div>
           </div>
@@ -73,12 +73,14 @@ import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import Spinner from "./../components/Spinner";
 import JumbotronForGourmets from "./../components/JumbotronForGourmets";
+import BottomNavTabs from "./../components/BottomNavTabs.vue";
 
 export default {
   components: {
     NavTabs,
     Spinner,
     JumbotronForGourmets,
+    BottomNavTabs,
   },
   mixins: [emptyImageFilter],
   data() {
@@ -96,7 +98,6 @@ export default {
         this.isLoading = true;
 
         const { data } = await usersAPI.getTopUsers();
-        console.log("data", data);
         this.users = data.users.map((user) => ({
           id: user.id,
           name: user.name,
@@ -107,8 +108,6 @@ export default {
         this.isLoading = false;
       } catch (error) {
         this.isLoading = false;
-
-        console.log(error);
         Toast.fire({
           icon: "error",
           title: "無法取得美食達人，請稍後再試",
@@ -118,8 +117,6 @@ export default {
     async addFollowing(userId) {
       try {
         const { data } = await usersAPI.addFollowing({ userId });
-
-        console.log("data", data);
 
         if (data.status !== "success") {
           throw new Error(data.message);
@@ -136,10 +133,15 @@ export default {
             };
           }
         });
+
+        Toast.fire({
+          icon: "success",
+          title: "已成功Follow",
+        });
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法加入追蹤，請稍後再試",
+          title: "無法加入Follow，請稍後再試",
         });
       }
     },
@@ -162,10 +164,15 @@ export default {
             };
           }
         });
+
+        Toast.fire({
+          icon: "success",
+          title: "已取消Follow",
+        });
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法取消追蹤，請稍後再試",
+          title: "無法取消Follow，請稍後再試",
         });
       }
     },
@@ -177,19 +184,26 @@ export default {
 .users {
   animation: zoomIn;
   animation-duration: 3s;
+  margin-top: 40px;
 }
 
 .title ::after {
-  height: 2px;
+  height: 2.2px;
+}
+
+.content-border {
+  border: 1px solid #d5cec0;
+  border-radius: 3px;
 }
 
 .content-border:hover {
   border: 1px solid #8c0303;
   border-radius: 10px;
   box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
+  transition-duration: 1s;
 }
 
-.content-border:hover .card-img-top {
+.content-border:hover .user-avatar {
   opacity: 1;
   border-radius: 10px;
 }
@@ -208,16 +222,14 @@ export default {
   align-items: center;
 }
 
-.content-border {
-  border: 1px solid #d5cec0;
-  border-radius: 3px;
-  padding: 20px 30px 0 30px;
-  margin: 10px 0;
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
   display: inline-block;
-  font-size: 30px;
   font-weight: 600;
   text-decoration: none;
   color: #595959;
@@ -226,14 +238,177 @@ export default {
 .badge.badge-secondary {
   color: #8c0303;
   background-color: transparent;
-  font-size: 18px;
   font-weight: 400;
   padding: 0;
   letter-spacing: 0.2px;
 }
 
-.btn {
-  font-size: 18px;
+.user-avatar {
+  object-fit: cover;
+  opacity: 0.6;
 }
 
+.user-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+}
+
+span {
+  font-size: 40px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 500;
+}
+
+.hint {
+  font-style: italic;
+  width: 60%;
+  border-bottom: 1px solid #595959;
+}
+
+@media (max-width: 576px) {
+  .users {
+    margin-top: 0;
+    margin-bottom: 15%;
+  }
+
+  .user-card,
+  .link {
+    flex-direction: row;
+  }
+
+  .content-border {
+    padding: 10px;
+    display: flex;
+  }
+
+  .user-info {
+    margin-left: 10px;
+    width: 50%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: 42px;
+  }
+
+  .user-avatar {
+    width: 190px;
+    height: 190px;
+  }
+
+  .badge.badge-secondary {
+    font-size: 25px;
+  }
+
+  .btn {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 576px) {
+  .bottom-nav,
+  .page-title {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .title {
+    font-size: 36px;
+  }
+
+  .badge.badge-secondary {
+    font-size: 20px;
+  }
+
+  .user-avatar {
+    width: 90%;
+    height: 170px;
+  }
+
+  .content-border {
+    padding: 15px 10px 0 10px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .title {
+    font-size: 38px;
+  }
+
+  .badge.badge-secondary {
+    font-size: 20px;
+  }
+
+  .content-border {
+    padding: 15px 25px 0 25px;
+  }
+
+  .user-avatar {
+    width: 100%;
+    height: 210px;
+  }
+
+  .btn {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 992px) {
+  .title {
+    font-size: 40px;
+  }
+
+  .badge.badge-secondary {
+    font-size: 20px;
+  }
+
+  .content-border {
+    padding: 20px 25px 0 25px;
+    margin: 10px 0;
+  }
+
+  .user-avatar {
+    width: 100%;
+    height: 210px;
+  }
+
+  .btn {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1439px) {
+  .title {
+    font-size: 42px;
+  }
+
+  .title ::after {
+    height: 2.5px;
+  }
+
+  .badge.badge-secondary {
+    font-size: 22px;
+  }
+
+  .content-border {
+    width: 90%;
+    height: 100%;
+    padding: 20px 15px 0 15px;
+    margin: 10px;
+  }
+
+  .user-avatar {
+    width: 100%;
+    height: 280px;
+  }
+
+  .btn {
+    font-size: 20px;
+  }
+}
 </style>

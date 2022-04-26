@@ -1,9 +1,12 @@
 <template>
   <div class="card mx-4 mb-4 mt-3 pb-3">
     <div class="row no-gutters">
-      <div class="col-md-12 header">
-        <img :src="user.image | emptyImage" class="user-avatar"/>
-        <div class="card-body mx-5">
+      <div class="col-md-12 col-sm-12 header">
+        <img
+          :src="user.image | emptyImage"
+          class="avatar col-6 col-sm-6"
+        />
+        <div class="card-body px-3 col-6 col-sm-6">
           <h5 class="user-name">
             {{ user.name }}
           </h5>
@@ -12,37 +15,33 @@
           </p>
           <ul class="list-unstyled list-inline">
             <li>
-              <strong>Comments :</strong> 
+              <strong>Comments :</strong>
               {{ user.Comments.length }}
             </li>
             <li>
-              <strong>Collection :</strong> 
+              <strong>Collection :</strong>
               {{ user.FavoritedRestaurants.length }}
             </li>
             <li>
-              <strong>Following :</strong> 
+              <strong>Following :</strong>
               {{ user.Followings.length }}
             </li>
             <li>
-              <strong>Followers :</strong> 
+              <strong>Followers :</strong>
               {{ user.Followers.length }}
             </li>
           </ul>
-          <template
-            v-if="isCurrentUser"
-          >
+          <template v-if="isCurrentUser">
             <div class="user-edit">
               <router-link
-              :to="{ name: 'users-edit', params: { id: user.id } }"
-              class="btn btn-outline-info py-2 px-4">
-              Edit
-              </router-link>              
+                :to="{ name: 'users-edit', params: { id: user.id } }"
+                class="btn btn-outline-info py-2 px-4"
+              >
+                Edit
+              </router-link>
             </div>
-
           </template>
-          <template
-            v-else
-          >
+          <template v-else>
             <button
               v-if="isFollowed"
               @click.stop.prevent="deleteFollowing(user.id)"
@@ -67,75 +66,77 @@
 </template>
 
 <script>
-import { emptyImageFilter } from './../utils/mixins'
-import usersAPI from "./../apis/users"
-import { Toast } from "./../utils/helpers"
+import { emptyImageFilter } from "./../utils/mixins";
+import usersAPI from "./../apis/users";
+import { Toast } from "./../utils/helpers";
 
 export default {
   mixins: [emptyImageFilter],
   props: {
     user: {
       type: Object,
-      required: true
+      required: true,
     },
     isCurrentUser: {
       type: Boolean,
-      required: true
+      required: true,
     },
     initialIsFollowed: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      isFollowed: this.initialIsFollowed
-    }
+      isFollowed: this.initialIsFollowed,
+    };
   },
   watch: {
-    initialIsFollowed (isFollowed) {
-      this.isFollowed = isFollowed
-    }
+    initialIsFollowed(isFollowed) {
+      this.isFollowed = isFollowed;
+    },
   },
   methods: {
-    async addFollowing (userId) {
+    async addFollowing(userId) {
       try {
-        const { data } = await usersAPI.addFollowing({ userId })
-        if (data.status === 'error') {
-          throw new Error(data.message)
+        const { data } = await usersAPI.addFollowing({ userId });
+        if (data.status === "error") {
+          throw new Error(data.message);
         }
-        this.isFollowed = true
+        this.isFollowed = true;
       } catch (error) {
-        console.error(error.message)
+        console.error(error.message);
         Toast.fire({
-          icon: 'error',
-          title: '無法加入追蹤，請稍後再試'
-        })
+          icon: "error",
+          title: "無法加入追蹤，請稍後再試",
+        });
       }
     },
-    async deleteFollowing (userId) {
+    async deleteFollowing(userId) {
       try {
-        const { data } = await usersAPI.deleteFollowing({ userId })
-        if (data.status === 'error') {
-          throw new Error(data.message)
+        const { data } = await usersAPI.deleteFollowing({ userId });
+        if (data.status === "error") {
+          throw new Error(data.message);
         }
-        this.isFollowed = false
+        this.isFollowed = false;
       } catch (error) {
-        console.error(error.message)
+        console.error(error.message);
         Toast.fire({
-          icon: 'error',
-          title: '無法取消追蹤，請稍後再試'
-        })
+          icon: "error",
+          title: "無法取消追蹤，請稍後再試",
+        });
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
 .card {
+  border: none;
   border-radius: 0;
   border-bottom: 1px solid transparent;
+  padding: 0;
 }
 
 .header {
@@ -145,23 +146,14 @@ export default {
 }
 
 .user-avatar {
-  width: 300px;
-  height: 300px;
   object-fit: cover;
   border-radius: 3px;
-}
-
-.user-name {
-  font-size: 50px;
+  opacity: 0.6;
 }
 
 .user-mail {
-  font-size: 20px;
   font-family: serif;
-}
-
-li { 
-  font-size: 18px;
+  color: #8c0303;
 }
 
 .user-edit {
@@ -170,7 +162,74 @@ li {
   width: 100%;
 }
 
-.btn{
-  font-size: 18px;
+@media (max-width: 575px) {
+  .user-name {
+    font-size: 32px;
+  }
+
+  .user-mail {
+    font-size: 20px;
+  }
+
+  strong, li, .btn {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .user-avatar {
+    width: 100%;
+    height: 80%;
+  }
+
+  .user-name {
+    font-size: 35px;
+  }
+
+  .user-mail {
+    font-size: 22px;
+  }
+
+  strong, li, .btn {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .user-avatar {
+    width: 100%;
+    height: 100%;
+  }
+
+  .user-name {
+    font-size: 40px;
+  }
+
+  .user-mail {
+    font-size: 25px;
+  }
+
+  strong, li, .btn {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 992px) {
+  .user-avatar {
+    width: 300px;
+    height: 300px;
+  }
+
+  .user-name {
+    font-size: 50px;
+  }
+
+  .user-mail {
+    font-size: 30px;
+  }
+
+  strong, li, .btn {
+    font-size: 20px;
+  }
 }
 </style>

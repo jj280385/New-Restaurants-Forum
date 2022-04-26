@@ -1,5 +1,5 @@
 <template>
-  <div class="comments my-3 px-5 py-3">
+  <div class="comments my-3 px-4 py-3">
     <span class="my-5 title">
       <strong>All Comments :</strong>
     </span>
@@ -9,10 +9,9 @@
       v-for="comment in restaurantComments"
       :key="comment.id"
     >
-
       <div class="name">
         <router-link
-          class="name"
+          class="user-name"
           :to="{ name: 'users', params: { id: comment.User.id } }"
         >
           {{ comment.User.name }} :
@@ -24,7 +23,7 @@
       <div class="footer">
         <div class="time pr-3">
           {{ comment.createdAt | fromNow }}
-        </div>        
+        </div>
         <button
           v-if="currentUser.isAdmin"
           type="button"
@@ -34,9 +33,7 @@
           Delete
         </button>
       </div>
-
     </div>
-
   </div>
 </template>
 
@@ -92,47 +89,23 @@ export default {
 
 <style scoped>
 .comments {
-  border-top: 1px solid #595959;
+  border-top: 1px solid #d5cec0;
 }
 
-.title,
-strong {
-  font-size: 30px;
+.title, strong {
   font-family: serif;
 }
 
 .comments-list {
-  border-bottom: 1px solid #595959;
+  border-bottom: 1px solid #d5cec0;
 }
 
-.name {
-  height: 40px;
+.user-name {
   text-decoration: none;
-  color: #595959;
-  font-size: 25px;
-}
-
-.comment {
-  font-size: 18px;
-}
-
-.comments-list:hover .name,
-.comments-list:hover .comment {
-  color: black;
-}
-
-.comments-list:hover .name {
-  border-bottom: 2px solid #f28705;
-  transition-duration: 2s;
-}
-
-.comments-list:hover .time {
-  color: #f28705;
-  transition-duration: 2s;
+  color: #8c0303;
 }
 
 .btn {
-  font-size: 16px;
   font-style: italic;
 }
 
@@ -142,17 +115,85 @@ strong {
   align-items: center;
 }
 
-h2.my-4 {
-  margin-bottom: 1rem !important;
-  font-size: 18px;
+.time {
+  color: #8c0303;
 }
 
-h3 {
-  margin-bottom: 3px;
-  line-height: 1.3;
+.comments:hover {
+  border-top: 1px solid #595959;
 }
 
-.blockquote-footer {
-  font-size: 12.5px;
+.comments-list:hover .name,
+.comments-list:hover .comment {
+  color: black;
+}
+
+.comments-list:hover .time,
+.comments-list:hover .user-name {
+  color: #f28705;
+  transition-duration: 1s;
+}
+
+.comments-list:hover {
+  border-bottom: 1px solid #595959;
+}
+
+@media (max-width: 767px) {
+  .title, strong {
+    font-size: 22px;
+  }
+
+  .user-name {
+    height: 30px;
+    font-size: 18px;
+  }
+
+  .comment {
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .title,
+  strong {
+    font-size: 25px;
+  }
+
+  .user-name {
+    height: 30px;
+    font-size: 20px;
+  }
+
+  .comment {
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 992px) {
+  .title,
+  strong {
+    font-size: 30px;
+  }
+
+  .user-name {
+    height: 40px;
+    font-size: 25px;
+  }
+
+  .comment {
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 16px;
+  }
 }
 </style>

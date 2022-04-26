@@ -1,15 +1,18 @@
 // ./src/views/AdminRestaurantNew.vue
 <template>
   <div class="form">
-    <div class="form-container py-3 px-5 mb-5">
+    <div class="form-container py-3 px-3">
       <AdminRestaurantForm
         :is-processing="isProcessing"
         @after-submit="handleAfterSubmit"
       />
     </div>
-    <button type="button" class="btn btn-link back" @click="$router.back()">
-      &lt; GO BACK
-    </button>
+    <div class="back">
+      <button type="button" class="btn btn-link back-btn" @click="$router.back()">
+        <img src="./../assets/icons/back.png" class="back-icon">
+      </button>
+    </div>
+    <BottomNavTabsForPage class="bottom-navtabs"/>
   </div>
 </template>
 
@@ -17,10 +20,13 @@
 import AdminRestaurantForm from "./../components/AdminRestaurantForm.vue";
 import adminAPI from "./../apis/admin";
 import { Toast } from "./../utils/helpers";
+import BottomNavTabsForPage from "./../components/BottomNavTabsForPage";
+
 
 export default {
   components: {
     AdminRestaurantForm,
+    BottomNavTabsForPage
   },
   data() {
     return {
@@ -39,6 +45,12 @@ export default {
 
         // 若成功則轉址至
         this.$router.push({ name: "admin-restaurants" });
+
+        Toast.fire({
+          icon: "success",
+          title: "已成功建立新餐廳資料！",
+        });
+
       } catch (error) {
         this.isProcessing = false;
         Toast.fire({
@@ -56,11 +68,45 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 8% 8% 1% 8%;
 }
 
-.back {
-  text-decoration: none;
+@media (max-width: 576px) {
+  .form-container {
+    margin: 18% 0;
+    border: none;
+  }
+
+  .back {
+    display: none;
+  }
+
+  .bottom-navtabs {
+    animation: fadeInUp;
+    animation-duration: 3s;
+  }
 }
 
+@media (min-width: 576px) {
+  .bottom-navtabs {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .form {
+    margin: 12% 0 3% 12%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .form {
+    margin: 12% 8% 3% 8%;
+  }
+}
+
+@media (min-width: 992px) {
+  .form {
+    margin: 8% 8% 3% 8%;
+  }
+}
 </style>

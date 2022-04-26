@@ -12,7 +12,7 @@
           aria-label="Previous"
           :to="{
             name: 'restaurants',
-            query: { categoryId, page: previousPage }
+            query: { categoryId, page: previousPage },
           }"
         >
           <span aria-hidden="true">&laquo;</span>
@@ -27,7 +27,7 @@
       >
         <router-link
           class="page-link"
-          :to="{name: 'restaurants', query: { categoryId, page }}"
+          :to="{ name: 'restaurants', query: { categoryId, page } }"
         >
           {{ page }}
         </router-link>
@@ -52,48 +52,46 @@
 
 <script>
 export default {
-  name: 'RestaurantsPagination',
+  name: "RestaurantsPagination",
   props: {
     categoryId: {
       type: [String, Number],
-      default: ''
+      default: "",
     },
     currentPage: {
       type: Number,
-      default: 1
+      default: 1,
     },
     totalPage: {
       type: Array,
-      required: true
+      required: true,
     },
     previousPage: {
       type: Number,
-      required: true
+      required: true,
     },
     nextPage: {
       type: Number,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>
 
 <style scoped>
 .pagination {
   display: flex;
   justify-content: center;
-  margin-top: 120px;
 }
 
 .page-link {
-  height: 37px;
-  padding: 5px 20px;
   color: #8c0303;
-  font-size: 18px;
 }
 
 .page-item.active .page-link,
-.page-item.active span {
+.page-item.active span,
+a.page-link:hover,
+a.page-link:hover span {
   color: white;
   background-color: #8c0303;
   border-color: #8c0303;
@@ -102,13 +100,53 @@ export default {
 
 .page-item span {
   color: #8c0303;
-  font-size: 16px;
 }
 
-a.page-link:hover,
-a.page-link:hover span {
-  color: white;
-  background-color: #8c0303;
-  border-color: #8c0303;
+@media (min-width: 576px) and (max-width: 767px) {
+  .pagination {
+    margin: 50px 0 20px 0;
+  }
+
+  .page-link {
+    height: 35px;
+    padding: 5px 12px;
+    font-size: 15px;
+  }
+
+  .page-item span {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .pagination {
+    margin: 60px 0 30px 0;
+  }
+
+  .page-link {
+    height: 35px;
+    padding: 5px 15px;
+    font-size: 16px;
+  }
+
+  .page-item span {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 992px) {
+  .pagination {
+    margin-top: 120px;
+  }
+
+  .page-link {
+    height: 37px;
+    padding: 5px 20px;
+    font-size: 18px;
+  }
+
+  .page-item span {
+    font-size: 18px;
+  }
 }
 </style>

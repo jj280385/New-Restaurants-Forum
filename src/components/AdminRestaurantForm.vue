@@ -2,10 +2,7 @@
 <template>
   <div>
     <div class="admin-form">
-      <form
-        @submit.stop.prevent="handleSubmit"
-        
-      >
+      <form @submit.stop.prevent="handleSubmit">
         <div class="form-group">
           <label for="name">Name</label>
           <input
@@ -15,6 +12,7 @@
             class="form-control"
             name="name"
             placeholder="Enter name"
+            autocomplete="off"
             required
           />
         </div>
@@ -47,6 +45,7 @@
             class="form-control"
             name="tel"
             placeholder="Enter telephone number"
+            autocomplete="off"
           />
         </div>
 
@@ -59,6 +58,7 @@
             class="form-control"
             placeholder="Enter address"
             name="address"
+            autocomplete="off"
           />
         </div>
 
@@ -70,6 +70,7 @@
             type="time"
             class="form-control"
             name="opening_hours"
+            autocomplete="off"
           />
         </div>
 
@@ -100,18 +101,21 @@
             name="image"
             accept="image/*"
             class="form-control-file"
+            autocomplete="off"
             @change="handleFileChange"
           />
         </div>
         <div class="btn-area">
-          <button type="submit" class="btn btn-outline-info submit" :disabled="isProcessing">
-        Submit
+          <button
+            type="submit"
+            class="btn btn-outline-info submit"
+            :disabled="isProcessing"
+          >
+            Submit
           </button>
         </div>
       </form>
     </div>
-
-
   </div>
 </template>
 
@@ -194,7 +198,6 @@ export default {
     // 上傳圖片功能
     handleFileChange(e) {
       const files = e.target.files;
-      // console.log('files', files)
       if (files.length === 0) {
         // 使用者沒有選擇上傳的檔案
         this.restaurant.image = "";
@@ -231,16 +234,20 @@ export default {
 </script>
 
 <style scoped>
-label, .submit {
-  font-size: 18px;
-}
-
 .btn-area {
   display: flex;
   justify-content: flex-end;
 }
 
-.back {
-  text-decoration: none;
+@media (max-width: 991px) {
+  label, .submit, .form-control {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 992px) {
+  label, .submit, .form-control {
+    font-size: 18px;
+  }
 }
 </style>

@@ -3,12 +3,15 @@
 <template>
   <div class="main-container">
     <JumbotronHome />
+    <!-- NavTabs for RWD >576px -->
     <NavTabs />
+    <!-- BottomNavTabs for RWD <576px -->
+    <BottomNavTabs class="bottom-nav" />
     <div class="card-container">
-      <Spinner  v-if="isLoading"/>
+      <Spinner v-if="isLoading" />
       <template v-else>
         <!-- 餐廳類別標籤 RestaurantsNavPills -->
-      <RestaurantsNavPills :categories="categories" />
+        <RestaurantsNavPills :categories="categories" />
         <div class="row cards">
           <!-- 餐廳卡片 RestaurantCard-->
           <RestaurantCard
@@ -27,7 +30,9 @@
           :previous-page="previousPage"
           :next-page="nextPage"
         />
-        <div v-if="restaurants.length < 1" class="no-restaurant">此類別目前無餐廳資料</div>
+        <div v-if="restaurants.length < 1" class="no-restaurant">
+          ～ 此類別目前無餐廳資料 ～
+        </div>
       </template>
     </div>
   </div>
@@ -42,6 +47,7 @@ import restaurantsAPI from "./../apis/restaurants";
 import { Toast } from "./../utils/helpers";
 import Spinner from "./../components/Spinner";
 import JumbotronHome from "./../components/JumbotronHome";
+import BottomNavTabs from "./../components/BottomNavTabs.vue";
 
 export default {
   components: {
@@ -51,6 +57,7 @@ export default {
     RestaurantsPagination,
     Spinner,
     JumbotronHome,
+    BottomNavTabs,
   },
   data() {
     return {
@@ -100,7 +107,6 @@ export default {
         this.nextPage = next;
         this.isLoading = false;
       } catch (error) {
-        console.log("error", error);
         this.isLoading = false;
         Toast.fire({
           icon: "error",
@@ -111,3 +117,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@media (min-width: 576px) {
+  .bottom-nav, .page-title {
+    display: none;
+  }
+}
+</style>

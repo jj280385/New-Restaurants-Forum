@@ -3,22 +3,24 @@
     <Spinner v-if="isLoading" class="spinner" />
     <div v-else class="main-container py-5 px-5">
       <template>
-        <div class="header">
+        <div class="header pb-4">
           <span class="name">{{ restaurant.name }}</span>
           <span class="badge ml-4">
             {{ restaurant.categoryName }}
           </span>
         </div>
-        <hr />
         <ul class="count mt-5">
           <li>Comments count ： {{ restaurant.commentsLength }}</li>
           <li>View count ： {{ restaurant.viewCounts }}</li>
         </ul>
       </template>
     </div>
-    <button type="button" class="btn btn-link back" @click="$router.back()">
-      &lt; GO BACK
-    </button>
+    <div class="back">
+      <button type="button" class="btn btn-link back-btn" @click="$router.back()">
+        <img src="./../assets/icons/back.png" class="back-icon">
+      </button>
+    </div>
+    <BottomNavTabsForPage class="bottom-navtabs" />
   </div>
 </template>
 
@@ -26,11 +28,13 @@
 import restaurantsAPI from "../apis/restaurants";
 import { Toast } from "../utils/helpers";
 import Spinner from "./../components/Spinner";
+import BottomNavTabsForPage from "./../components/BottomNavTabsForPage";
 
 export default {
   name: "RestaurantDashboard",
   components: {
     Spinner,
+    BottomNavTabsForPage,
   },
   data() {
     return {
@@ -102,7 +106,7 @@ export default {
   border: 1px solid #8c0303;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  transition-duration: 2s;
+  transition-duration: 1s;
 }
 
 .main-container:hover .name {
@@ -113,9 +117,15 @@ export default {
   color: #f28705;
 }
 
+.main-container:hover .header {
+  border-bottom: 1px solid #595959;
+  transition-duration: 1s;
+}
+
 .header {
   display: flex;
   align-items: flex-end;
+  border-bottom: 1px solid #d5cec0;
 }
 
 .name {
@@ -125,17 +135,36 @@ export default {
 }
 
 .badge {
+  color: #8c0303;
   font-size: 16px;
   padding-bottom: 11px;
   font-family: serif;
 }
 
-.back {
-  text-decoration: none;
-}
-
 li {
   font-size: 20px;
   margin-bottom: 10px;
+}
+
+@media (max-width: 576px) {
+  .back {
+    display: none;
+  }
+
+  .bottom-navtabs {
+    animation: fadeInUp;
+    animation-duration: 3s;
+  }
+
+  .main-container {
+    margin: 20% 0;
+    width: 95%;
+  }
+}
+
+@media (min-width: 576px) {
+  .bottom-navtabs {
+    display: none;
+  }
 }
 </style>

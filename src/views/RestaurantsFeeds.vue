@@ -2,23 +2,66 @@
 <template>
   <div class="main-container">
     <JumbotronForFeed />
+    <!-- BottomNavTabs for RWD <576px -->
+    <BottomNavTabs class="bottom-nav" />
     <div class="card-container">
-      <!-- 使用 NavTabs 元件 -->
+      <!-- NavTabs for RWD >576px -->
       <NavTabs />
       <Spinner v-if="isLoading" />
       <template v-else>
-        <!-- <h1 class="mt-5">最新動態</h1>
-        <hr /> -->
-        <div class="row">
-          <div 
-          class="col-md-6">
+        <div class="page-title mt-5 pt-4 ml-4">
+          <span> LATEST NEWS </span>
+          <p>● Use dropdown to see more.</p>
+        </div>
+        <div class="row mt-5">
+          <div class="col-sm-12 col-md-6">
             <!-- 最新餐廳 NewestRestaurants -->
             <NewestRestaurants :restaurants="restaurants" />
           </div>
-          <div 
-          class="col-md-6">
+
+          <div class="col-sm-12 col-md-6">
             <!-- 最新評論 NewestComments-->
             <NewestComments :comments="comments" />
+          </div>
+        </div>
+        <!-- collapse for RWD <576px -->
+        <div class="col mt-4">
+          <p class="hint">● Use dropdown to see more.</p>
+          <div class="collapseOne">
+            <div class="card-header for-rwd">
+              <button
+                class="btn btn-light dropdown-toggle"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseOne"
+                aria-expanded="false"
+                aria-controls="collapseOne"
+              >
+                Newest Restaurants
+              </button>
+            </div>
+            <div class="col-sm-12 col-md-6" id="collapseOne">
+              <!-- 最新餐廳 NewestRestaurants -->
+              <NewestRestaurants :restaurants="restaurants" />
+            </div>
+          </div>
+          <div class="collapseTwo">
+            <div class="card-header for-rwd mt-4">
+              <button
+                class="btn btn-light dropdown-toggle"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Newest Comments
+              </button>
+            </div>
+            <div class="col-sm-12 col-md-6" id="collapseTwo">
+              <!-- 最新評論 NewestComments-->
+              <NewestComments :comments="comments" />
+            </div>
           </div>
         </div>
       </template>
@@ -34,6 +77,7 @@ import restaurantsAPI from "./../apis/restaurants";
 import { Toast } from "./../utils/helpers";
 import Spinner from "./../components/Spinner";
 import JumbotronForFeed from "./../components/JumbotronForFeed";
+import BottomNavTabs from "./../components/BottomNavTabs.vue";
 
 export default {
   components: {
@@ -42,6 +86,7 @@ export default {
     NewestComments,
     Spinner,
     JumbotronForFeed,
+    BottomNavTabs,
   },
   data() {
     return {
@@ -78,17 +123,113 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  border: 1px solid #D5CEC0;
-  border-radius: 5px 5px 0 0;
-  width: 25%;
-  padding: 10px 0;
-  margin-bottom: 0;
-  text-align: center;
+.card-container {
+  margin: 3%;
 }
 
-.col-md-6 {
-  animation: zoomIn; 
-  animation-duration: 3s;
+.body {
+  display: flex;
+  justify-content: center;
+}
+
+p {
+  display: flex;
+  justify-content: space-around;
+}
+
+.hint {
+  width: 50%;
+  font-size: 18px;
+}
+
+.for-rwd {
+  padding: 0;
+  background-color: transparent;
+}
+
+.btn {
+  background-color: transparent;
+  border: 1px solid #d5cec0;
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+  width: 50%;
+  font-size: 20px;
+  font-weight: 600;
+  color: #595959;
+}
+
+.for-rwd:hover .btn {
+  border: 1px solid #8c0303;
+}
+
+#collapseOne,
+#collapseTwo {
+  padding: 0;
+}
+
+span {
+  font-size: 40px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 500;
+}
+
+.page-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+p {
+  font-style: italic;
+  border-bottom: 1px solid #595959;
+}
+
+.collapseOne {
+  animation: fadeInRight;
+  animation-duration: 2s;
+}
+
+.collapseTwo {
+  animation: fadeInLeft;
+  animation-duration: 2s;
+}
+
+@media (max-width: 575px) {
+  .row,
+  .hint {
+    display: none;
+  }
+
+  .dropdown-toggle {
+    width: 62%;
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 576px) {
+  .page-title,
+  .bottom-nav {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .row {
+    display: none;
+  }
+
+  .btn {
+    color: #595959;
+  }
+}
+
+@media (min-width: 768px) {
+  .col {
+    display: none;
+  }
+
+  .row {
+    display: flex;
+  }
 }
 </style>

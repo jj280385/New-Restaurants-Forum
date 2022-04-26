@@ -1,7 +1,7 @@
 // ./src/views/Restaurant.vue
 <template>
   <div class="main">
-    <Spinner v-if="isLoading" class="spinner"/>
+    <Spinner v-if="isLoading" class="spinner" />
     <div v-else class="main-container">
       <template>
         <!-- 餐廳資訊頁 RestaurantDetail -->
@@ -20,13 +20,13 @@
         />
       </template>
     </div>
-    <button 
-      type="button" 
-      class="btn btn-link back" 
-      @click="$router.back()"
-      >
-        &lt; GO BACK
-    </button>
+
+    <div class="back">
+      <button type="button" class="btn btn-link back-btn" @click="$router.back()">
+        <img src="./../assets/icons/back.png" class="back-icon">
+      </button>
+    </div>
+    <BottomNavTabsForPage class="bottom-navtabs" />
   </div>
 </template>
 
@@ -38,6 +38,7 @@ import restaurantsAPI from "./../apis/restaurants";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 import Spinner from "./../components/Spinner";
+import BottomNavTabsForPage from "./../components/BottomNavTabsForPage";
 
 export default {
   components: {
@@ -45,6 +46,7 @@ export default {
     RestaurantComments,
     CreateComment,
     Spinner,
+    BottomNavTabsForPage,
   },
   data() {
     return {
@@ -100,7 +102,7 @@ export default {
         this.restaurant = {
           id,
           name,
-          categoryName: Category ? Category.name : "未分類",
+          categoryName: Category ? Category.name : "uncategorized",
           image,
           opening_hours,
           tel,
@@ -144,14 +146,9 @@ export default {
 </script>
 
 <style scoped>
-.back {
-  text-decoration: none;
-}
-
 .main-container {
   border: 1px solid #d5cec0;
-  width: 75%;
-  animation: zoomIn; 
+  animation: zoomIn;
   animation-duration: 3s;
 }
 
@@ -159,7 +156,47 @@ export default {
   box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
   border: 1px solid #8c0303;
   border-radius: 10px;
-  transition-duration: 2s;
+  transition-duration: 1s;
+}
+
+@media (max-width: 576px) {
+  .back {
+    display: none;
+  }
+
+  .bottom-navtabs {
+    animation: fadeInUp;
+    animation-duration: 3s;
+  }
+
+  .main-container {
+    margin: 20% 0;
+    width: 95%;
+  }
+}
+
+@media (min-width: 576px) {
+  .bottom-navtabs {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .main-container {
+    width: 75%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .main-container {
+    width: 75%;
+  }
+}
+
+@media (min-width: 992px) {
+  .main-container {
+    width: 75%;
+  }
 }
 </style>
 

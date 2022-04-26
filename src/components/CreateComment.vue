@@ -4,17 +4,16 @@
   <form @submit.stop.prevent="handleSubmit" class="create-comment mx-5">
     <div class="form-group mb-4">
       <label for="text" class="title">Leave a comment :</label>
-      <textarea v-model="text" class="form-control" rows="8" name="text" />
+      <textarea v-model="text" class="form-control" rows="6" name="text" />
       <div class="btn-area">
         <button
-        type="submit"
-        class="btn btn-outline-info submit mt-3"
-        :disabled="isProcessing"
-      >
-        Submit
-        </button>        
+          type="submit"
+          class="btn btn-outline-info submit mt-3"
+          :disabled="isProcessing"
+        >
+          Submit
+        </button>
       </div>
-
     </div>
   </form>
 </template>
@@ -42,10 +41,10 @@ export default {
       try {
         if (!this.text) {
           Toast.fire({
-          icon: "warning",
-          title: "評論內容不可空白",
+            icon: "warning",
+            title: "評論內容不可空白",
           });
-          return
+          return;
         }
 
         this.isProcessing = true;
@@ -53,12 +52,15 @@ export default {
           restaurantId: this.restaurantId,
           text: this.text,
         });
-        
-        console.log('data',data);
 
         if (data.status === "error") {
           throw new Error(data.message);
         }
+
+        Toast.fire({
+          icon: "success",
+          title: "已成功新增評論！",
+        });
 
         // TODO: 向API發送POST請求
         //伺服器新增Comment成功後...
@@ -67,7 +69,7 @@ export default {
           restaurantId: this.restaurantId,
           text: this.text,
         });
-        
+
         this.isProcessing = false;
         this.text = ""; //將表單內資料清空
       } catch (error) {
@@ -89,16 +91,16 @@ export default {
 
 .form-control:hover,
 .form-control:focus {
-  border: 1px solid #8C0303;
+  border: 1px solid #8c0303;
 }
 
 .form-group {
-  margin: 21px 0 8px;
+  margin: 15px 0;
 }
 
 .title {
-  font-size: 30px;
   font-family: serif;
+  font-weight: 600;
 }
 
 .btn-area {
@@ -106,9 +108,25 @@ export default {
   justify-content: flex-end;
 }
 
-.submit {
-  font-size: 18px;
-  width: 10%;
+@media (min-width: 768px) and (max-width: 991px) {
+  .title {
+    font-size: 25px;
+  }
+
+  .submit {
+    font-size: 16px;
+    width: 15%;
+  }
 }
 
+@media (min-width: 992px) {
+  .title {
+    font-size: 30px;
+  }
+
+  .submit {
+    font-size: 18px;
+    width: 10%;
+  }
+}
 </style>

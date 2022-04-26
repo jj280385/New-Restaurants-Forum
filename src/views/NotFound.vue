@@ -18,28 +18,30 @@
 </template>
 
 <style scoped>
-span {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-}
+@media (min-width: 992px) {
+  span {
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  }
 
-.btns {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .btns {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.btn {
-  width: 20%;
-}
+  .btn {
+    width: 20%;
+  }
 
-.link, .previous {
-  font-size: 20px;
-}
+  .link,
+  .previous {
+    font-size: 20px;
+  }
 
-.link {
-  text-decoration: none;
-  color: white;
+  .link {
+    text-decoration: none;
+    color: white;
+  }
 }
-
 </style>

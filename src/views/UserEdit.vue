@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container ">
+  <div class="main-container">
     <div class="edit-container py-3 px-3">
       <form @submit.stop.prevent="handleSubmit">
         <div class="form-group">
@@ -31,6 +31,7 @@
             name="image"
             accept="image/*"
             class="form-control-file"
+            autocomplete="off"
             @change="handleFileChange"
           />
         </div>
@@ -45,10 +46,12 @@
         </div>
       </form>
     </div>
-
-    <button type="button" class="btn btn-link back" @click="$router.back()">
-      &lt; GO BACK
-    </button>
+    <div class="back">
+      <button type="button" class="btn btn-link back-btn" @click="$router.back()">
+        <img src="./../assets/icons/back.png" class="back-icon">
+      </button>
+    </div>
+    <BottomNavTabsForPage class="bottom-navtabs"/>
   </div>
 </template>
 
@@ -56,9 +59,14 @@
 import { mapState } from "vuex";
 import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
+import BottomNavTabsForPage from "./../components/BottomNavTabsForPage";
+
 
 export default {
   name: "UserEdit",
+  components: {
+    BottomNavTabsForPage
+  },
   data() {
     return {
       id: 0,
@@ -136,6 +144,12 @@ export default {
           throw new Error(data.message);
         }
         this.$router.push({ name: "users", params: { id: this.id } });
+
+        Toast.fire({
+          icon: "success",
+          title: "已成功編輯使用者資料！",
+        });
+
       } catch (error) {
         this.isProcessing = false;
         Toast.fire({
@@ -152,12 +166,10 @@ export default {
 .edit-container {
   border: 1px solid #d5cec0;
   border-radius: 3px;
-  margin: 10% 0;
-  width: 40%;
   position: absolute;
   left: 50%;
   transform: translate(-50%);
-  animation: zoomIn; 
+  animation: zoomIn;
   animation-duration: 3s;
 }
 
@@ -165,11 +177,7 @@ export default {
   border: 1px solid #8c0303;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  transition-duration: 2s;
-}
-
-label {
-  font-size: 20px;
+  transition-duration: 1s;
 }
 
 .btn-area {
@@ -177,11 +185,82 @@ label {
   justify-content: flex-end;
 }
 
-.btn {
-  font-size: 18px;
+@media (max-width: 576px) {
+  .edit-container {
+    margin: 20% 0;
+    width: 80%;
+  }
+
+  .back {
+    display: none;
+  }
+
+  .bottom-navtabs {
+    animation: fadeInUp;
+    animation-duration: 3s;
+  }
 }
 
-.back {
-  text-decoration: none;
+@media (min-width: 576px) {
+  .bottom-navtabs {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .edit-container {
+    margin: 12% 0;
+    width: 55%;
+  }
+
+  .back{
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .edit-container {
+    margin: 10% 0;
+    width: 50%;
+  }
+
+  label {
+    font-size: 18px;
+  }
+
+  .form-control {
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 16px;
+  }
+
+  .back{
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 992px) {
+  .edit-container {
+    margin: 10% 0;
+    width: 40%;
+  }
+
+  label {
+    font-size: 20px;
+  }
+
+  .form-control {
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 18px;
+  }
+
+  .back{
+    font-size: 20px;
+  }
 }
 </style>
