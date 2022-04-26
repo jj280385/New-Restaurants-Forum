@@ -1,12 +1,7 @@
 // ./src/components/Navbar.vue
 // 導覽列
 <template>
-  <nav 
-  class="navbar 
-  navbar-expand-lg 
-  fixed-top 
-  navbar-dark 
-  bg-dark">
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <router-link class="navbar-brand" to="/restaurants">
       Restaurant Forum
     </router-link>
@@ -24,19 +19,20 @@
     </button>
 
     <div id="navbarSupportedContent" class="navbar-collapse collapse">
-      <div class="ml-auto d-flex align-items-center">
+      <div class="ml-auto d-flex align-items-center justify-content-end">
         <!-- is user is admin -->
-        <router-link
-          v-if="currentUser.isAdmin"
-          to="/admin"
-          class="text-white mr-3 item title"
-        >
-          Admin System
-        </router-link>
-
+        <button type="button" class="item my-1 mx-3">
+          <router-link
+            v-if="currentUser.isAdmin"
+            to="/admin"
+            class="text-white mr-3"
+          >
+            Admin System
+          </router-link>
+        </button>
         <template v-if="isAuthenticated">
           <!-- is user is login -->
-          <button type="button" class="title item my-1 mx-3">
+          <button type="button" class="item my-1 mx-3">
             <router-link
               :to="{ name: 'users', params: { id: currentUser.id } }"
               class="text-white"
@@ -44,7 +40,7 @@
               My Account
             </router-link>
           </button>
-          <button type="button" class="title item my-1 mx-3" @click="logout">
+          <button type="button" class="item my-1 mx-3" @click="logout">
             Logout
           </button>
         </template>
@@ -55,7 +51,6 @@
 
 <script>
 import { mapState } from "vuex";
-import 'animate.css';
 
 export default {
   computed: {
@@ -72,6 +67,8 @@ export default {
 
 <style scoped>
 .navbar {
+  animation: slideInDown;
+  animation-duration: 2s;
   box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.45);
 }
 
@@ -85,35 +82,75 @@ nav.bg-dark {
   background-color: rgba(140, 3, 3, 0.8) !important;
 }
 
-.navbar-brand {
-  font-size: 25px;
+.navbar-brand,
+.text-white,
+.item {
   font-family: "Helvetica Neue";
 }
 
-.ml-auto  {
-  --animate-duration: 2s;
-}
-
+.text-white,
 .item {
-  height: 45px;
-  padding: 8px;
   background-color: transparent;
   color: white;
   border: 1px solid rgba(140, 3, 3, 0.1);
-  font-size: 18px;
-  font-family: "Helvetica Neue";
+  font-size: 20px;
   text-align: center;
+}
+
+.text-white {
+  font-size: 20px;
+  text-decoration: none;
 }
 
 .item:hover {
   border-bottom: 2px solid white;
 }
 
-.text-white {
-  font-family: "Helvetica Neue";
-  font-size: 18px;
-  text-decoration: none;
-  border-bottom: 10px solid transparent;
+@media (max-width: 575px) {
+  .navbar-brand {
+    font-size: 22px;
+  }
+
+  .text-white,
+  .item {
+    font-size: 14px;
+  }
 }
 
+@media (min-width: 576px) and (max-width: 767px) {
+  .navbar-brand {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .navbar-brand {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-brand {
+    font-size: 25px;
+  }
+
+  .ml-auto {
+    --animate-duration: 2s;
+  }
+
+  .item {
+    height: 45px;
+    padding: 8px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid rgba(140, 3, 3, 0.1);
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .text-white {
+    font-size: 20px;
+    text-decoration: none;
+  }
+}
 </style>

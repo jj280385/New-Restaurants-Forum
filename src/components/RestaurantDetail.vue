@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="header mx-4">
-        <div class="left-column pl-5">
+        <div class="left-column pl-3">
           <h1 class="restaurant-title">{{ restaurant.name }}</h1>
           <p class="badge badge-secondary category-name">
             {{ restaurant.categoryName }}
@@ -26,7 +26,7 @@
         <button
           v-if="restaurant.isFavorited"
           type="button"
-          class="btn btn-outline-info collection mr-3"
+          class="btn btn-info collection mr-3"
           @click.stop.prevent="deleteFavorite(restaurant.id)"
         >
           Remove collection
@@ -34,7 +34,7 @@
         <button
           v-else
           type="button"
-          class="btn btn-info collection mr-3"
+          class="btn btn-outline-info collection mr-3"
           @click.stop.prevent="addFavorite(restaurant.id)"
         >
           Add to collection
@@ -58,8 +58,8 @@
       </div>
     </div>
     <div class="info-img col-lg-12">
-      <div class="col-lg-6 open-info px-5 ">
-        <div class="contact-info-wrap ">
+      <div class="col-lg-6 col-md-6 col-sm-4 open-info px-3">
+        <div class="contact-info-wrap">
           <ul class="list-unstyled">
             <li>
               <strong>Opening Hour :</strong>
@@ -76,7 +76,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-lg-6 img">
+      <div class="col-lg-6 col-md-6 col-sm-8 img">
         <img
           class="img-responsive center-block"
           :src="restaurant.image | emptyImage"
@@ -125,10 +125,16 @@ export default {
           ...this.restaurant, // 保留餐廳內原有資料
           isFavorited: true,
         };
+
+        Toast.fire({
+          icon: "success",
+          title: "已成功將此餐廳加入collection",
+        });
+
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法將餐廳加入最愛，請稍後再試",
+          title: "無法將餐廳加入collection中，請稍後再試",
         });
       }
     },
@@ -142,10 +148,16 @@ export default {
           ...this.restaurant, // 保留餐廳內原有資料
           isFavorited: false,
         };
+
+        Toast.fire({
+          icon: "success",
+          title: "已從collection中取消該餐廳",
+        });
+
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法將餐廳移除最愛，請稍後再試",
+          title: "無法將餐廳從collection中移除，請稍後再試",
         });
       }
     },
@@ -161,10 +173,16 @@ export default {
           ...this.restaurant,
           isLiked: true,
         };
+
+        Toast.fire({
+          icon: "success",
+          title: "已成功對餐廳按Like",
+        });
+
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法對餐廳按讚，請稍後再試",
+          title: "無法對餐廳按Like，請稍後再試",
         });
       }
     },
@@ -180,10 +198,16 @@ export default {
           ...this.restaurant,
           isLiked: false,
         };
+
+        Toast.fire({
+          icon: "success",
+          title: "已對餐廳取消Like",
+        });
+
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法對餐廳取消按讚，請稍後再試",
+          title: "無法對餐廳取消按Like，請稍後再試",
         });
       }
     },
@@ -194,28 +218,32 @@ export default {
 <style scoped>
 .main-container:hover .description-content {
   border-left: 2px solid #f28705;
-  transition-duration: 2s;
+  transition-duration: 1s;
+  color: black;
 }
 
-.header, .left-column, .btn-area, .info-img,
-.img, .col-lg-6 {
-  display: flex;
+.main-container:hover .btn-area {
+  border-top: 1px solid #595959;
+  border-bottom: 1px solid #595959;
+  transition-duration: 1s;
 }
 
-.header, .btn-area, .col-lg-6  {
-  align-items: center;
-}
-
-.col-lg-6 {
-  padding: 30px;
+.main-container:hover img {
+  border-radius: 10px;
+  transition-duration: 1s;
 }
 
 .col-md-12 {
   height: 100%;
 }
 
-.header {
-  height: 75%;
+.header, .left-column, .btn-area,
+.info-img, .img, .col-lg-6 {
+  display: flex;
+}
+
+.header, .btn-area, .col-lg-6 {
+  align-items: center;
 }
 
 .left-column {
@@ -226,7 +254,6 @@ export default {
 
 .restaurant-title {
   display: inline-block;
-  font-size: 80px;
   font-weight: 700;
   text-decoration: none;
   color: #595959;
@@ -234,8 +261,6 @@ export default {
 }
 
 .category-name {
-  font-size: 28px;
-  margin: 5px 0;
   color: #8c0303;
   background-color: transparent;
   font-family: serif;
@@ -243,36 +268,23 @@ export default {
 
 .btn-area {
   justify-content: center;
-  border-top: 1px solid #595959;
-  border-bottom: 1px solid #595959;
-}
-
-.btn {
-  font-size: 20px;
-}
-
-.like,
-.collection,
-.dashboard {
-  width: 25%;
+  border-top: 1px solid #d5cec0;
+  border-bottom: 1px solid #d5cec0;
 }
 
 .description-content {
-  border-left: 2px solid #595959;
-  margin: 8%;
-  padding-left: 30px;
-  font-size: 20px;
+  border-left: 2px solid #d5cec0;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 .img {
   object-fit: cover;
-  justify-content: flex-end;
+justify-content: center;
 }
 
-img { 
-  width: 500px;
-  height: 300px;
+img {
+  width: 100%;
+  height: 100%;
   opacity: 0.8;
   border-radius: 3px;
 }
@@ -280,11 +292,170 @@ img {
 .col-lg-6 p,
 .contact-info-wrap strong {
   font-family: serif;
-  font-size: 30px;
-  margin-bottom: 10px;
 }
 
-.contact-info-wrap li {
+@media (max-width: 576px) {
+  .header {
+    height: 65%;
+    padding-top: 10px;
+  }
+
+  .restaurant-title {
+    font-size: 40px;
+  }
+
+  .category-name {
+    font-size: 16px;
+    margin-top: 15px;
+  }
+
+  .description-content {
+    margin: 5%;
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  .info-img {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .like, .collection, .dashboard {
+    width: 30%;
+    font-size: 15px;
+  }
+
+  .col-lg-6 p,
+  .contact-info-wrap strong {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info-wrap li {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .header {
+    height: 65%;
+    padding-top: 10px;
+  }
+
+  .restaurant-title {
+    font-size: 50px;
+  }
+
+  .category-name {
+    font-size: 18px;
+    margin-top: 15px;
+  }
+
+  .description-content {
+    margin: 5%;
+    padding-left: 22px;
+    font-size: 14px;
+  }
+
+  .like,
+  .collection,
+  .dashboard {
+    width: 30%;
+    font-size: 15px;
+  }
+
+  .col-lg-6 p,
+  .contact-info-wrap strong {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info-wrap li {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .header {
+    height: 65%;
+  }
+
+  .col-md-6 {
+    padding: 15px;
+  }
+
+  .restaurant-title {
+    font-size: 65px;
+  }
+
+  .category-name {
+    font-size: 20px;
+    margin-top: 15px;
+  }
+
+  .description-content {
+    margin: 6%;
+    padding-left: 30px;
+    font-size: 18px;
+}
+
+  .like,
+  .collection,
+  .dashboard {
+    width: 20%;
+    font-size: 16px;
+  }
+
+  .col-lg-6 p,
+  .contact-info-wrap strong {
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info-wrap li {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 992px) {
+  .header {
+    height: 75%;
+  }
+
+  .col-lg-6 {
+    padding: 30px;
+  }
+
+  .restaurant-title {
+    font-size: 80px;
+  }
+
+  .category-name {
+    font-size: 28px;
+    margin: 5px 0;
+  }
+
+  .description-content {
+  margin: 8%;
+  padding-left: 30px;
   font-size: 20px;
+}
+
+  .like,
+  .collection,
+  .dashboard {
+    width: 25%;
+    font-size: 20px;
+  }
+
+  .col-lg-6 p,
+  .contact-info-wrap strong {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info-wrap li {
+    font-size: 25px;
+  }
 }
 </style>

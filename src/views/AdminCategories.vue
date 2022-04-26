@@ -1,10 +1,10 @@
 // ./src/views/AdminCategories.vue
 <template>
   <div>
-    <div class="admin-container py-3 px-5">
+    <div class="admin-container py-3 px-2 mb-5">
       <AdminNav />
       <div>
-        <form class="my-4">
+        <form>
           <div class="form-row">
             <div class="col-auto">
               <input
@@ -12,12 +12,13 @@
                 v-model="newCategoryName"
                 class="form-control"
                 placeholder="Add category ..."
+                autocomplete="off"
               />
             </div>
             <div class="col-auto">
               <button
                 type="button"
-                class="btn btn-outline-info"
+                class="btn btn-outline-info add"
                 @click.stop.prevent="createCategory"
                 :disabled="isProcessing"
               >
@@ -27,14 +28,14 @@
           </div>
         </form>
       </div>
-      
+
       <Spinner v-if="isLoading" class="admin-spinner" />
-      <table v-else class="table my-4">
+      <table v-else class="table mt-3 mb-5">
         <thead class="thead">
           <tr class="tr-header">
-            <th scope="col" class="column pl-3" width="100">No.</th>
-            <th scope="col" class="column">Category Name</th>
-            <th scope="col" width="250" class="column">Action</th>
+            <th scope="col" class="column pl-3 col-2 col-sm-2">No.</th>
+            <th scope="col" class="column col-6 col-sm-6">Category Name</th>
+            <th scope="col" class="column col-4 col-sm-4">Action</th>
           </tr>
         </thead>
         <tbody v-show="!isLoading">
@@ -43,7 +44,7 @@
               {{ category.id }}
             </th>
             <td class="position-relative">
-              <div v-show="!category.isEditing" class="category">
+              <div v-show="!category.isEditing" class="title">
                 {{ category.name }}
               </div>
               <input
@@ -51,6 +52,7 @@
                 v-model="category.name"
                 type="text"
                 class="form-control"
+                autocomplete="off"
               />
               <span
                 v-show="category.isEditing"
@@ -94,9 +96,12 @@
         </tbody>
       </table>
     </div>
-    <button type="button" class="btn btn-link back" @click="$router.back()">
-      &lt; GO BACK
-    </button>
+    <div class="back">
+      <button type="button" class="btn btn-link back-btn" @click="$router.back()">
+        <img src="./../assets/icons/back.png" class="back-icon">
+      </button>
+    </div>
+    <BottomNavTabsForPage class="bottom-navtabs"/>
   </div>
 </template>
 
@@ -105,12 +110,14 @@ import AdminNav from "@/components/AdminNav";
 import adminAPI from "./../apis/admin";
 import { Toast } from "./../utils/helpers";
 import Spinner from "./../components/Spinner";
+import BottomNavTabsForPage from "./../components/BottomNavTabsForPage";
 
 export default {
   name: "AdminCategories",
   components: {
     AdminNav,
     Spinner,
+    BottomNavTabsForPage
   },
   data() {
     return {
@@ -171,7 +178,7 @@ export default {
 
         Toast.fire({
           icon: "success",
-          title: "成功新增餐廳類別",
+          title: "已成功新增該餐廳類別",
         });
 
         this.newCategoryName = ""; // 清空原本欄位中的內容
@@ -179,7 +186,7 @@ export default {
         this.isProcessing = false;
         Toast.fire({
           icon: "error",
-          title: "無法新增餐廳類別，請稍後再試",
+          title: "無法新增該餐廳類別，請稍後再試",
         });
       }
     },
@@ -203,13 +210,13 @@ export default {
 
         Toast.fire({
           icon: "success",
-          title: "成功刪除餐廳類別",
+          title: "已成功刪除該餐廳類別",
         });
       } catch (error) {
         console.error(error.message);
         Toast.fire({
           icon: "error",
-          title: "無法刪除餐廳類別，請稍後再試",
+          title: "無法刪除該餐廳類別，請稍後再試",
         });
       }
     },
@@ -278,21 +285,15 @@ export default {
   animation-duration: 3s;
 }
 
-.form-control {
-  font-size: 18px;
-}
-
 .category {
   padding: 0.375rem 0.75rem;
   border: 1px solid transparent;
   outline: 0;
   cursor: auto;
-  font-size: 20px;
   font-weight: 500;
 }
 
 .btn-link {
-  font-size: 16px;
   font-weight: 400;
   border: 2px solid transparent;
   text-decoration: none;
@@ -319,24 +320,81 @@ export default {
   font-size: 12px;
 }
 
-.back {
-  position: fixed;
-  bottom: 0;
-  left: 5%;
-  border-radius: 5px 5px 0 0;
-  border: 1px solid #f28705;
-  border-bottom: none;
-  color: #595959;
-  font-size: 20px;
+.title {
   font-weight: 500;
-  animation: fadeInUp;
-  animation-duration: 5s;
+  display: inline-block;
 }
 
-.back:hover {
-  color: white;
-  background-color: #f28705;
-  border-bottom: none;
-  border-radius: 5px 5px 0 0;
+.title:hover {
+  color: black;
+}
+
+@media (max-width: 576px) {
+  .back {
+    display: none;
+  }
+
+  .bottom-navtabs {
+    animation: fadeInUp;
+    animation-duration: 3s;
+  }
+
+  .admin-container {
+    border: none;
+    margin: 20% 0;
+    width: 100%;
+  }
+
+  .column, .title, .id {
+    font-size: 16px;
+  }
+
+  .form-control, .add, 
+  .back, .btn-link, .delete {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 576px) {
+  .bottom-navtabs {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .column, .title, .id {
+    font-size: 18px;
+  }
+
+  .form-control, .add, 
+  .back, .btn-link, .delete {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .column, .title, .id {
+    font-size: 20px;
+  }
+
+  .form-control, .add,
+  .back, .btn-link, .delete {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 992px) {
+  .form-control {
+    font-size: 18px;
+  }
+
+  .column, .title, .id {
+    font-size: 24px;
+  }
+
+  .form-control, .add, 
+  .back, .btn-link, .delete {
+    font-size: 22px;
+  }
 }
 </style>

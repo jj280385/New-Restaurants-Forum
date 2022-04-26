@@ -1,37 +1,35 @@
 <template>
   <div class="main">
-      <button 
-      type="button" 
-      class="btn btn-link back" 
-      @click="$router.back()"
-      >
-        &lt; GO BACK
-      </button>
-    <Spinner v-if="isLoading" class="spinner"/>
+    <Spinner v-if="isLoading" class="spinner" />
     <div v-else class="main-container">
-    <template >
-      <div class="user mb-5">
-        <UserProfileCard
-          :user="user"
-          :is-current-user="currentUser.id === user.id"
-          :initial-is-followed="isFollowed"
-        />
-        <div class="row">
-          <div class="col-md-4">
-            <UserFollowingsCard :followings="user.Followings" />
-            <UserFollowersCard :followers="user.Followers" />
-          </div>
-          <div class="col-md-8">
-            <UserCommentsCard :comments="user.Comments" />
-            <UserFavoritedRestaurantsCard
-              :favoritedRestaurants="user.FavoritedRestaurants"
-            />
+      <template>
+        <div class="user mb-5">
+          <UserProfileCard
+            :user="user"
+            :is-current-user="currentUser.id === user.id"
+            :initial-is-followed="isFollowed"
+          />
+          <div class="row">
+            <div class="col-md-4 col-sm-6 col-12">
+              <UserFollowingsCard :followings="user.Followings" />
+              <UserFollowersCard :followers="user.Followers" />
+            </div>
+            <div class="col-md-8 col-sm-6 col-12">
+              <UserCommentsCard :comments="user.Comments" />
+              <UserFavoritedRestaurantsCard
+                :favoritedRestaurants="user.FavoritedRestaurants"
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </template>
+      </template>
     </div>
-
+    <div class="back">
+      <button type="button" class="btn btn-link back-btn" @click="$router.back()">
+        <img src="./../assets/icons/back.png" class="back-icon">
+      </button>
+    </div>
+    <BottomNavTabsForPage class="bottom-navtabs"/>
   </div>
 </template>
 
@@ -45,6 +43,7 @@ import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 import Spinner from "./../components/Spinner";
+import BottomNavTabsForPage from "./../components/BottomNavTabsForPage";
 
 export default {
   name: "User",
@@ -55,6 +54,7 @@ export default {
     UserCommentsCard,
     UserFavoritedRestaurantsCard,
     Spinner,
+    BottomNavTabsForPage
   },
   created() {
     const { id: userId } = this.$route.params;
@@ -105,8 +105,6 @@ export default {
         this.isLoading = false;
       } catch (error) {
         this.isLoading = false;
-
-        console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得該使用者資料，請稍後再試",
@@ -118,23 +116,9 @@ export default {
 </script>
 
 <style scoped>
-/* .main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 8%;
-  animation: zoomIn; 
-  animation-duration: 3s;
-} */
-
-.back {
-  text-decoration: none;
-}
-
 .main-container {
-  border: 1px solid #D5CEC0;
-  width: 75%;
-  animation: zoomIn; 
+  border: 1px solid #d5cec0;
+  animation: zoomIn;
   animation-duration: 3s;
 }
 
@@ -142,7 +126,44 @@ export default {
   box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
   border: 1px solid #8c0303;
   border-radius: 10px;
-  transition-duration: 2s;
+  transition-duration: 1s;
 }
 
+@media (max-width: 575px) {
+  .main-container {
+    margin: 18% 0 15% 0;
+  }
+
+  .back {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) {
+  .bottom-navtabs {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .col-sm-6 {
+    padding: 0 8px;
+  }
+
+  .main-container {
+    width: 70%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .main-container {
+    width: 70%;
+  }
+}
+
+@media (min-width: 992px) {
+  .main-container {
+    width: 75%;
+  }
+}
 </style>

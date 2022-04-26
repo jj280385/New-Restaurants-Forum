@@ -1,7 +1,7 @@
 // ./src/components/AdminNav.vue
 <template>
   <div class="mb-3">
-    <h1>Admin System</h1>
+    <h1 class="display-4">Admin System</h1>
     <ul class="nav nav-pills nav-tabs my-3">
       <li class="nav-item">
         <router-link to="/admin/restaurants" class="nav-link">
@@ -41,8 +41,24 @@
 
 .nav-link {
   color: #595959;
-  font-size: 16px;
   border-radius: 3px 3px 0 0;
 }
 
+@media (min-width: 576px) and (max-width: 767px) {
+  .nav-link {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .nav-link {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 992px) {
+  .nav-link {
+    font-size: 20px;
+  }
+}
 </style>

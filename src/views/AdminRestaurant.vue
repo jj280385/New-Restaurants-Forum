@@ -2,11 +2,11 @@
 <template>
   <div>
     <div class="show-page">
-      <Spinner v-if="isLoading" class="admin-spinner"/>
+      <Spinner v-if="isLoading" class="admin-spinner" />
       <div v-else class="row show-container">
-        <div class="col-md-12">
-          <div class="header mx-4">
-            <div class="left-column pl-5">
+        <div class="col-md-12 col-sm-12">
+          <div class="header mx-2">
+            <div class="left-column pl-3">
               <h1 class="restaurant-title">{{ restaurant.name }}</h1>
               <p class="badge badge-secondary category-name">
                 {{ restaurant.categoryName }}
@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="info-img col-lg-12">
-          <div class="col-lg-6 open-info px-5">
+          <div class="col-md-5 open-info py-3 px-3">
             <div class="contact-info-wrap">
               <ul class="list-unstyled">
                 <li>
@@ -36,7 +36,7 @@
               </ul>
             </div>
           </div>
-          <div class="col-lg-6 img">
+          <div class="col-md-7 img py-3 px-3">
             <img
               class="img-responsive center-block"
               :src="restaurant.image | emptyImage"
@@ -45,9 +45,12 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-link back" @click="$router.back()">
-      &lt; GO BACK
-    </button>
+    <div class="back">
+      <button type="button" class="btn btn-link back-btn" @click="$router.back()">
+        <img src="./../assets/icons/back.png" class="back-icon">
+      </button>
+    </div>
+    <BottomNavTabsForPage class="bottom-navtabs"/>
   </div>
 </template>
 
@@ -56,12 +59,14 @@ import { emptyImageFilter } from "../utils/mixins";
 import adminAPI from "./../apis/admin";
 import { Toast } from "./../utils/helpers";
 import Spinner from "./../components/Spinner";
+import BottomNavTabsForPage from "./../components/BottomNavTabsForPage";
 
 export default {
   name: "AdminRestaurant",
   mixins: [emptyImageFilter],
   components: {
     Spinner,
+    BottomNavTabsForPage
   },
   data() {
     return {
@@ -124,20 +129,16 @@ export default {
 <style scoped>
 .show-container:hover .description-content {
   border-left: 2px solid #f28705;
-  transition-duration: 2s;
+  transition-duration: 1s;
 }
 
-.header, .left-column, .btn-area, .info-img,
-.img, .col-lg-6 {
+.header, .left-column, .btn-area,
+.info-img, .img, .col-md-6 {
   display: flex;
 }
 
-.header, .btn-area, .col-lg-6  {
+.header, .btn-area, .col-md-6 {
   align-items: center;
-}
-
-.col-lg-6 {
-  padding: 30px;
 }
 
 .col-md-12 {
@@ -146,7 +147,7 @@ export default {
 
 .header {
   height: 75%;
-  border-bottom: 1px solid #D5CEC0;
+  border-bottom: 1px solid #d5cec0;
 }
 
 .left-column {
@@ -157,7 +158,6 @@ export default {
 
 .restaurant-title {
   display: inline-block;
-  font-size: 80px;
   font-weight: 700;
   text-decoration: none;
   color: #595959;
@@ -165,11 +165,10 @@ export default {
 }
 
 .category-name {
-  font-size: 28px;
-  margin: 5px 0;
   color: #8c0303;
   background-color: transparent;
   font-family: serif;
+  margin-top: 15px;
 }
 
 .btn-area {
@@ -178,21 +177,9 @@ export default {
   border-bottom: 1px solid #595959;
 }
 
-.btn {
-  font-size: 20px;
-}
-
-.like,
-.collection,
-.dashboard {
-  width: 25%;
-}
-
 .description-content {
+  color: #595959;
   border-left: 2px solid #595959;
-  margin: 8%;
-  padding-left: 30px;
-  font-size: 20px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
@@ -201,25 +188,206 @@ export default {
   justify-content: flex-end;
 }
 
-img { 
-  width: 500px;
-  height: 300px;
+img {
   opacity: 0.8;
   border-radius: 3px;
+  width: 100%;
+  height: 100%;
 }
 
-.col-lg-6 p,
-.contact-info-wrap strong {
-  font-family: serif;
-  font-size: 30px;
-  margin-bottom: 10px;
+@media (max-width: 576px) {
+  .back {
+    display: none;
+  }
+
+  .bottom-navtabs {
+    animation: fadeInUp;
+    animation-duration: 3s;
+  }
+
+  .header {
+    border-bottom: 1px solid #595959;
+    display: flex;
+    flex-direction: column;  
+    padding-top: 15px;
+  }
+  
+  .left-column {
+    align-items: center;
+  }
+
+  .restaurant-title {
+    font-size: 36px;
+  }
+
+  .category-name {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .description-content {
+    margin: 5%;
+    padding: 15px 0;
+    font-size: 16px;
+    border: none;
+  }
+
+  .show-container:hover .description-content {
+    border-left: none;
+  }
+
+  .info-img {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-info-wrap strong {
+    font-family: serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info-wrap li {
+    font-size: 18px;
+  }
+
+  .img { 
+    width: 100%;
+    height: 100%;
+  }
 }
 
-.contact-info-wrap li {
-  font-size: 20px;
+@media (min-width: 576px) {
+  .bottom-navtabs {
+    display: none;
+  }
 }
 
-.back {
-  text-decoration: none;
+@media (min-width: 576px) and (max-width: 767px) {
+  .header {
+    height: 80%;
+  }
+
+  .restaurant-title {
+    font-size: 50px;
+  }
+
+  .category-name {
+    font-size: 23px;
+  }
+
+  .btn {
+    font-size: 16px;
+  }
+
+  .description-content {
+    margin: 5%;
+    padding-left: 25px;
+    font-size: 14px;
+  }
+
+  .contact-info-wrap strong {
+    font-family: serif;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info-wrap li {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .header {
+    height: 80%;
+  }
+
+  .restaurant-title {
+    font-size: 60px;
+  }
+
+  .category-name {
+    font-size: 25px;
+  }
+
+  .btn {
+    font-size: 18px;
+  }
+
+  .description-content {
+    margin: 8%;
+    padding-left: 30px;
+    font-size: 16px;
+  }
+
+  .contact-info-wrap strong {
+    font-family: serif;
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info-wrap li {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  .header {
+    height: 75%;
+  }
+
+  .restaurant-title {
+    font-size: 80px;
+  }
+
+  .category-name {
+    font-size: 28px;
+  }
+
+  .btn {
+    font-size: 20px;
+  }
+
+  .description-content {
+    margin: 8%;
+    padding-left: 30px;
+    font-size: 20px;
+  }
+
+  .contact-info-wrap strong {
+    font-family: serif;
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info-wrap li {
+    font-size: 25px;
+  }
+}
+
+@media (min-width: 1439px) {
+  .restaurant-title {
+    font-size: 88px;
+  }
+
+  .category-name {
+    font-size: 30px;
+  }
+
+  .description-content {
+    margin: 8%;
+    padding-left: 30px;
+    font-size: 28px;
+  }
+
+  .contact-info-wrap strong {
+    font-family: serif;
+    font-size: 35px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info-wrap li {
+    font-size: 30px;
+  }
 }
 </style>

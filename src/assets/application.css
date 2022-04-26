@@ -1,9 +1,8 @@
 /* ./src/assets/application.css */
-
 * {
   font-size: 15px;
   font-weight: normal;
-  font-family: -apple-system, 'BIZ UDPMincho','Oswald', BlinkMacSystemFont, 'Segoe UI', Roboto,Oxygen-Sans, Ubuntu, Cantarell, '微軟正黑體', Helvetica, Arial, sans-serif;
+  font-family: -apple-system, 'BIZ UDPMincho', 'Oswald', BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, '微軟正黑體', Helvetica, Arial, sans-serif;
   line-height: 1.5;
   color: #4d4d4d;
   outline: none;
@@ -13,20 +12,64 @@ body {
   background: white;
 }
 
-.signup, .signin {
+ul, li {
+  list-style-type: none;
+}
+
+.card-container {
+  margin: 3%;
+}
+
+h1,
+.card-text {
+  font-family: serif;
+}
+
+.card-text {
+  font-size: 18px;
+}
+
+.card-text.title-wrap {
+  margin: 0;
+}
+
+.card-text a {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+/* * Toast相關設定 */
+.swal2-popup.swal2-toast {
+  box-shadow: none;
+  border: 1px solid #dadada;
+  position: fixed;
+  top: 10%;
+}
+
+.swal2-toast.swal2-icon-success {
+  background-color: #ffffff !important;
+}
+
+.swal2-toast.swal2-icon-error {
+  background-color: #f9c1c1 !important;
+}
+
+.swal2-toast.swal2-icon-warning {
+  background-color: #fcd2ad !important;
+}
+
+/* *Signin、Signout */
+.signup,.signin {
   color: #A6450D;
   transition: all 0.3s ease-in-out;
 }
 
-.table td,
-.table th {
+.table td, .table th {
   vertical-align: middle;
 }
 
-.page-link:focus,
-.form-control:focus,
-.btn,
-.navbar-dark .navbar-toggler {
+.page-link:focus, .form-control:focus,
+.btn, .navbar-dark .navbar-toggler {
   outline: none;
   box-shadow: none;
 }
@@ -35,8 +78,7 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
-.form-control:hover,
-.form-control:focus {
+.form-control:hover, .form-control:focus {
   border: 1px solid #8c0303;
 }
 
@@ -45,17 +87,41 @@ body {
   resize: none;
 }
 
-/* TODO:jumbotron 相關 */
+.copy {
+  color: #3c3b3b;
+  font-size: 12px;
+}
 
+/* *back btn 相關 */
+.back {
+  position: fixed;
+  bottom: 0;
+  left: 5%;
+  background-color: #f28705;
+  border-radius: 5px 5px 0 0;
+}
+
+.back:hover {
+  border-radius: 5px 5px 0 0;
+  background-color: rgba(140, 3, 3, 0.8);
+  transition-duration: 0.5s;
+}
+
+.back-icon {
+  padding: 5px 8px 0 8px;
+}
+
+/* *jumbotron 相關 */
 .jumbotron {
-  height: 88vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  animation: fadeIn; 
-  animation-duration: 5s;
+  animation: fadeIn;
+  animation-duration: 3s;
   position: relative;
+  overflow:hidden;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -63,36 +129,58 @@ body {
 }
 
 .jumbotron-title {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   text-align: center;
-  width: 60%;
-  margin: 50px 0;
-  animation: fadeInLeft; 
-  animation-duration: 3s;  
 }
 
-.title-area { 
+.title-area {
   color: white;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-.jumbotron-introduce {
-  animation: fadeInRight; 
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  animation: fadeInLeft;
   animation-duration: 3s;
 }
 
 .introduce {
   color: white;
-  font-size: 25px;
   font-family: 'Helvetica Neue';
   letter-spacing: 2px;
+  animation: fadeInRight;
+  animation-duration: 3s;
 }
 
+/* *card相關 */
+.cards {
+  display: flex;
+  margin: 0;
+}
 
-/* TODO: card相關 */
 .card:hover .card-header,
-.card:hover .name,
-.card:hover .description {
+.card-item:hover .name,
+.card-item:hover .text,
+.card-item:hover .title {
   color: black;
+}
+
+.card-img-top {
+  width: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+.no-restaurant {
+  font-size: 25px;
+  font-style: italic;
+  margin: 15px 0 30px 0;
+  display: flex;
+  justify-content: center;
+  animation: zoomIn;
+  /* 引用動畫的 @keyframe 名稱 */
+  animation-duration: 3s;
+  /* 別忘了設定持續時間 */
 }
 
 .card:hover .card-img-top {
@@ -100,16 +188,12 @@ body {
   border-radius: 10px;
 }
 
-.card:hover .title {
-  color: black;
-}
-
 .title ::after {
   content: "";
   display: block;
   width: 0;
   background: #f28705;
-  transition: width 0.5s;
+  transition: width 1s;
 }
 
 .title :hover::after {
@@ -120,29 +204,6 @@ body {
   color: #f28705;
 }
 
-.card {
-  border: none;
-}
-
-.card-img-top {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  opacity: 0.6;
-}
-
-.card-header {
-  border: 1px solid #d5cec0;
-  border-bottom: 0;
-  width: 30%;
-  padding: 15px 0;
-  margin-bottom: 0;
-  text-align: center;
-  background-color: transparent;
-  font-size: 22px;
-  color: #595959;
-}
-
 .card-body {
   display: flex;
   flex-direction: column;
@@ -150,26 +211,13 @@ body {
   justify-content: flex-start;
 }
 
-.card-item {
-  width: 100%;
-  margin: 5px 0;
-  border-bottom: 1px solid #D5CEC0;
+.card-footer {
+  border: none;
+  background-color: transparent;
+  padding: 0;
 }
 
-.name {
-  display: inline-block;
-  font-size: 20px;
-  color: #595959;
-  text-decoration: none;
-}
-
-small {
-  font-size: 15px;
-  margin-left: 20px;
-  color: #8C0303;
-}
-
-.description {
+.text {
   color: #595959;
   font-size: 15px;
   margin: 0;
@@ -180,52 +228,7 @@ small {
   justify-content: flex-end;
 }
 
-.card-footer {
-  border: none;
-  background-color: transparent;
-  padding: 0;
-}
-
-.no-restaurant {
-  font-size: 25px;
-  font-style: italic;
-  margin: 15px 0 30px 0;
-  display: flex;
-  justify-content: center;
-  animation: zoomIn; /* 引用動畫的 @keyframe 名稱 */
-  animation-duration: 3s; /* 別忘了設定持續時間 */
-}
-
-/* TODO: Restaurant Detail 相關 */
-.main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 8% 8% 3% 8%;
-}
-
-.spinner {
-  margin-top: 20%;
-}
-
-.back {
-  position: fixed;
-  bottom: 0;
-  left: 5%;
-  border-radius: 5px 5px 0 0;
-  border: 1px solid #f28705;
-  color: #595959;
-  font-size: 20px;
-  font-weight: 500;
-  animation: fadeInUp; 
-  animation-duration: 5s;
-}
-
-.back:hover {
-  color: white;
-  background-color: #f28705;
-}
-
+/* *User相關 */
 .main-container:hover .restaurant-title,
 .main-container:hover .description,
 .main-container:hover li,
@@ -233,34 +236,25 @@ small {
   color: black;
 }
 
-.main-container:hover .category-name {
-  color: #f28705;
-}
-
-.main-container:hover .img-responsive {
+.main-container:hover .avatar {
   opacity: 1;
-  border-radius: 15px;
+  border-radius: 10%;
 }
 
-/* TODO: User相關 */
-.main-container:hover .user-name {
-  color: black;
-}
-
+.main-container:hover .category-name, 
 .main-container:hover .user-mail {
   color: #f28705;
 }
 
-.main-container:hover .user-avatar {
-  border-radius: 15px;
-  transition-duration: 2s;
+.main-container:hover .user-name {
+  color: black;
 }
 
 .user-card:hover .user-header,
-.user-card:hover .user-body  {
+.user-card:hover .user-body {
   border: 1px solid #595959;
   box-shadow: none;
-  transition-duration: 2s;
+  transition-duration: 1s;
 }
 
 .user-card:hover .user-header {
@@ -270,6 +264,16 @@ small {
 
 .user-card:hover .restaurant-avatar {
   border-radius: 0;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  margin-top: 20%;
 }
 
 .user-header {
@@ -289,26 +293,31 @@ small {
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
-  align-items: center;  
+  align-items: center;
   border: 1px solid #D5CEC0;
   border-radius: 0 3px 3px 0;
 }
 
-/* TODO: Admin相關 */
-.admin-spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
+.avatar {
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  border-radius: 5px;
+} 
+
+.restaurant-avatar {
+  width: 50px;
+  height: 50px;
 }
 
+/* *Admin相關 */
+.admin-spinner,
 .form-spinner {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 100;
+  z-index: 999;
 }
 
 .admin-container {
@@ -317,20 +326,18 @@ small {
   position: absolute;
   left: 50%;
   transform: translate(-50%);
-  width: 70%;
-  margin: 8% 0;
 }
 
 .admin-container:hover {
   box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
   border: 1px solid #8c0303;
   border-radius: 10px;
-  transition-duration: 2s;
+  transition-duration: 1s;
 }
 
 .table {
   animation: zoomIn;
-  animation-duration: 2s;
+  animation-duration: 3s;
 }
 
 .thead {
@@ -340,9 +347,8 @@ small {
 
 .column {
   color: white;
-  font-size: 18px;
   font-weight: 400;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .tr-item:hover .id,
@@ -364,13 +370,9 @@ small {
   align-items: center;
 }
 
-.row, .category, .title, 
+.category, .title, .name,
 .btn-link {
   color: #595959;
-}
-
-.id, .category, .title {
-  font-size: 18px;
 }
 
 .id {
@@ -395,27 +397,26 @@ small {
   transition-duration: 1s;
 }
 
-/* TODO: Admin show page 相關 */
+/* *Admin show page 相關 */
 .show-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 8% 8% 3% 8%;
 }
 
 .show-container {
   border: 1px solid #d5cec0;
-  width: 75%;
-  animation: zoomIn; 
-  animation-duration: 3s;  
+  animation: zoomIn;
+  animation-duration: 3s;
   border-radius: 3px;
+  width: 75%;
 }
 
 .show-container:hover {
   box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
   border: 1px solid #8c0303;
   border-radius: 10px;
-  transition-duration: 2s;
+  transition-duration: 1s;
 }
 
 .show-container:hover .restaurant-title,
@@ -428,32 +429,38 @@ small {
 .show-container:hover img {
   opacity: 1;
   border-radius: 15px;
-  transition-duration: 2s;
+  transition-duration: 1s;
 }
 
-/* TODO: Admin form page 相關 */
+.show-container:hover .category-name {
+  color: #f28705;
+  transition-duration: 1s;
+}
+
+/* *Admin form page 相關 */
 .form {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .form-container {
   border: 1px solid #d5cec0;
   width: 75%;
-  animation: zoomIn; 
-  animation-duration: 3s;  
-  border-radius: 3px; 
+  animation: zoomIn;
+  animation-duration: 3s;
+  border-radius: 3px;
 }
 
 .form-container:hover {
   box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
   border: 1px solid #8c0303;
   border-radius: 10px;
-  transition-duration: 2s;
+  transition-duration: 1s;
 }
 
-/* TODO: 404 Not found  */
+/* *404 Not found */
 .error-page {
   margin: 10%;
   display: flex;
@@ -462,30 +469,190 @@ small {
   align-items: center;
 }
 
-/* 原設定的css */
-.card-container {
-  margin: 3%;
+/* *=============== RWD <575px ===============* */
+@media (max-width: 575px) {
+  .jumbotron {
+    display: none;
+  }
+
+  .card-img-top {
+    width: 50%;
+    height: 100%;  
+  }
+
+  .page-title {
+    animation: fadeInLeft;
+    animation-duration: 3s;
+  }
+
+  .show-page {
+    margin: 15% 0;
+  }
 }
 
-h1,
-.card-text {
-  font-family: serif;
+/* *=============== RWD <767px >576px ===============* */
+@media (min-width: 576px) and (max-width: 767px) {
+  .jumbotron {
+    height: 40vh;
+    padding-top: 4.5rem;
+  }
+
+  .jumbotron-title {
+    justify-content: space-evenly;
+    width: 80%;
+  }
+
+  .introduce {
+    font-size: 18px;
+  }
+
+  .title-area {
+    font-size: 32px;
+  }
+
+  .card-img-top {
+    height: 60%;
+  }
+
+  .main {
+    margin: 12% 0 4% 8%;
+  }
+
+  .admin-container {
+    width: 76%;
+    margin: 12% 0 3% 8%;
+  }
+
+  .show-page {
+    margin: 12% 0 3% 15%;
+  }
+
+  .show-container {
+    width: 80%;
+  }
 }
 
-.card-text {
-  font-size: 18px;
+/* *=============== RWD <991px >768px ===============* */
+@media (min-width: 768px) and (max-width: 991px) {
+  .jumbotron {
+    height: 50vh;
+  }
+
+  .jumbotron-title {
+    justify-content: space-evenly;
+    width: 80%;
+  }
+
+  .introduce {
+    font-size: 28px;
+  }
+
+  .title-area {
+    font-size: 42px;
+  }
+
+  .card-img-top {
+    height: 60%;
+  }
+
+  .main {
+    margin: 12% 3% 3% 8%;
+  }
+
+  .admin-container {
+    width: 75%;
+    margin: 12% 0 3% 5%;
+  }
+
+  .column {
+    font-size: 16px;
+  }
+
+  .id,
+  .category {
+    font-size: 16px;
+  }
+
+  .show-page {
+    margin: 12% 0 3% 10%;
+  }
+
+  .show-container {
+    width: 80%;
+  }
 }
 
-.card-text.title-wrap {
-  margin: 0;
+/* *=============== RWD >992px ===============* */
+
+@media (min-width: 992px) {
+  .jumbotron {
+    height: 58vh;
+  }
+
+  .jumbotron-title {
+    justify-content: space-evenly;
+    width: 80%;
+  }
+
+  .introduce {
+    font-size: 35px;
+  }
+
+  .title-area {
+    font-size: 60px;
+  }
+
+  .card-img-top {
+    height: 65%;
+  }
+
+  .main {
+    margin: 8% 8% 3% 8%;
+  }
+
+  .admin-container {
+    width: 70%;
+    margin: 8% 5% 12% 3%;
+  }
+
+  .column {
+    font-size: 18px;
+  }
+
+  .id,
+  .category {
+    font-size: 18px;
+  }
+
+  .show-page {
+    margin: 10% 0 3% 10%;
+  }
+
+  .show-container {
+    width: 85%;
+  }
 }
 
-.card-text a {
-  font-size: 24px;
-  line-height: 1.3;
-}
+/* *=============== RWD >1440px ===============* */
 
-.swal2-popup.swal2-toast {
-  box-shadow: none;
-  border: 1px solid #dadada;
+@media (min-width: 1439px) {
+  .jumbotron {
+    height: 62vh;
+  }
+
+  .jumbotron-title {
+    justify-content: space-evenly;
+  }
+  
+  .jumbotron-title {
+    width: 70%;
+  }
+
+  .card-img-top {
+    height: 65%;
+  }
+
+  .show-container {
+    width: 90%;
+  }
 }

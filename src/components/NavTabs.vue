@@ -3,10 +3,12 @@
   <div class="tabs-container">
     <ul class="nav nav-tabs">
       <li v-for="tab in tabs" :key="tab.id" class="nav-item">
-        <router-link 
-        :to="tab.path" 
-        class="nav-link"  
-        :class="{ 'active': tab.title === 'HOME' && $route.name === 'restaurants'}"
+        <router-link
+          :to="tab.path"
+          class="nav-link"
+          :class="{
+            active: tab.title === 'HOME' && $route.name === 'home',
+          }"
         >
           {{ tab.title }}
         </router-link>
@@ -17,7 +19,6 @@
 
 <script>
 import { v4 as uuidv4 } from "uuid";
-import "animate.css";
 
 export default {
   data() {
@@ -30,7 +31,7 @@ export default {
         },
         {
           id: uuidv4(),
-          title: "NEWS FEED",
+          title: "LATEST NEWS",
           path: "/restaurants/feeds",
         },
         {
@@ -52,22 +53,20 @@ export default {
 <style scoped>
 .tabs-container {
   position: absolute;
-  top: 78%;
+  top: 80%;
   left: 50%;
   transform: translate(-50%);
-  width: 90%;
-  height: 100px;
   border-radius: 5px;
   background-color: rgba(105, 2, 2, 1);
   box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
+  animation: fadeIn;
+  animation-duration: 3s;
 }
 
 .nav-tabs {
   border: none;
-  animation: fadeIn; 
-  animation-duration: 3s;
 }
 
 .nav-tabs .nav-link:focus,
@@ -82,15 +81,87 @@ export default {
 
 .nav {
   width: 100%;
-  height: 50px;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 .nav-link {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 20px;
   font-family: "Helvetica Neue";
-  animation-duration: 2s;
+  animation-duration: 3s;
+  display: flex;
+  align-items: center;
 }
 
+@media (max-width: 575px) {
+  .tabs-container {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .tabs-container {
+    width: 85%;
+    height: 50px;
+    top: 35%;
+  }
+
+  .nav {
+    height: 30px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    height: 30px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .tabs-container {
+    width: 85%;
+    height: 60px;
+    top: 44%;
+  }
+
+  .nav {
+    height: 40px;
+  }
+
+  .nav-link {
+    font-size: 16px;
+    height: 38px;
+  }
+}
+
+@media (min-width: 992px) {
+  .tabs-container {
+    width: 90%;
+    height: 75px;
+    top: 52%;
+  }
+
+  .nav {
+    height: 50px;
+  }
+
+  .nav-link {
+    font-size: 20px;
+    height: 48px;
+  }
+}
+
+@media (min-width: 1439px) {
+  .tabs-container {
+    width: 90%;
+    height: 85px;
+    top: 55%;
+  }
+  
+  .nav-link {
+    font-size: 22px;
+    height: 50px;
+  }
+}
 </style>
+
+

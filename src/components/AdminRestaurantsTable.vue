@@ -1,28 +1,33 @@
 // ./src/components/AdminRestaurantsTable.vue
 <template>
-  <Spinner v-if="isLoading" class="admin-spinner"/>
-  <table class="table my-4" v-else>
+  <Spinner v-if="isLoading" class="admin-spinner" />
+  <table class="table mt-3 mb-5" v-else>
     <thead class="thead">
       <tr class="tr-header">
-        <th scope="col" class="column pl-3" width="100">No.</th>
+        <th scope="col" class="column pl-3">ID</th>
         <th scope="col" class="column">Category</th>
         <th scope="col" class="column">Name</th>
         <th scope="col" class="column">Action</th>
       </tr>
     </thead>
     <tbody v-show="!isLoading">
-      <tr 
-      v-for="restaurant in restaurants" 
-      :key="restaurant.id"
-      class="tr-item"
+      <tr
+        v-for="restaurant in restaurants"
+        :key="restaurant.id"
+        class="tr-item"
       >
         <th scope="row" class="id pl-4">
           {{ restaurant.id }}
         </th>
-        <td class="category">{{ restaurant.Category ? restaurant.Category.name : "未分類" }}</td>
+        <td class="category">
+          {{ restaurant.Category ? restaurant.Category.name : "uncategorized" }}
+        </td>
         <td class="restaurant-name">
-          <router-link class="title" :to="{ name: 'restaurant', params: { id: restaurant.id } }">
-          {{ restaurant.name }}
+          <router-link
+            class="title"
+            :to="{ name: 'restaurant', params: { id: restaurant.id } }"
+          >
+            {{ restaurant.name }}
           </router-link>
         </td>
         <td class="d-flex justify-content-between">
@@ -129,9 +134,14 @@ export default {
 </script>
 
 <style scoped>
-.title, .btn-link {
+.table {
+  margin-bottom: 100px;
+}
+
+.title,
+.btn-link {
   text-decoration: none;
-} 
+}
 
 .title {
   font-weight: 500;
@@ -139,7 +149,6 @@ export default {
 }
 
 .btn-link {
-  font-size: 15px;
   font-weight: 400;
   border: 2px solid transparent;
 }
@@ -153,7 +162,7 @@ export default {
   display: block;
   width: 0;
   background: #f28705;
-  transition: width 0.5s;
+  transition: width 1s;
 }
 
 .title:hover::after {
@@ -168,4 +177,56 @@ export default {
   border-bottom: 2px solid #f28705;
 }
 
+@media (max-width: 576px) {
+  .column, .title {
+    font-size: 16px;
+  }
+
+  .id, .category, .btn-link, 
+  .delete {
+    font-size: 14px;
+  }
+
+  .table td {
+    padding: 5px 0;
+    text-align: center;
+  }
+
+  .btn {
+    padding: 0 8px 0 0;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .column, .title, .id, 
+  .category, .btn-link, .delete {
+    font-size: 16px;
+  }
+
+  .btn {
+    padding: 0 5px 0 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .column, .title {
+    font-size: 20px;
+  }
+
+  .id, .category, .btn-link, 
+  .delete {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 992px) {
+  .column, .title {
+    font-size: 22px;
+  }
+
+  .id, .category, .btn-link, 
+  .delete {
+    font-size: 20px;
+  }
+}
 </style>

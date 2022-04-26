@@ -1,8 +1,6 @@
 <template>
   <div class="main-container">
-    <form 
-    class="w-50" 
-    @submit.stop.prevent="handleSubmit">
+    <form class="form" @submit.stop.prevent="handleSubmit">
       <div class="text-center mb-1">
         <h1 class="font-weight-normal">Sign Up</h1>
       </div>
@@ -72,7 +70,7 @@
         <router-link to="/signin" class="signin"> Sign In </router-link>
       </div>
 
-      <p class="mt-3 text-muted text-center">&copy; 2022 UI from Zora Chen</p>
+      <p class="copy text-center">&copy; 2022 UI from Zora Chen</p>
     </form>
   </div>
 </template>
@@ -159,15 +157,20 @@ export default {
 }
 
 form {
+  width: 50%;
   position: absolute;
-  top: 65%;
+  top: 45%;
   left: 50%;
-  transform: translate(-50%, -65%);
+  transform: translate(-50%, -40%);
   background-color: rgba(232, 232, 234, 0.4);
   border-radius: 8px;
-  padding: 25px 40px 10px 40px;
-  animation: fadeIn; 
+  padding: 10px 40px 0 40px;
+  animation: fadeIn;
   animation-duration: 3s;
+}
+
+.form-label-group {
+  width: 100%;
 }
 
 h1 {
@@ -177,48 +180,32 @@ h1 {
 
 label {
   color: white;
-  font-size: 18px;
-}
-
-input {
-  height: 40px;
-  font-size: 20px;
 }
 
 input:hover {
   border: 1px solid #8c0303;
 }
 
-.btn {
-  font-size: 20px;
-  margin: 28px 0 20px 0;
-}
-
 .btn:active {
   background-color: #6f001c;
 }
 
-
 .btn,
 .btn.btn-border:hover {
-  min-width: 85px;
-  padding: 7px 14px;
-  font-size: 20px;
   color: white;
-  background-color: #A6450D;
-  border: 2px solid #A6450D;
+  background-color: #a6450d;
+  border: 2px solid #a6450d;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-  border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-
 
 .btn-border,
 .btn:hover,
 .btn-primary:hover {
-  background: #8C0303;
+  background: #8c0303;
   color: white;
   text-decoration: none;
-  border: 2px solid #8C0303;
+  border: 2px solid #8c0303;
   opacity: 0.8;
 }
 
@@ -229,15 +216,16 @@ input:hover {
 .btn:not(:disabled):not(.disabled).active,
 .btn:not(:disabled):not(.disabled):active,
 .show > .btn.dropdown-toggle {
-  border: 2px solid #8C0303;
+  border: 2px solid #8c0303;
   color: white;
-  background: #8C0303;
+  background: #8c0303;
 }
 
-.btn-primary.disabled, .btn-primary:disabled {
+.btn-primary.disabled,
+.btn-primary:disabled {
   color: #fff;
-  background-color: #8C0303;
-  border-color: #8C0303;
+  background-color: #8c0303;
+  border-color: #8c0303;
 }
 
 .btn-outline-success {
@@ -251,12 +239,112 @@ input:hover {
   border-width: 1px;
 }
 
-.signin {
-  font-size: 20px;
+.signin:hover {
+  color: #6f001c;
 }
 
-.signin:hover {
-  font-size: 20px;
-  color: #6f001c;
+@media (max-width: 575px) {
+  form {
+    width: 85%;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    padding: 15px;
+  }
+
+  label {
+    color: white;
+    font-size: 18px;
+  }
+
+  input {
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 18px;
+    margin: 15px 0;
+  }
+
+  .signin {
+    font-size: 18px;
+  }
+
+  .copy {
+    margin-top: 60px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  label {
+    font-size: 16px;
+  }
+
+  input {
+    height: 35px;
+    font-size: 15px;
+  }
+
+  .btn {
+    font-size: 18px;
+    margin: 12px 0 6px 0;
+  }
+
+  .signin {
+    font-size: 18px;
+  }
+
+  .copy {
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  label {
+    font-size: 16px;
+  }
+
+  input {
+    height: 35px;
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 18px;
+    margin: 15px 0 8px 0;
+  }
+
+  .signin {
+    font-size: 18px;
+  }
+
+  .copy {
+    margin-top: 12px;
+  }
+}
+
+@media (min-width: 992px) {
+  label {
+    font-size: 18px;
+  }
+
+  input {
+    height: 38px;
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 20px;
+    margin: 20px 0 12px 0;
+  }
+
+  .signin {
+    font-size: 20px;
+  }
+
+  .copy {
+    margin-top: 15px;
+  }
 }
 </style>
