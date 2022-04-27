@@ -5,7 +5,7 @@
 ![home-mobile](https://github.com/jj280385/New-Restaurants-Forum/blob/main/readme/home-575px.png)
 
 ## 專案介紹 Project Introduction
-此專案運用Vue串接後端API，並具有RWD，使用者在此論壇註冊帳號，並且新增餐廳資料、評論餐廳等等功能，原版餐廳論壇名稱為Restaurant-forum-front-by-vue為AC教案版本；此版本為新版餐廳論壇，為UI優化版，HTML的架構及Compontent皆有新增及調整，**歡迎點擊[此連結](https://jj280385.github.io/New-Restaurants-Forum/)並輸入下方測試用帳密體驗此專案**。
+此專案運用Vue串接後端API，並具有RWD，使用者在此論壇註冊帳號，並且新增餐廳資料、評論餐廳等等功能，原版餐廳論壇為AC教案；此版本為新版餐廳論壇，為UI優化版，HTML的架構及Compontent皆有新增及調整，**歡迎點擊[此連結](https://jj280385.github.io/New-Restaurants-Forum/)並輸入下方測試用帳密體驗此專案**。
 
 ## 瀏覽專案 
 測試用Email :
