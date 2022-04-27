@@ -21,7 +21,7 @@ root@example.com
 ## 專案個頁面詳細功能介紹 Page Introduction
 * Singin & Singup 使用者登入與註冊
   - 使用者填入Email及Password登入論壇。
-  - 點擊Signup按鈕註冊使用者資料。
+  - 點擊「Signup」按鈕註冊使用者資料。
 
 * HOME 論壇首頁
   - 可瀏覽全部餐廳資料。
