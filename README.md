@@ -79,9 +79,68 @@ root@example.com
    - 點擊Logout按鈕登出論壇。
 
 ## 專案下載與安裝 Project setup
+### 安裝 Vue 開發環境
 **需安裝 node.js 與 npm**
-
-1.打開終端機並Clone此專案到本地電腦。
+1. 打開終端機輸入下列指令安裝 Vue CLI。
+```
+npm install -g @vue/cli@4.1.1
+```
+2. 安裝完成後輸入下列指令，若有看到版本號碼表示安裝成功。
+```
+vue --version
+```
+### 本機執行 API 伺服器
+#### 啟動後端 API 伺服器
+1. 將後端資料夾clone到本地電腦。
+```
+git clone https://github.com/ALPHACamp/forum-express.git
+```
+2. clone完成後進入該資料夾中。
+```
+cd forum-express
+```
+3. 安裝後端專案套件。
+```
+npm install
+```
+#### 安裝 MySQL
+1. 至 MySQL Community Server 的[官方下載頁](https://downloads.mysql.com/archives/installer/)。
+2. 點開 Product Version 清單，選擇 8.0.15。
+3. 在頁面下方找到 Windows (x86, 32-bit), MSI Installer(mysql-installer-community-8.0.15.0.msi)，點擊 Download 按鈕。
+4. 接下來會跳出 Oracle 的廣告，點擊「No thanks, just start my download.」。
+5. 下載完成後，執行 mysql-installer-community-8.0.15.0.msi，進入安裝精靈，一路按同意往下。
+6. 中間需要選擇完成「完整版 (Full)」。
+7. 進入到 Type and Networking 設定，Config Type 請選擇 Development Computer；Connectivity請勾選：「TCP/IP」，Port: 3306，X Protocol Port:33060，勾選「Open Windows Firewall pores for network access」，填選完畢後點Next。
+8. Authentication Method部分選擇：Use Legacy Authentication Method ，然後點擊 Next。
+9. 初始化設定：設定帳號密碼，root 密碼設定成 password，然後點擊 Next。
+10. 接下來一直點擊 Next，直到看到 Apply Configuration畫面；先點擊 Execute，待程式跑完即可點擊 Finish 完成安裝。
+11. 全部安裝完成後， MySQL Workbench 會自動開啟。
+#### Workbench 連線 MySQL Server
+1. 點擊我們剛剛建立的 Local instance 3306，並點擊 Server Status；如果出現綠色箭頭，就代表目前 MySQL 與 MySQL Workbench 已成功建立連線。
+2. MySQL Workbench 會要你需入密碼。這個密碼是我們在上個單元安裝 Workbench 的時候設定的。
+3. 按下閃電符號執行，並輸入下列指令。
+```
+CREATE DATABASE forum;
+```
+4. 按一下重新整理，就會看到forum的Database。
+5. 執行伺服器，依順序輸入以下指令。
+```
+npx sequelize db:migrate
+```
+```
+npx sequelize db:seed:all
+```
+```
+npm run dev
+```
+6. 執行成功的話，終端機會顯示下列訊息。
+```
+Example app listening on port 3000
+```
+8. 在進行本專案的過程中，建議讓伺服器保持在運行的狀態。
+### 下載專案與啟動。
+**請打開另一個新的終端機執行**
+1. clone此專案到本地電腦。
 ```
 git clone https://github.com/jj280385/restaurant_list.git
 ```
@@ -89,19 +148,15 @@ git clone https://github.com/jj280385/restaurant_list.git
 ```
 cd New-Restaurants-Forum
 ```
-3. 安裝後端專案套件。
-```
-npm install
-```
-4. 輸入下列指令啟動專案。
+3. 輸入下列指令啟動專案。
 ```
 npm run serve
 ```
-5.若終端機顯示此訊息代表已成功開啟，打開瀏覽器進入此網址 :
+4.若終端機顯示此訊息代表已成功開啟，打開瀏覽器進入此網址 :
 ```
 http://localhost:8080/
 ```
-6. 若要修改程式碼，完成修改後，進行打包：
+5. 若要修改程式碼，完成修改後，進行打包：
 ```
 npm run build
 ```
